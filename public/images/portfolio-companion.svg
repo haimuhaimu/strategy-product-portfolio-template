@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" role="img" aria-labelledby="title description">
+  <title id="title">Portfolio companion placeholder</title>
+  <desc id="description">An original geometric desktop companion for the portfolio template.</desc>
+  <path d="M48 48 30 24l34 12M132 48l18-24-34 12" fill="#4c9bb4" stroke="#14110e" stroke-linejoin="round" stroke-width="6"/>
+  <rect x="31" y="35" width="118" height="116" rx="42" fill="#fff2d8" stroke="#14110e" stroke-width="7"/>
+  <path d="M52 52c22-24 55-28 78-8-11 3-21 10-29 21-14-10-31-14-49-13Z" fill="#4c9bb4" stroke="#14110e" stroke-linejoin="round" stroke-width="6"/>
+  <circle cx="68" cy="84" r="7" fill="#14110e"/>
+  <circle cx="112" cy="84" r="7" fill="#14110e"/>
+  <path d="M80 104c7 6 13 6 20 0" fill="none" stroke="#14110e" stroke-linecap="round" stroke-width="6"/>
+  <rect x="56" y="119" width="68" height="38" rx="8" fill="#c92a20" stroke="#14110e" stroke-width="6"/>
+  <text x="90" y="145" fill="#fff8eb" font-family="monospace" font-size="20" font-weight="700" text-anchor="middle">AI</text>
+</svg>

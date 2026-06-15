@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-labelledby="title description">
+  <title id="title">Portfolio avatar placeholder</title>
+  <desc id="description">A geometric avatar that can be replaced with your own portrait.</desc>
+  <rect width="160" height="160" rx="18" fill="#f4dfbd"/>
+  <circle cx="80" cy="61" r="31" fill="#fff8eb" stroke="#14110e" stroke-width="6"/>
+  <path d="M31 150c4-34 22-52 49-52s45 18 49 52" fill="#c92a20" stroke="#14110e" stroke-width="6"/>
+  <circle cx="68" cy="59" r="4" fill="#14110e"/>
+  <circle cx="92" cy="59" r="4" fill="#14110e"/>
+  <path d="M68 76c8 7 16 7 24 0" fill="none" stroke="#14110e" stroke-linecap="round" stroke-width="5"/>
+  <text x="80" y="132" fill="#fff8eb" font-family="monospace" font-size="19" font-weight="700" text-anchor="middle">YOU</text>
+</svg>
