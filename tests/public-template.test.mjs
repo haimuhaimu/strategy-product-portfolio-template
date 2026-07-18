@@ -102,3 +102,17 @@ test("README explains how to reuse and sanitize the template", () => {
     assert.match(readme, new RegExp(`^${heading}$`, "m"));
   }
 });
+
+test("GitHub Actions use supported JavaScript runtimes", () => {
+  const workflow = readFileSync(
+    path.join(root, ".github/workflows/portable-build.yml"),
+    "utf8",
+  );
+
+  assert.match(workflow, /uses: actions\/checkout@v7/u);
+  assert.match(workflow, /uses: actions\/setup-node@v7/u);
+  assert.doesNotMatch(
+    workflow,
+    /uses: actions\/(?:checkout|setup-node)@v[1-4]\b/u,
+  );
+});
