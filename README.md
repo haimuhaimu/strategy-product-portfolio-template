@@ -31,9 +31,15 @@ npm run dev
 ```bash
 npm run lint
 npm run test:public
+npm run test:server
 npm run build
 npm run check:seo
+npm start
 ```
+
+`npm start` 会在 `127.0.0.1:3000` 预览 `out/` 中的静态导出；请先运行
+`npm run build`。如需更换地址或端口，可使用
+`npm start -- --host 0.0.0.0 --port 4173`。
 
 ## 如何替换成你的内容
 
@@ -60,6 +66,7 @@ src/components           首页与案例展示组件
 src/lib                  数据读取与 SEO 工具
 public/images            可替换的公开图片
 scripts/check-seo.mjs    静态导出后的 SEO 检查
+scripts/serve-static-export.mjs  本地预览静态导出
 tests/public-template.*  公开安全与模板完整性检查
 ```
 
@@ -85,6 +92,7 @@ git diff --cached
 ## 部署
 
 项目使用 Next.js 静态导出，`npm run build` 后产物位于 `out/`。
+本地验收可以运行 `npm start`，无需安装额外的静态服务器。
 
 - Vercel：导入仓库即可部署。
 - GitHub Pages：将 `out/` 发布到 Pages，并根据仓库子路径配置站点 URL。

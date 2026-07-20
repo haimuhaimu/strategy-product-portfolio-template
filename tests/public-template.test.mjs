@@ -13,6 +13,7 @@ const publicSources = [
   "data",
   "src",
   "scripts/check-seo.mjs",
+  "scripts/serve-static-export.mjs",
 ];
 
 const forbiddenPatterns = [
