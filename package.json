@@ -7,6 +7,7 @@
     "build": "node scripts/next-with-wasm.mjs build --webpack",
     "check:seo": "node scripts/check-seo.mjs",
     "test:portable-scripts": "node --test tests/next-with-wasm.test.mjs",
+    "test:site-paths": "node --test tests/site-paths.test.mjs",
     "test:public": "node --test tests/public-template.test.mjs",
     "start": "next start",
     "lint": "eslint"

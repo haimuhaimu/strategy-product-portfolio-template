@@ -31,6 +31,7 @@ npm run dev
 ```bash
 npm run lint
 npm run test:public
+npm run test:site-paths
 npm run build
 npm run check:seo
 ```
@@ -57,7 +58,7 @@ npm run check:seo
 data/projects.json       个人资料、经历与项目案例
 src/app                  页面、metadata、sitemap、robots
 src/components           首页与案例展示组件
-src/lib                  数据读取与 SEO 工具
+src/lib                  数据读取、部署路径与 SEO 工具
 public/images            可替换的公开图片
 scripts/check-seo.mjs    静态导出后的 SEO 检查
 tests/public-template.*  公开安全与模板完整性检查
@@ -87,15 +88,26 @@ git diff --cached
 项目使用 Next.js 静态导出，`npm run build` 后产物位于 `out/`。
 
 - Vercel：导入仓库即可部署。
-- GitHub Pages：将 `out/` 发布到 Pages，并根据仓库子路径配置站点 URL。
+- GitHub Pages：将 `out/` 发布到 Pages，并按下面的示例同时配置完整站点 URL 和仓库子路径。
 - OSS / CDN：上传 `out/` 内的文件，并将默认首页设为 `index.html`。
 
 线上部署前，在 `.env.local` 或部署平台中设置：
 
 ```bash
 NEXT_PUBLIC_SITE_URL=https://portfolio.example.com
+NEXT_PUBLIC_BASE_PATH=
 NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=
 ```
+
+如果部署到 `https://your-name.github.io/portfolio-repo/`，请设置：
+
+```bash
+NEXT_PUBLIC_SITE_URL=https://your-name.github.io/portfolio-repo
+NEXT_PUBLIC_BASE_PATH=/portfolio-repo
+```
+
+自定义域名或用户主页仓库部署在根路径时，保持
+`NEXT_PUBLIC_BASE_PATH` 为空。修改路径配置后需要重新构建。
 
 ## 开源许可
 

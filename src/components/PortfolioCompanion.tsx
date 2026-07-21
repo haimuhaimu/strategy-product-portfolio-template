@@ -8,6 +8,7 @@ import {
   type MouseEvent as ReactMouseEvent,
   type TouchEvent as ReactTouchEvent,
 } from "react";
+import { withBasePath } from "@/lib/site-paths.mjs";
 
 const PET_WIDTH = 70;
 const PET_HEIGHT = 88;
@@ -322,7 +323,7 @@ export function PortfolioCompanion() {
           {/* Native img keeps this fixed desktop-pet sprite predictable. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/images/portfolio-companion.svg"
+            src={withBasePath("/images/portfolio-companion.svg")}
             alt="作品集桌面伙伴"
             width={56}
             height={56}

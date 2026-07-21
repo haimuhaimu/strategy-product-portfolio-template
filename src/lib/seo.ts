@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { Project } from "@/types/project";
+import { joinSiteUrl } from "@/lib/site-paths.mjs";
 import portfolioData from "../../data/projects.json";
 
 const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
@@ -29,7 +30,7 @@ export const DEFAULT_KEYWORDS = [
 ];
 
 export function getAbsoluteUrl(pathname = "/") {
-  return new URL(pathname, SITE_URL).toString();
+  return joinSiteUrl(SITE_URL, pathname);
 }
 
 type PageMetadataOptions = {
@@ -52,7 +53,7 @@ export function createPageMetadata({
     description,
     keywords: [...DEFAULT_KEYWORDS, ...keywords],
     alternates: {
-      canonical: pathname,
+      canonical: getAbsoluteUrl(pathname),
     },
     openGraph: {
       type,
@@ -60,7 +61,7 @@ export function createPageMetadata({
       siteName: SITE_NAME,
       title,
       description,
-      url: pathname,
+      url: getAbsoluteUrl(pathname),
     },
     twitter: {
       card: "summary",

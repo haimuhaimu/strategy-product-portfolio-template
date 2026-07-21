@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { withBasePath } from "@/lib/site-paths.mjs";
 
 type CareerNode = {
   id: string;
@@ -709,7 +710,7 @@ function CompanionSprite({
 }) {
   return (
     <Image
-      src="/images/portfolio-companion.svg"
+      src={withBasePath("/images/portfolio-companion.svg")}
       alt={alt}
       data-pose={pose}
       width={180}
