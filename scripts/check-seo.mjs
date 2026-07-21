@@ -2,6 +2,11 @@ import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  BASE_PATH,
+  joinSiteUrl,
+  withBasePath,
+} from "../src/lib/site-paths.mjs";
 
 const projectRoot = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -26,38 +31,63 @@ const project = readExportedFile(
 const robots = readExportedFile("robots.txt");
 const sitemap = readExportedFile("sitemap.xml");
 const baiduVerification = process.env.BAIDU_SITE_VERIFICATION?.trim();
+const siteUrl = (
+  process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://portfolio.example.com"
+).replace(/\/+$/u, "");
+
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/gu, "\\$&");
+}
+
+function canonicalPattern(pathname) {
+  const canonicalUrl = joinSiteUrl(siteUrl, pathname);
+  return new RegExp(
+    `<link rel="canonical" href="${escapeRegExp(canonicalUrl)}"\\s*/?>`,
+  );
+}
 
 assert.match(
   home,
   /<title>[^<]*(AI 产品经理|策略产品经理)[^<]*作品集[^<]*<\/title>/,
 );
-assert.match(
-  home,
-  /<link rel="canonical" href="https:\/\/portfolio\.example\.com\/"\/?>/,
-);
+assert.match(home, canonicalPattern("/"));
 assert.match(home, /type="application\/ld\+json"/);
 assert.match(home, /AI 产品经理/);
-assert.match(
-  profile,
-  /<link rel="canonical" href="https:\/\/portfolio\.example\.com\/profile\/"\/?>/,
-);
-assert.match(
-  thinking,
-  /<link rel="canonical" href="https:\/\/portfolio\.example\.com\/thinking\/"\/?>/,
-);
+assert.match(profile, canonicalPattern("/profile/"));
+assert.match(thinking, canonicalPattern("/thinking/"));
 assert.match(
   project,
-  /<link rel="canonical" href="https:\/\/portfolio\.example\.com\/projects\/creator-monetization-health\/"\/?>/,
+  canonicalPattern("/projects/creator-monetization-health/"),
 );
 assert.match(
   robots,
-  /Sitemap: https:\/\/portfolio\.example\.com\/sitemap\.xml/,
+  new RegExp(
+    `Sitemap: ${escapeRegExp(joinSiteUrl(siteUrl, "/sitemap.xml"))}`,
+  ),
 );
 assert.match(
   sitemap,
-  /https:\/\/portfolio\.example\.com\/projects\/search-quality-ai-answer\//,
+  new RegExp(
+    escapeRegExp(
+      joinSiteUrl(siteUrl, "/projects/search-quality-ai-answer/"),
+    ),
+  ),
 );
 assert.doesNotMatch(sitemap, /localhost|vercel\.app/);
+assert.match(
+  home,
+  new RegExp(
+    `src="${escapeRegExp(withBasePath("/images/avatar-placeholder.svg"))}"`,
+  ),
+);
+
+if (BASE_PATH) {
+  assert.match(
+    home,
+    new RegExp(`(?:src|href)="${escapeRegExp(BASE_PATH)}/_next/static/`),
+  );
+  assert.doesNotMatch(home, /src="\/images\//u);
+}
 
 if (baiduVerification) {
   assert.match(

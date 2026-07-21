@@ -8,9 +8,9 @@ import {
   createSiteJsonLd,
   DEFAULT_DESCRIPTION,
   DEFAULT_KEYWORDS,
+  getAbsoluteUrl,
   serializeJsonLd,
   SITE_NAME,
-  SITE_URL,
 } from "@/lib/seo";
 import "./globals.css";
 
@@ -20,7 +20,7 @@ const baiduVerification =
   process.env.NEXT_PUBLIC_BAIDU_SITE_VERIFICATION?.trim();
 
 export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
+  metadataBase: new URL(getAbsoluteUrl("/")),
   title: {
     default: "中文 AI 产品经理与策略产品经理作品集模板",
     template: `%s | ${SITE_NAME}`,
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   description: DEFAULT_DESCRIPTION,
   keywords: DEFAULT_KEYWORDS,
   alternates: {
-    canonical: "/",
+    canonical: getAbsoluteUrl("/"),
   },
   robots: {
     index: true,
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     title: "中文 AI 产品经理与策略产品经理作品集模板",
     description: DEFAULT_DESCRIPTION,
-    url: "/",
+    url: getAbsoluteUrl("/"),
   },
   twitter: {
     card: "summary",
