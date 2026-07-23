@@ -103,6 +103,21 @@ test("README explains how to reuse and sanitize the template", () => {
   }
 });
 
+test("SEO checker uses the documented Baidu verification variable", () => {
+  const envExample = readFileSync(path.join(root, ".env.example"), "utf8");
+  const seoCheck = readFileSync(
+    path.join(root, "scripts/check-seo.mjs"),
+    "utf8",
+  );
+
+  assert.match(envExample, /^NEXT_PUBLIC_BAIDU_SITE_VERIFICATION=/m);
+  assert.match(
+    seoCheck,
+    /process\.env\.NEXT_PUBLIC_BAIDU_SITE_VERIFICATION/u,
+  );
+  assert.doesNotMatch(seoCheck, /process\.env\.BAIDU_SITE_VERIFICATION/u);
+});
+
 test("GitHub Actions use supported JavaScript runtimes", () => {
   const workflow = readFileSync(
     path.join(root, ".github/workflows/portable-build.yml"),
