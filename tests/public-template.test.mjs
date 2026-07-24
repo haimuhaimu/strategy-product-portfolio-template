@@ -103,6 +103,29 @@ test("README explains how to reuse and sanitize the template", () => {
   }
 });
 
+test("Next.js packages meet the audited security baseline", () => {
+  const packageJson = JSON.parse(
+    readFileSync(path.join(root, "package.json"), "utf8"),
+  );
+  const nextVersion = packageJson.dependencies.next;
+  const versionParts = nextVersion.split(".").map(Number);
+
+  assert.match(nextVersion, /^\d+\.\d+\.\d+$/u);
+  assert.equal(packageJson.devDependencies["eslint-config-next"], nextVersion);
+  assert.equal(
+    packageJson.devDependencies["@next/swc-wasm-nodejs"],
+    nextVersion,
+  );
+  assert.ok(
+    versionParts[0] > 16 ||
+      (versionParts[0] === 16 && versionParts[1] > 2) ||
+      (versionParts[0] === 16 &&
+        versionParts[1] === 2 &&
+        versionParts[2] >= 11),
+    `Expected Next.js 16.2.11 or newer, received ${nextVersion}`,
+  );
+});
+
 test("GitHub Actions use supported JavaScript runtimes", () => {
   const workflow = readFileSync(
     path.join(root, ".github/workflows/portable-build.yml"),
