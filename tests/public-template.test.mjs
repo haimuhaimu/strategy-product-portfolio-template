@@ -126,6 +126,24 @@ test("Next.js packages meet the audited security baseline", () => {
   );
 });
 
+test("direct PostCSS dependency meets the audited security baseline", () => {
+  const packageJson = JSON.parse(
+    readFileSync(path.join(root, "package.json"), "utf8"),
+  );
+  const postcssVersion = packageJson.devDependencies.postcss;
+
+  assert.match(postcssVersion, /^\d+\.\d+\.\d+$/u);
+  assert.ok(
+    Number(postcssVersion.split(".")[0]) > 8 ||
+      (Number(postcssVersion.split(".")[0]) === 8 &&
+        Number(postcssVersion.split(".")[1]) > 5) ||
+      (Number(postcssVersion.split(".")[0]) === 8 &&
+        Number(postcssVersion.split(".")[1]) === 5 &&
+        Number(postcssVersion.split(".")[2]) >= 18),
+    `Expected PostCSS 8.5.18 or newer, received ${postcssVersion}`,
+  );
+});
+
 test("GitHub Actions use supported JavaScript runtimes", () => {
   const workflow = readFileSync(
     path.join(root, ".github/workflows/portable-build.yml"),
