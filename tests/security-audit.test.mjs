@@ -1,7 +1,10 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { assertProductionAudit } from "../scripts/check-security-audit.mjs";
+import {
+  assertProductionAudit,
+  getNpmAuditInvocation,
+} from "../scripts/check-security-audit.mjs";
 
 const knownAuditReport = {
   metadata: {
@@ -84,4 +87,22 @@ test("rejects critical production findings", () => {
     () => assertProductionAudit(report),
     /Critical production vulnerabilities: 1/u,
   );
+});
+
+test("runs npm through Node instead of spawning a Windows command shim", () => {
+  const invocation = getNpmAuditInvocation({
+    execPath: "C:\\Program Files\\nodejs\\node.exe",
+    npmExecPath:
+      "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js",
+  });
+
+  assert.deepEqual(invocation, {
+    args: [
+      "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js",
+      "audit",
+      "--omit=dev",
+      "--json",
+    ],
+    command: "C:\\Program Files\\nodejs\\node.exe",
+  });
 });

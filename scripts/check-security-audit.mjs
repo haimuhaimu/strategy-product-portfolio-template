@@ -72,15 +72,37 @@ export function assertProductionAudit(report) {
   };
 }
 
+export function getNpmAuditInvocation({
+  execPath = process.execPath,
+  npmExecPath = process.env.npm_execpath,
+  platform = process.platform,
+} = {}) {
+  const auditArguments = ["audit", "--omit=dev", "--json"];
+
+  if (npmExecPath) {
+    return {
+      args: [npmExecPath, ...auditArguments],
+      command: execPath,
+    };
+  }
+
+  if (platform === "win32") {
+    throw new Error(
+      "npm_execpath is unavailable on Windows. Run this check with npm run check:security.",
+    );
+  }
+
+  return {
+    args: auditArguments,
+    command: "npm",
+  };
+}
+
 export function checkInstalledProductionAudit() {
-  const npmExecutable = process.platform === "win32" ? "npm.cmd" : "npm";
-  const result = spawnSync(
-    npmExecutable,
-    ["audit", "--omit=dev", "--json"],
-    {
-      encoding: "utf8",
-    },
-  );
+  const invocation = getNpmAuditInvocation();
+  const result = spawnSync(invocation.command, invocation.args, {
+    encoding: "utf8",
+  });
 
   if (result.error) {
     throw result.error;
