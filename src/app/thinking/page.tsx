@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BehindTheWork } from "@/components/BehindTheWork";
+import { CognitiveCalibrationLog } from "@/components/CognitiveCalibrationLog";
 import { MethodologySection } from "@/components/MethodologySection";
 import { PersonalOperatingSystem } from "@/components/PersonalOperatingSystem";
 import { ThinkingVisualWall } from "@/components/ThinkingVisualWall";
 import { ValueOperatingSystem } from "@/components/ValueOperatingSystem";
 import { FieldNotesSection } from "@/components/ProfileSections";
-import { getProfile } from "@/lib/projects";
+import { getCalibrationLogs, getProfile } from "@/lib/projects";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
@@ -25,6 +26,7 @@ export const metadata: Metadata = createPageMetadata({
 
 export default function ThinkingPage() {
   const profile = getProfile();
+  const calibrationLogs = getCalibrationLogs();
 
   return (
     <main>
@@ -50,6 +52,7 @@ export default function ThinkingPage() {
 
       <ThinkingVisualWall />
       <ValueOperatingSystem />
+      <CognitiveCalibrationLog logs={calibrationLogs} />
       <MethodologySection profile={profile} />
       <BehindTheWork />
       <PersonalOperatingSystem />
