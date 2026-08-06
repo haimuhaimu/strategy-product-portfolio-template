@@ -7,6 +7,11 @@
 [![Next.js 16.3](https://img.shields.io/badge/Next.js-16.3-000000?logo=next.js)](https://nextjs.org/)
 [![TypeScript 5](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 
+[![Live Preview](https://img.shields.io/badge/Live_Preview-Open-CC2E24?logo=vercel&logoColor=white)](https://6559d4c732a5.aime-app.bytedance.net)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fhaimuhaimu%2Fstrategy-product-portfolio-template)
+
+![策略产品经理作品集模板首页预览](public/images/portfolio-preview.png)
+
 一套面向**策略产品经理、AI 产品经理、推荐 / 搜索产品经理和内容生态从业者**的中文个人作品集模板。它不鼓励堆砌职责，而是用一条清晰的证据链呈现每个案例：
 
 > **Problem 问题 → Judgment 判断 → Validation 验证 → Result 结果**
@@ -30,17 +35,17 @@
 
 ## 快速开始
 
-环境要求：Node.js 20+，推荐使用 npm。
+环境要求：Node.js 20+，推荐使用 npm。想先快速体验，可以用 `degit` 创建一份不带 Git 历史的干净副本：
 
 ```bash
-git clone https://github.com/your-name/strategy-product-portfolio-template.git
-cd strategy-product-portfolio-template
+npx degit haimuhaimu/strategy-product-portfolio-template my-product-portfolio
+cd my-product-portfolio
 npm install
 cp .env.example .env.local
 npm run dev
 ```
 
-打开 `http://localhost:3000`。
+打开 `http://localhost:3000`。也可以点击上方 **Deploy with Vercel**，从公开模板直接创建自己的部署。
 
 常用命令：
 
