@@ -82,6 +82,16 @@ export type ProjectRoleContribution = {
   boundary: string;
 };
 
+export type CalibrationStatus = "retained" | "revised" | "pending";
+
+export type CognitiveCalibrationLog = {
+  projectSlug: string;
+  prior: string;
+  feedback: string;
+  currentVersion: string;
+  status: CalibrationStatus;
+};
+
 export type Project = {
   slug: string;
   title: string;
@@ -104,5 +114,6 @@ export type Project = {
 
 export type PortfolioData = {
   profile: Profile;
+  calibrationLogs: CognitiveCalibrationLog[];
   projects: Project[];
 };
