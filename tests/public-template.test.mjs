@@ -44,12 +44,19 @@ function versionIsAtLeast(actual, minimum) {
   const minimumParts = minimum.split(".").map(Number);
 
   for (let index = 0; index < minimumParts.length; index += 1) {
-    if (actualParts[index] > minimumParts[index]) return true;
-    if (actualParts[index] < minimumParts[index]) return false;
+    const actualPart = actualParts[index] ?? 0;
+    const minimumPart = minimumParts[index] ?? 0;
+    if (actualPart > minimumPart) return true;
+    if (actualPart < minimumPart) return false;
   }
 
   return true;
 }
+
+test("version comparison treats omitted segments as zero", () => {
+  assert.equal(versionIsAtLeast("1.2", "1.2.1"), false);
+  assert.equal(versionIsAtLeast("1.2", "1.2.0"), true);
+});
 
 function collectTextFiles(target) {
   const absolutePath = path.join(root, target);
@@ -169,12 +176,7 @@ test("direct PostCSS dependency meets the audited security baseline", () => {
 
   assert.match(postcssVersion, /^\d+\.\d+\.\d+$/u);
   assert.ok(
-    Number(postcssVersion.split(".")[0]) > 8 ||
-      (Number(postcssVersion.split(".")[0]) === 8 &&
-        Number(postcssVersion.split(".")[1]) > 5) ||
-      (Number(postcssVersion.split(".")[0]) === 8 &&
-        Number(postcssVersion.split(".")[1]) === 5 &&
-        Number(postcssVersion.split(".")[2]) >= 18),
+    versionIsAtLeast(postcssVersion, "8.5.18"),
     `Expected PostCSS 8.5.18 or newer, received ${postcssVersion}`,
   );
 });
