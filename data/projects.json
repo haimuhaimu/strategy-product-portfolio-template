@@ -155,6 +155,29 @@
       }
     ]
   },
+  "calibrationLogs": [
+    {
+      "projectSlug": "creator-monetization-health",
+      "prior": "健康变现不能只按收入排序。",
+      "feedback": "边界样本显示，高收入也可能伴随过度营销；双维标注更能解释差异。",
+      "currentVersion": "保留双维判断，但阈值仍需随场景校准。",
+      "status": "retained"
+    },
+    {
+      "projectSlug": "following-feed-recommendation",
+      "prior": "关注是稳定的强兴趣信号。",
+      "feedback": "复访、取关与作者断更说明，关注动作会随时间失真。",
+      "currentVersion": "修正为动态关系价值：只放大仍有后续消费的关系。",
+      "status": "revised"
+    },
+    {
+      "projectSlug": "search-quality-ai-answer",
+      "prior": "直接答案能缩短用户找结果的路径。",
+      "feedback": "部分需求得到更快满足，但开放型或供给不足的查询不适合强行回答。",
+      "currentVersion": "待验证不同意图下的覆盖边界与答案可信度。",
+      "status": "pending"
+    }
+  ],
   "projects": [
     {
       "slug": "creator-monetization-health",
