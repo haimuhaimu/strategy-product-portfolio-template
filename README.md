@@ -1,8 +1,24 @@
-# 中文策略产品经理作品集模板
+# Strategy Product Portfolio Template｜中文策略产品经理作品集模板
 
-一套强调“问题、判断、验证、结果”的中文个人作品集模板，适合策略产品经理、AI 产品经理、推荐搜索产品经理和内容生态从业者。项目基于 Next.js、TypeScript 与 Tailwind CSS，使用单个 JSON 文件管理个人资料和案例，不需要后端或数据库。
+**Show your product judgment, not just your job description.｜把复杂产品经历讲成可验证的判断，而不是一份职责清单。**
+
+[![CI](https://github.com/haimuhaimu/strategy-product-portfolio-template/actions/workflows/portable-build.yml/badge.svg)](https://github.com/haimuhaimu/strategy-product-portfolio-template/actions/workflows/portable-build.yml)
+[![License: MIT](https://img.shields.io/github/license/haimuhaimu/strategy-product-portfolio-template)](https://github.com/haimuhaimu/strategy-product-portfolio-template/blob/main/LICENSE)
+[![Next.js 16.3](https://img.shields.io/badge/Next.js-16.3-000000?logo=next.js)](https://nextjs.org/)
+[![TypeScript 5](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+
+一套面向**策略产品经理、AI 产品经理、推荐 / 搜索产品经理和内容生态从业者**的中文个人作品集模板。它不鼓励堆砌职责，而是用一条清晰的证据链呈现每个案例：
+
+> **Problem 问题 → Judgment 判断 → Validation 验证 → Result 结果**
+
+与通用简历站模板相比，本项目把案例叙事、数据 / 算法协作和边界复盘放在核心位置；基于 Next.js、TypeScript 与 Tailwind CSS，使用单个 JSON 文件管理个人资料和案例，不需要后端或数据库。
+
+- **隐私检查**：`npm run test:public` 检查私人身份、精确业务数据、私有文件和模板完整性等公开安全风险。
+- **SEO 检查**：静态导出包含 metadata、JSON-LD、sitemap 与 robots；构建后运行 `npm run check:seo` 验证关键页面、canonical 和站点索引文件。
 
 仓库中的姓名、公司、时间和指标均为匿名化示例，请替换成你有权公开的内容。
+
+> 如果这套“用判断与证据讲产品故事”的方法对你有帮助，欢迎点一个 **Star**，也方便以后回来继续完善作品集。
 
 ## 模板亮点
 
