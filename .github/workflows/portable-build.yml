@@ -33,6 +33,9 @@ jobs:
       - name: Test portable command contract
         run: npm run test:portable-scripts
 
+      - name: Test portfolio initializer
+        run: npm run test:init
+
       - name: Test public template safeguards
         run: npm run test:public
 
