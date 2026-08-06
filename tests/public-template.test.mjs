@@ -39,6 +39,25 @@ const forbiddenPatterns = [
   /10%\+/u,
 ];
 
+function versionIsAtLeast(actual, minimum) {
+  const actualParts = actual.split(".").map(Number);
+  const minimumParts = minimum.split(".").map(Number);
+
+  for (let index = 0; index < minimumParts.length; index += 1) {
+    const actualPart = actualParts[index] ?? 0;
+    const minimumPart = minimumParts[index] ?? 0;
+    if (actualPart > minimumPart) return true;
+    if (actualPart < minimumPart) return false;
+  }
+
+  return true;
+}
+
+test("version comparison treats omitted segments as zero", () => {
+  assert.equal(versionIsAtLeast("1.2", "1.2.1"), false);
+  assert.equal(versionIsAtLeast("1.2", "1.2.0"), true);
+});
+
 function collectTextFiles(target) {
   const absolutePath = path.join(root, target);
   if (!existsSync(absolutePath)) return [];
@@ -101,6 +120,65 @@ test("README explains how to reuse and sanitize the template", () => {
   ]) {
     assert.match(readme, new RegExp(`^${heading}$`, "m"));
   }
+});
+
+test("Next.js packages meet the audited security baseline", () => {
+  const packageJson = JSON.parse(
+    readFileSync(path.join(root, "package.json"), "utf8"),
+  );
+  const nextVersion = packageJson.dependencies.next;
+
+  assert.match(nextVersion, /^\d+\.\d+\.\d+$/u);
+  assert.equal(packageJson.devDependencies["eslint-config-next"], nextVersion);
+  assert.equal(
+    packageJson.devDependencies["@next/swc-wasm-nodejs"],
+    nextVersion,
+  );
+  assert.ok(
+    versionIsAtLeast(nextVersion, "16.3.0"),
+    `Expected Next.js 16.3.0 or newer, received ${nextVersion}`,
+  );
+});
+
+test("Next.js transitive production dependencies meet audited floors", () => {
+  const packageLock = JSON.parse(
+    readFileSync(path.join(root, "package-lock.json"), "utf8"),
+  );
+  const nextPackage = packageLock.packages["node_modules/next"];
+  const resolvedPostcss =
+    packageLock.packages["node_modules/next/node_modules/postcss"]?.version ??
+    packageLock.packages["node_modules/postcss"]?.version;
+  const sharp = packageLock.packages["node_modules/sharp"]?.version;
+
+  assert.ok(nextPackage, "Expected Next.js in the lockfile");
+  assert.ok(nextPackage.dependencies?.postcss, "Expected Next.js to use PostCSS");
+  assert.ok(resolvedPostcss, "Expected Next.js to resolve PostCSS");
+  assert.ok(sharp, "Expected the optional Sharp dependency in the lockfile");
+  assert.ok(
+    versionIsAtLeast(nextPackage.dependencies.postcss, "8.5.18"),
+    `Expected Next.js to require PostCSS 8.5.18 or newer, received ${nextPackage.dependencies.postcss}`,
+  );
+  assert.ok(
+    versionIsAtLeast(resolvedPostcss, "8.5.18"),
+    `Expected resolved PostCSS 8.5.18 or newer, received ${resolvedPostcss}`,
+  );
+  assert.ok(
+    versionIsAtLeast(sharp, "0.35.3"),
+    `Expected Sharp 0.35.3 or newer, received ${sharp}`,
+  );
+});
+
+test("direct PostCSS dependency meets the audited security baseline", () => {
+  const packageJson = JSON.parse(
+    readFileSync(path.join(root, "package.json"), "utf8"),
+  );
+  const postcssVersion = packageJson.devDependencies.postcss;
+
+  assert.match(postcssVersion, /^\d+\.\d+\.\d+$/u);
+  assert.ok(
+    versionIsAtLeast(postcssVersion, "8.5.18"),
+    `Expected PostCSS 8.5.18 or newer, received ${postcssVersion}`,
+  );
 });
 
 test("GitHub Actions use supported JavaScript runtimes", () => {
