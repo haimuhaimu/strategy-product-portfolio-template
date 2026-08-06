@@ -26,6 +26,7 @@
     "test:init": "node --test tests/init-portfolio.test.mjs",
     "test:portable-scripts": "node --test tests/next-with-wasm.test.mjs",
     "test:public": "node --test tests/public-template.test.mjs",
+    "test:calibration": "node --test tests/cognitive-calibration.test.mjs",
     "start": "next start",
     "lint": "eslint"
   },
