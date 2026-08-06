@@ -36,6 +36,12 @@ jobs:
       - name: Test portfolio initializer
         run: npm run test:init
 
+      - name: Test personal model data
+        run: npm run test:personal-model
+
+      - name: Test cognitive calibration
+        run: npm run test:calibration
+
       - name: Test public template safeguards
         run: npm run test:public
 

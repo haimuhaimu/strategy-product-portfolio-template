@@ -32,7 +32,7 @@ export function Header({ profile }: HeaderProps) {
             项目
           </Link>
           <Link href="/thinking" className="transition hover:text-[#e13024]">
-            思考
+            模型 / 思考
           </Link>
           <Link href="/profile" className="transition hover:text-[#e13024]">
             关于

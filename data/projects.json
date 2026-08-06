@@ -1,4 +1,5 @@
 {
+  "rolePreset": "product",
   "profile": {
     "name": "你的名字",
     "role": "策略产品经理 / AI 产品经理",
@@ -20,6 +21,14 @@
       "分组实验",
       "SQL 与归因分析",
       "算法协同"
+    ],
+    "interests": [
+      "足球",
+      "说唱",
+      "趋势",
+      "游戏",
+      "动漫",
+      "个人符号"
     ],
     "positioning": [
       "面向 AI / 推荐 / 搜索业务的策略产品与工作流构建者",
@@ -155,6 +164,105 @@
       }
     ]
   },
+  "personalOperatingSystem": {
+    "personModel": [
+      {
+        "dimension": "注意力",
+        "observation": "对模糊问题、边界样本和新机制保持高敏感度。",
+        "implication": "适合从零定义问题，但需要用阶段目标避免探索发散。"
+      },
+      {
+        "dimension": "协作方式",
+        "observation": "习惯先统一判断口径，再拆数据、产品与运营动作。",
+        "implication": "复杂协作先做共同语言，减少各团队只优化局部指标。"
+      },
+      {
+        "dimension": "风险偏好",
+        "observation": "愿意小步试错，不愿用未经验证的增长叙事下注。",
+        "implication": "优先可逆实验，并提前声明结果边界。"
+      }
+    ],
+    "rewardFunction": [
+      {
+        "signal": "用户问题被真实解决",
+        "weight": "high",
+        "guardrail": "不以短期点击替代长期满意度"
+      },
+      {
+        "signal": "团队获得可复用的方法或工具",
+        "weight": "high",
+        "guardrail": "避免只有文档、没有使用场景"
+      },
+      {
+        "signal": "个人观点获得关注",
+        "weight": "low",
+        "guardrail": "表达服务于证据，不追逐热词"
+      }
+    ],
+    "actionStrategy": [
+      {
+        "trigger": "问题定义仍有分歧",
+        "action": "收集反例，写出价值对象、关键假设与不做什么。",
+        "feedback": "用评审中的分歧减少程度判断是否继续。"
+      },
+      {
+        "trigger": "方向看似成立但证据不足",
+        "action": "设计最小实验，绑定核心指标与护栏指标。",
+        "feedback": "按实验反馈选择放大、修正或停止。"
+      },
+      {
+        "trigger": "一次项目得到稳定结论",
+        "action": "沉淀为标签、规则、模板或自动化工作流。",
+        "feedback": "观察其他团队能否独立复用。"
+      }
+    ]
+  },
+  "influences": [
+    {
+      "name": "《思考，快与慢》",
+      "type": "work",
+      "takeaway": "重要判断要显式检查直觉偏差，但不能把所有决策都拖成重流程。",
+      "status": "retained"
+    },
+    {
+      "name": "精益实验方法",
+      "type": "method",
+      "takeaway": "从最小验证学习，但将“快”修正为同时设置长期护栏。",
+      "status": "revised"
+    },
+    {
+      "name": "AI Agent 工作流",
+      "type": "method",
+      "takeaway": "是否能把经验稳定转成可调用、可评估的协作单元。",
+      "status": "pending"
+    },
+    {
+      "name": "边界样本复盘",
+      "type": "experience",
+      "takeaway": "先找最容易推翻判断的案例，再决定规则能否规模化。",
+      "status": "applied"
+    }
+  ],
+  "trainingHistory": [
+    {
+      "stage": "建立业务感",
+      "period": "阶段 01",
+      "trainingData": "一线反馈、内容样本、运营动作与用户行为",
+      "modelUpdate": "从执行需求转向先辨认谁的什么问题值得解决。"
+    },
+    {
+      "stage": "建立验证系统",
+      "period": "阶段 02",
+      "trainingData": "分组实验、搜索评估、推荐策略与失败样本",
+      "modelUpdate": "把观点拆成指标、样本、阈值和可证伪假设。"
+    },
+    {
+      "stage": "建立复用能力",
+      "period": "阶段 03 / 现在",
+      "trainingData": "跨团队机制、AI 工作流与长期业务反馈",
+      "modelUpdate": "把验证过的判断封装成团队可以持续调用的产品能力。"
+    }
+  ],
   "calibrationLogs": [
     {
       "projectSlug": "creator-monetization-health",

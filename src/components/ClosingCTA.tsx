@@ -52,7 +52,7 @@ export function ClosingCTA({ profile }: ClosingCTAProps) {
 
         <div className="mt-5 flex flex-col gap-2 border-t border-[#c92a20]/45 pt-4 font-mono text-xs uppercase text-[#c9bba7] sm:flex-row sm:items-center sm:justify-between">
           <span>少包装，多证据。</span>
-          <span>中文策略产品经理作品集模板。</span>
+          <span>产品经理与运营个人认知作品集模板。</span>
         </div>
       </div>
     </section>

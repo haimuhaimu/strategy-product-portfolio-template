@@ -21,6 +21,7 @@ const VALUE_FLAGS = new Map([
   ["--summary", "summary"],
   ["--site-url", "siteUrl"],
   ["--theme", "theme"],
+  ["--preset", "preset"],
 ]);
 
 export function parseArgs(args) {
@@ -77,6 +78,21 @@ function validateTheme(value) {
   return value;
 }
 
+function validatePreset(value) {
+  if (!new Set(["product", "operations"]).has(value)) {
+    throw new Error("预设必须是：product、operations");
+  }
+  return value;
+}
+
+function mergePreset(data, preset) {
+  return {
+    ...data,
+    ...preset,
+    profile: { ...data.profile, ...preset.profile },
+  };
+}
+
 async function atomicWrite(filePath, content) {
   const temporaryPath = `${filePath}.portfolio-init.tmp`;
   await writeFile(temporaryPath, content, "utf8");
@@ -91,7 +107,7 @@ async function ask(rl, label, defaultValue) {
 async function collectInteractiveOptions(defaults, input, output) {
   const rl = createInterface({ input, output });
   try {
-    output.write("\n用几分钟生成你的策略产品作品集。所有内容只会写入当前目录。\n\n");
+    output.write("\n用几分钟生成你的产品经理 / 运营作品集。所有内容只会写入当前目录。\n\n");
     return {
       name: await ask(rl, "姓名", defaults.name),
       role: await ask(rl, "角色定位", defaults.role),
@@ -151,7 +167,15 @@ export async function initializePortfolio({
     readFile(envExamplePath, "utf8"),
     readFile(cssPath, "utf8"),
   ]);
-  const data = JSON.parse(dataSource);
+  let data = JSON.parse(dataSource);
+  const preset = validatePreset(options.preset ?? data.rolePreset ?? "product");
+  if (preset === "operations") {
+    const presetPath = path.join(root, "data", "presets", "operations.json");
+    const presetData = JSON.parse(await readFile(presetPath, "utf8"));
+    data = mergePreset(data, presetData);
+  } else {
+    data.rolePreset = "product";
+  }
   const siteUrl =
     envExample.match(/^NEXT_PUBLIC_SITE_URL=(.+)$/mu)?.[1] ??
     "https://portfolio.example.com";
@@ -193,6 +217,7 @@ export async function initializePortfolio({
   const nextEnv = buildEnv(answers.siteUrl, envExample);
   const nextCss = updateTheme(css, answers.theme);
   const summary = {
+    preset: data.rolePreset,
     profile: {
       name: data.profile.name,
       role: data.profile.role,
@@ -233,6 +258,7 @@ function printHelp(output) {
   output.write(`      --summary <个人简介>\n`);
   output.write(`      --site-url <URL>\n`);
   output.write(`      --theme <vermilion|cobalt|forest>\n`);
+  output.write(`      --preset <product|operations>\n`);
 }
 
 async function main() {

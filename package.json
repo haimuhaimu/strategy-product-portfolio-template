@@ -1,18 +1,20 @@
 {
-  "name": "strategy-product-portfolio-template",
-  "version": "0.1.0",
+  "name": "product-operations-portfolio-template",
+  "version": "0.2.0",
   "private": true,
-  "description": "A privacy-conscious Next.js portfolio template for strategy, AI, search, and recommendation product managers.",
+  "description": "A privacy-conscious Next.js personal cognition portfolio template for product managers and operations professionals.",
   "keywords": [
     "product-manager-portfolio",
-    "strategy-product-manager",
-    "ai-product-manager",
+    "operations-portfolio",
+    "personal-cognition",
+    "personal-operating-system",
     "portfolio-template",
     "nextjs",
     "typescript",
     "seo",
     "产品经理作品集",
-    "策略产品经理"
+    "运营作品集",
+    "个人认知作品集"
   ],
   "repository": {
     "type": "git",
@@ -27,6 +29,7 @@
     "test:portable-scripts": "node --test tests/next-with-wasm.test.mjs",
     "test:public": "node --test tests/public-template.test.mjs",
     "test:calibration": "node --test tests/cognitive-calibration.test.mjs",
+    "test:personal-model": "node --test tests/personal-model.test.mjs",
     "start": "next start",
     "lint": "eslint"
   },

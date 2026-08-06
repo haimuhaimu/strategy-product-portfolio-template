@@ -6,8 +6,6 @@ type HomeThinkingTeaserProps = {
   profile: Profile;
 };
 
-const loves = ["足球", "说唱", "趋势", "游戏", "动漫", "个人符号"];
-
 export function HomeThinkingTeaser({ profile }: HomeThinkingTeaserProps) {
   return (
     <section className="mx-auto max-w-[1680px] px-4 pb-5 sm:px-8">
@@ -47,12 +45,12 @@ export function HomeThinkingTeaser({ profile }: HomeThinkingTeaserProps) {
             平时看什么
           </p>
           <div className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-6">
-            {loves.map((love) => (
+            {profile.interests.map((interest) => (
               <span
-                key={love}
+                key={interest}
                 className="rounded-[6px] border border-[#8b3a28]/16 bg-[#fffdf8] px-2 py-2.5 text-center font-mono text-xs font-semibold uppercase text-[#14110e]"
               >
-                {love}
+                {interest}
               </span>
             ))}
           </div>

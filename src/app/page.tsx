@@ -9,14 +9,15 @@ import { getProfile, getProjects } from "@/lib/projects";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
-  title: "中文 AI 产品经理与策略产品经理作品集模板",
+  title: "产品经理与运营个人认知作品集模板",
   description:
-    "一套以问题、判断、验证和结果为主线的中文 AI 产品经理与策略产品经理作品集模板。",
+    "一套以项目证据与个人认知模型为主线的中文产品经理、产品运营与策略运营作品集模板。",
   pathname: "/",
   keywords: [
     "中文作品集模板",
-    "AI 产品经理作品集",
-    "策略产品作品集",
+    "产品经理作品集",
+    "运营作品集",
+    "个人认知作品集",
   ],
 });
 

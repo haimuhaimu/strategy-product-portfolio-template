@@ -29,14 +29,15 @@ const baiduVerification = process.env.BAIDU_SITE_VERIFICATION?.trim();
 
 assert.match(
   home,
-  /<title>[^<]*(AI 产品经理|策略产品经理)[^<]*作品集[^<]*<\/title>/,
+  /<title>[^<]*(产品经理|产品运营|运营)[^<]*作品集[^<]*<\/title>/,
 );
 assert.match(
   home,
   /<link rel="canonical" href="https:\/\/portfolio\.example\.com\/"\/?>/,
 );
 assert.match(home, /type="application\/ld\+json"/);
-assert.match(home, /AI 产品经理/);
+assert.match(home, /产品经理与运营/);
+assert.match(thinking, /个人认知操作系统/);
 assert.match(
   profile,
   /<link rel="canonical" href="https:\/\/portfolio\.example\.com\/profile\/"\/?>/,

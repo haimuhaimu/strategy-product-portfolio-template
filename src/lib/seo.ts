@@ -12,12 +12,15 @@ export const PERSON_ALTERNATE_NAME = "Your Name";
 export const SITE_NAME = `${PERSON_NAME}的作品集`;
 
 export const DEFAULT_DESCRIPTION =
-  "中文 AI 产品经理与策略产品经理作品集模板，展示 AI 工作流、推荐搜索、内容生态、作者变现和增长项目的案例表达方式。";
+  "中文产品经理与运营个人认知作品集模板，展示项目证据、人物模型、奖励函数、行动策略与成长训练史。";
 
 export const DEFAULT_KEYWORDS = [
   PERSON_NAME,
   "个人作品集",
   "产品经理作品集模板",
+  "运营作品集模板",
+  "个人认知作品集",
+  "个人操作系统",
   "AI 产品经理",
   "AI 产品经理作品集",
   "AI 策略产品经理",
@@ -100,7 +103,7 @@ export function createSiteJsonLd() {
         name: PERSON_NAME,
         alternateName: PERSON_ALTERNATE_NAME,
         url: `${SITE_URL}/`,
-        jobTitle: ["AI 产品经理", "策略产品经理"],
+        jobTitle: ["产品经理", "产品运营", "策略运营"],
         description: DEFAULT_DESCRIPTION,
         knowsAbout: [
           "AI 工作流",
@@ -116,9 +119,9 @@ export function createSiteJsonLd() {
         "@id": `${SITE_URL}/#website`,
         name: SITE_NAME,
         alternateName: [
-          "Strategy Product Portfolio",
-          "AI Product Manager Portfolio",
-          "策略产品经理作品集模板",
+          "Product & Operations Portfolio",
+          "Personal Cognition Portfolio",
+          "产品经理与运营作品集模板",
         ],
         url: `${SITE_URL}/`,
         inLanguage: "zh-CN",

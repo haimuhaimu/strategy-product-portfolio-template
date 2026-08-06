@@ -11,12 +11,13 @@ import {
 
 async function createFixture() {
   const root = await mkdtemp(path.join(os.tmpdir(), "portfolio-init-"));
-  await mkdir(path.join(root, "data"), { recursive: true });
+  await mkdir(path.join(root, "data", "presets"), { recursive: true });
   await mkdir(path.join(root, "src", "app"), { recursive: true });
   await writeFile(
     path.join(root, "data", "projects.json"),
     `${JSON.stringify(
       {
+        rolePreset: "product",
         profile: {
           name: "你的名字",
           role: "策略产品经理",
@@ -27,6 +28,24 @@ async function createFixture() {
           tags: ["策略产品"],
         },
         projects: [{ slug: "demo" }],
+      },
+      null,
+      2,
+    )}\n`,
+  );
+  await writeFile(
+    path.join(root, "data", "presets", "operations.json"),
+    `${JSON.stringify(
+      {
+        rolePreset: "operations",
+        profile: {
+          role: "产品运营",
+          headline: "用实验沉淀运营机制",
+          interests: ["用户行为", "增长实验"],
+        },
+        personalOperatingSystem: { personModel: [{ dimension: "用户" }] },
+        influences: [{ name: "用户旅程" }],
+        trainingHistory: [{ stage: "运营验证" }],
       },
       null,
       2,
@@ -58,6 +77,8 @@ test("parseArgs supports non-interactive customization", () => {
       "--dry-run",
       "--name",
       "示例用户",
+      "--preset",
+      "operations",
       "--theme",
       "cobalt",
     ]),
@@ -65,6 +86,7 @@ test("parseArgs supports non-interactive customization", () => {
       yes: true,
       dryRun: true,
       name: "示例用户",
+      preset: "operations",
       theme: "cobalt",
     },
   );
@@ -136,9 +158,69 @@ test("non-interactive initialization preserves schema and writes configuration",
   assert.match(capture.value(), /初始化完成/u);
 });
 
+test("operations preset updates model data and keeps explicit overrides", async () => {
+  const root = await createFixture();
+  const capture = captureOutput();
+
+  const result = await initializePortfolio({
+    root,
+    options: {
+      yes: true,
+      dryRun: false,
+      preset: "operations",
+      role: "增长运营负责人",
+    },
+    output: capture.output,
+  });
+
+  const data = JSON.parse(
+    await readFile(path.join(root, "data", "projects.json"), "utf8"),
+  );
+
+  assert.equal(result.preset, "operations");
+  assert.equal(data.rolePreset, "operations");
+  assert.equal(data.profile.role, "增长运营负责人");
+  assert.deepEqual(data.profile.interests, ["用户行为", "增长实验"]);
+  assert.deepEqual(data.projects, [{ slug: "demo" }]);
+  assert.equal(data.personalOperatingSystem.personModel[0].dimension, "用户");
+  assert.equal(data.trainingHistory[0].stage, "运营验证");
+});
+
+test("operations preset also respects dry-run", async () => {
+  const root = await createFixture();
+  const capture = captureOutput();
+
+  const result = await initializePortfolio({
+    root,
+    options: { yes: true, dryRun: true, preset: "operations" },
+    output: capture.output,
+  });
+  const data = JSON.parse(
+    await readFile(path.join(root, "data", "projects.json"), "utf8"),
+  );
+
+  assert.equal(result.preset, "operations");
+  assert.equal(result.profile.role, "产品运营");
+  assert.equal(data.rolePreset, "product");
+  assert.equal(data.profile.role, "策略产品经理");
+});
+
 test("initialization rejects invalid public configuration", async () => {
   const root = await createFixture();
   const capture = captureOutput();
+
+  await assert.rejects(
+    initializePortfolio({
+      root,
+      options: {
+        yes: true,
+        dryRun: true,
+        preset: "sales",
+      },
+      output: capture.output,
+    }),
+    /预设必须是/u,
+  );
 
   await assert.rejects(
     initializePortfolio({
