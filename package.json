@@ -2,10 +2,28 @@
   "name": "strategy-product-portfolio-template",
   "version": "0.1.0",
   "private": true,
+  "description": "A privacy-conscious Next.js portfolio template for strategy, AI, search, and recommendation product managers.",
+  "keywords": [
+    "product-manager-portfolio",
+    "strategy-product-manager",
+    "ai-product-manager",
+    "portfolio-template",
+    "nextjs",
+    "typescript",
+    "seo",
+    "产品经理作品集",
+    "策略产品经理"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/haimuhaimu/strategy-product-portfolio-template.git"
+  },
   "scripts": {
     "dev": "node scripts/next-with-wasm.mjs dev --webpack",
     "build": "node scripts/next-with-wasm.mjs build --webpack",
     "check:seo": "node scripts/check-seo.mjs",
+    "init": "node scripts/init-portfolio.mjs",
+    "test:init": "node --test tests/init-portfolio.test.mjs",
     "test:portable-scripts": "node --test tests/next-with-wasm.test.mjs",
     "test:public": "node --test tests/public-template.test.mjs",
     "start": "next start",

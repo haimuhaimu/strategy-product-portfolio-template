@@ -42,14 +42,36 @@ npx degit haimuhaimu/strategy-product-portfolio-template my-product-portfolio
 cd my-product-portfolio
 npm install
 cp .env.example .env.local
+npm run init
 npm run dev
 ```
 
-打开 `http://localhost:3000`。也可以点击上方 **Deploy with Vercel**，从公开模板直接创建自己的部署。
+`npm run init` 会通过问答更新姓名、角色、城市、公开邮箱、个人定位、站点 URL 和强调色，同时保留现有案例结构。打开 `http://localhost:3000` 即可预览；也可以点击上方 **Deploy with Vercel**，从公开模板直接创建自己的部署。
+
+## 一键初始化
+
+交互式初始化不会上传任何内容，所有修改只发生在当前目录。想先预览将要修改的文件，可以运行：
+
+```bash
+npm run init -- --dry-run
+```
+
+自动化或批量创建时，可以跳过问答并覆盖指定字段：
+
+```bash
+npm run init -- --yes \
+  --name "你的名字" \
+  --role "AI 产品经理" \
+  --site-url "https://portfolio.example.com" \
+  --theme cobalt
+```
+
+可选强调色为 `vermilion`、`cobalt` 和 `forest`。运行 `npm run init -- --help` 可查看所有参数。初始化后仍建议逐项改写 `data/projects.json` 中的案例内容，发布前务必执行隐私检查。
 
 常用命令：
 
 ```bash
+npm run test:init
 npm run lint
 npm run test:public
 npm run build
