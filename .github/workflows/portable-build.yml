@@ -36,6 +36,12 @@ jobs:
       - name: Test public template safeguards
         run: npm run test:public
 
+      - name: Test production audit policy
+        run: npm run test:security
+
+      - name: Check production dependency audit
+        run: npm run check:security
+
       - name: Lint
         run: npm run lint
 

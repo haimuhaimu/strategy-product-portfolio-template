@@ -31,6 +31,8 @@ npm run dev
 ```bash
 npm run lint
 npm run test:public
+npm run test:security
+npm run check:security
 npm run build
 npm run check:seo
 ```
@@ -60,7 +62,9 @@ src/components           首页与案例展示组件
 src/lib                  数据读取与 SEO 工具
 public/images            可替换的公开图片
 scripts/check-seo.mjs    静态导出后的 SEO 检查
+scripts/check-security-audit.mjs  生产依赖审计基线检查
 tests/public-template.*  公开安全与模板完整性检查
+tests/security-audit.*   依赖审计策略回归测试
 ```
 
 ## 隐私检查
@@ -79,6 +83,13 @@ git diff --cached
 - 真实雇主、内部项目代号、未公开业务数据和精确实验指标。
 - 简历 PDF、聊天记录、知识库、部署压缩包和本机绝对路径。
 - 截图、图片 EXIF、PDF 元数据以及 Git 历史中的旧版本。
+
+## 依赖安全检查
+
+运行 `npm run check:security` 会检查生产依赖。当前已知的 Next.js
+上游阻塞记录在 [Issue #9](https://github.com/haimuhaimu/strategy-product-portfolio-template/issues/9)；
+检查只允许这些已记录项，遇到新的生产依赖告警、未记录的 GHSA 或 critical
+告警时会失败，不会把允许列表伪装成“零漏洞”。
 
 如果仓库历史曾提交过敏感信息，仅删除当前文件不够。公开发布时应创建一份无旧历史的新仓库，或使用经过审查的历史清理工具。
 
