@@ -18,11 +18,17 @@ function readExportedFile(relativePath) {
   return readFileSync(filePath, "utf8");
 }
 
+const portfolio = JSON.parse(
+  readFileSync(path.join(projectRoot, "data/projects.json"), "utf8"),
+);
+const featuredProjectSlug = portfolio.featuredProjectSlugs[0];
+assert.ok(featuredProjectSlug, "Expected at least one featured project slug.");
+
 const home = readExportedFile("index.html");
 const profile = readExportedFile("profile/index.html");
 const thinking = readExportedFile("thinking/index.html");
 const project = readExportedFile(
-  "projects/creator-monetization-health/index.html",
+  `projects/${featuredProjectSlug}/index.html`,
 );
 const robots = readExportedFile("robots.txt");
 const sitemap = readExportedFile("sitemap.xml");
@@ -50,7 +56,7 @@ assert.ok(
 );
 assert.ok(
   project.includes(
-    `<link rel="canonical" href="${siteUrl}/projects/creator-monetization-health/"`,
+    `<link rel="canonical" href="${siteUrl}/projects/${featuredProjectSlug}/"`,
   ),
   "Project canonical is missing or incorrect.",
 );
@@ -59,7 +65,7 @@ assert.ok(
   "robots.txt sitemap URL is missing or incorrect.",
 );
 assert.ok(
-  sitemap.includes(`${siteUrl}/projects/search-quality-ai-answer/`),
+  sitemap.includes(`${siteUrl}/projects/${featuredProjectSlug}/`),
   "sitemap.xml project URL is missing or incorrect.",
 );
 assert.doesNotMatch(sitemap, /localhost|vercel\.app/);

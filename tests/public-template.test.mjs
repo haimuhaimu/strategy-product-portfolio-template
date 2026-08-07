@@ -107,20 +107,24 @@ test("private documents are not part of the public template", () => {
   assert.equal(trackedPrivateFiles, "");
 });
 
-test("README explains how to reuse and sanitize the template", () => {
+test("README documents the stable portfolio generation and delivery contract", () => {
   const readme = readFileSync(path.join(root, "README.md"), "utf8");
 
-  for (const heading of [
-    "## 模板亮点",
-    "## 快速开始",
-    "## 一键初始化",
-    "## 如何替换成你的内容",
-    "## 隐私检查",
-    "## 部署",
-    "## 开源许可",
+  assert.match(readme, /\[.*portfolio-story-builder.*\]\(skills\/portfolio-story-builder\/\)/u);
+  assert.match(readme, /data\/projects\.json/u);
+  assert.match(
+    readme,
+    /audit_portfolio\.py data\/projects\.json --strict --output audit-report\.json/u,
+  );
+  for (const command of [
+    "npm run test:portfolio-v2",
+    "npm run test:public",
+    "npm run lint",
+    "npm run build",
   ]) {
-    assert.match(readme, new RegExp(`^${heading}$`, "m"));
+    assert.ok(readme.includes(command), `README 缺少发布校验命令：${command}`);
   }
+  assert.match(readme, /^## 隐私与边界$/mu);
 });
 
 test("Next.js packages meet the audited security baseline", () => {

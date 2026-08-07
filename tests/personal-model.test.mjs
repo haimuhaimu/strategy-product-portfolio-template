@@ -23,27 +23,97 @@ const teaser = readFileSync(
 
 const expectedStatuses = new Set(["retained", "revised", "pending", "applied"]);
 
-test("个人模型包含人物、奖励函数与行动策略", () => {
-  assert.ok(["product", "operations"].includes(portfolio.rolePreset));
-  assert.ok(portfolio.profile.interests.length >= 3);
-  assert.ok(portfolio.personalOperatingSystem.personModel.length >= 3);
-  assert.ok(portfolio.personalOperatingSystem.rewardFunction.length >= 3);
-  assert.ok(portfolio.personalOperatingSystem.actionStrategy.length >= 3);
-
-  for (const reward of portfolio.personalOperatingSystem.rewardFunction) {
-    assert.ok(["high", "medium", "low"].includes(reward.weight));
-    assert.ok(reward.guardrail);
+function validateProfile(data) {
+  assert.ok(["product", "operations"].includes(data.rolePreset));
+  assert.ok(Array.isArray(data.profile.interests));
+  if (data.features.profile) {
+    assert.ok(data.profile.interests.length >= 3);
+    assert.ok(data.profile.interests.every((interest) => interest.trim()));
   }
+}
+
+function validateAdvancedModels(data) {
+  const operatingSystem = data.personalOperatingSystem;
+  assert.ok(operatingSystem && typeof operatingSystem === "object");
+  for (const field of ["personModel", "rewardFunction", "actionStrategy"]) {
+    assert.ok(Array.isArray(operatingSystem[field]));
+  }
+  assert.ok(Array.isArray(data.influences));
+  assert.ok(Array.isArray(data.trainingHistory));
+
+  if (!data.features.advancedModels) return;
+
+  assert.ok(operatingSystem.personModel.length >= 3);
+  assert.ok(operatingSystem.rewardFunction.length >= 3);
+  assert.ok(operatingSystem.actionStrategy.length >= 3);
+  assert.ok(
+    operatingSystem.personModel.every(
+      (item) => item.dimension?.trim() && item.observation?.trim() && item.implication?.trim(),
+    ),
+  );
+  assert.ok(
+    operatingSystem.rewardFunction.every(
+      (item) =>
+        item.signal?.trim() &&
+        ["high", "medium", "low"].includes(item.weight) &&
+        item.guardrail?.trim(),
+    ),
+  );
+  assert.ok(
+    operatingSystem.actionStrategy.every(
+      (item) => item.trigger?.trim() && item.action?.trim() && item.feedback?.trim(),
+    ),
+  );
+
+  assert.deepEqual(
+    new Set(data.influences.map((influence) => influence.status)),
+    expectedStatuses,
+  );
+  assert.ok(
+    data.influences.every(
+      (influence) =>
+        influence.name?.trim() &&
+        ["work", "person", "method", "experience"].includes(influence.type) &&
+        influence.takeaway?.trim(),
+    ),
+  );
+  assert.ok(data.trainingHistory.length >= 3);
+  assert.ok(
+    data.trainingHistory.every(
+      (stage) =>
+        stage.stage?.trim() &&
+        stage.period?.trim() &&
+        stage.trainingData?.trim() &&
+        stage.modelUpdate?.trim(),
+    ),
+  );
+}
+
+test("个人资料功能关闭时允许兴趣数组为空", () => {
+  validateProfile(portfolio);
 });
 
-test("影响来源覆盖状态，训练史保持阶段顺序", () => {
-  const actualStatuses = new Set(
-    portfolio.influences.map((influence) => influence.status),
-  );
-  assert.deepEqual(actualStatuses, expectedStatuses);
-  assert.ok(portfolio.influences.every((influence) => influence.takeaway));
-  assert.ok(portfolio.trainingHistory.length >= 3);
-  assert.ok(portfolio.trainingHistory.every((stage) => stage.modelUpdate));
+test("高级模型功能关闭时允许模型、影响来源与训练史为空", () => {
+  validateAdvancedModels(portfolio);
+});
+
+test("相应功能开启时仍拒绝不完整的个人资料和高级模型", () => {
+  if (!portfolio.features.profile) {
+    assert.throws(() =>
+      validateProfile({
+        ...portfolio,
+        features: { ...portfolio.features, profile: true },
+      }),
+    );
+  }
+  if (!portfolio.features.advancedModels) {
+    assert.throws(() =>
+      validateAdvancedModels({
+        ...portfolio,
+        features: { ...portfolio.features, advancedModels: true },
+      }),
+    );
+  }
 });
 
 test("思考页接入数据驱动模型，首页兴趣不再硬编码", () => {
