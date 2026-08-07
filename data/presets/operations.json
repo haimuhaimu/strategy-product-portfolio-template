@@ -1,115 +1,48 @@
 {
+  "schemaVersion": 2,
   "rolePreset": "operations",
+  "home": {
+    "introEyebrow": "运营作品集",
+    "introTitle": "把用户目标拆成可执行动作，用结果证明增长价值。",
+    "evidenceTitle": "用结果说明运营价值",
+    "evidenceMetrics": [
+      { "label": "新用户激活率", "value": "+18%" },
+      { "label": "召回转化率", "value": "+12%" },
+      { "label": "活动执行效率", "value": "+35%" }
+    ]
+  },
+  "features": { "profile": false, "thinking": false, "advancedModels": false },
+  "featuredProjectSlugs": ["new-user-activation", "dormant-user-recall", "campaign-operations"],
   "profile": {
     "role": "产品运营 / 策略运营",
-    "headline": "用用户洞察、策略实验与机制复盘呈现运营判断",
-    "summary": "我把运营问题拆成用户、场景、供给、触达、转化和留存，用数据与一线反馈验证动作，并把有效经验沉淀成可复用机制。",
-    "interests": [
-      "用户行为",
-      "内容趋势",
-      "社区文化",
-      "增长实验",
-      "品牌表达",
-      "AI 工具"
-    ]
+    "headline": "用用户洞察、运营动作与增长复盘展示业务价值",
+    "summary": "我把运营目标拆成人群、场景、触达、转化和留存，用数据与一线反馈验证动作，并把有效经验沉淀成团队可复用的机制。",
+    "interests": ["用户行为", "内容趋势", "增长实验", "社群经营"]
   },
-  "personalOperatingSystem": {
-    "personModel": [
-      {
-        "dimension": "用户敏感度",
-        "observation": "习惯从一线反馈与行为变化中识别真实阻力。",
-        "implication": "先还原场景，再决定活动、内容或产品动作。"
-      },
-      {
-        "dimension": "资源组织",
-        "observation": "擅长把目标拆成节奏、对象、渠道与协作机制。",
-        "implication": "复杂项目用阶段里程碑和责任接口降低损耗。"
-      },
-      {
-        "dimension": "复盘倾向",
-        "observation": "关注增量来自哪里，以及动作能否重复成立。",
-        "implication": "避免把一次热点或自然波动包装成稳定能力。"
-      }
-    ],
-    "rewardFunction": [
-      {
-        "signal": "用户完成有价值的关键行为",
-        "weight": "high",
-        "guardrail": "不以打扰或补贴透支长期关系"
-      },
-      {
-        "signal": "有效动作沉淀为运营机制",
-        "weight": "high",
-        "guardrail": "机制必须能被团队重复执行和评估"
-      },
-      {
-        "signal": "单次活动获得高曝光",
-        "weight": "low",
-        "guardrail": "曝光必须能解释后续转化与留存"
-      }
-    ],
-    "actionStrategy": [
-      {
-        "trigger": "目标只有大盘数字",
-        "action": "拆出关键人群、行为路径、场景阻力与护栏指标。",
-        "feedback": "检查每个动作是否能对应一个可观察变化。"
-      },
-      {
-        "trigger": "需要快速验证运营方向",
-        "action": "选择最小人群和渠道跑小规模实验。",
-        "feedback": "比较转化、留存、成本与用户负反馈。"
-      },
-      {
-        "trigger": "策略获得阶段性增量",
-        "action": "沉淀 SOP、分层规则、内容模板与复盘看板。",
-        "feedback": "由其他成员复用并检查效果稳定性。"
-      }
-    ]
-  },
-  "influences": [
+  "personalOperatingSystem": { "personModel": [], "rewardFunction": [], "actionStrategy": [] },
+  "influences": [],
+  "trainingHistory": [],
+  "projects": [
     {
-      "name": "用户旅程方法",
-      "type": "method",
-      "takeaway": "用连续场景理解用户，而不是只优化一个转化节点。",
-      "status": "applied"
+      "slug": "new-user-activation", "title": "新用户首周激活运营", "subtitle": "围绕关键行为重构新手触达节奏", "company": "业务团队", "period": "20XX", "domain": "用户增长", "order": 1,
+      "summary": "通过人群分层、任务引导和消息触达，提升新用户首周关键行为完成率。", "keywords": ["新用户", "激活", "分层运营"], "metrics": [{ "label": "新用户激活率", "value": "+18%" }],
+      "background": "新用户注册后无法快速理解核心价值，首周关键行为完成率偏低。",
+      "caseStudy": { "question": "如何让不同来源的新用户更快完成首次价值体验？", "productMethod": ["按来源与首日行为分层，设计差异化任务、内容和触达节奏。"], "algorithmAndData": ["建立注册—首个关键行为—次周留存漏斗，按渠道与人群复盘。"], "evaluation": ["新用户激活率提升 18%，并沉淀首周运营 SOP。"], "artifact": ["用户分层规则", "首周触达 SOP"] },
+      "actions": ["重构新手任务", "配置分层消息", "每周复盘漏斗"], "results": ["新用户激活率提升 18%"]
     },
     {
-      "name": "精益增长实验",
-      "type": "method",
-      "takeaway": "小范围验证再放大，同时补充长期留存与体验护栏。",
-      "status": "revised"
+      "slug": "dormant-user-recall", "title": "沉默用户分层召回", "subtitle": "从统一触达改为按流失原因匹配内容", "company": "业务团队", "period": "20XX", "domain": "用户运营", "order": 2,
+      "summary": "识别沉默原因，以权益、内容和场景触达组合改善召回效率。", "keywords": ["召回", "生命周期", "用户分层"], "metrics": [{ "label": "召回转化率", "value": "+12%" }],
+      "background": "统一召回消息打开率与回访率持续下降，且高频触达带来退订风险。",
+      "caseStudy": { "question": "如何在减少打扰的前提下提升沉默用户回访？", "productMethod": ["按最近行为、价值阶段与流失原因分层，匹配不同触达内容和频次。"], "algorithmAndData": ["对照不同人群的打开、回访、关键行为与退订指标。"], "evaluation": ["召回转化率提升 12%，无效触达频次下降。"], "artifact": ["召回人群包", "触达策略表"] },
+      "actions": ["搭建流失原因标签", "设计分层内容", "设置频控护栏"], "results": ["召回转化率提升 12%"]
     },
     {
-      "name": "一线用户访谈",
-      "type": "experience",
-      "takeaway": "数据发现异常，真实表达帮助解释异常。",
-      "status": "retained"
-    },
-    {
-      "name": "运营 Agent",
-      "type": "method",
-      "takeaway": "验证重复执行与复盘工作能否被 AI 稳定承接。",
-      "status": "pending"
-    }
-  ],
-  "trainingHistory": [
-    {
-      "stage": "理解用户与场景",
-      "period": "阶段 01",
-      "trainingData": "用户反馈、社群观察、活动执行与内容样本",
-      "modelUpdate": "从完成动作转向判断用户为何行动或流失。"
-    },
-    {
-      "stage": "建立增长实验",
-      "period": "阶段 02",
-      "trainingData": "人群分层、渠道数据、转化漏斗与成本分析",
-      "modelUpdate": "把运营经验拆成可验证变量和护栏指标。"
-    },
-    {
-      "stage": "沉淀经营机制",
-      "period": "阶段 03 / 现在",
-      "trainingData": "长期留存、跨团队复盘、SOP 与 AI 自动化",
-      "modelUpdate": "把一次有效动作升级为可复用、可迭代的系统。"
+      "slug": "campaign-operations", "title": "大促活动运营机制", "subtitle": "把一次活动沉淀成跨团队可复用流程", "company": "业务团队", "period": "20XX", "domain": "活动运营", "order": 3,
+      "summary": "统一目标、节奏、素材和复盘口径，降低跨团队活动执行损耗。", "keywords": ["活动运营", "项目管理", "复盘"], "metrics": [{ "label": "活动执行效率", "value": "+35%" }],
+      "background": "活动依赖多人临时协作，素材返工、节点遗漏和数据口径不一致。",
+      "caseStudy": { "question": "如何让高频活动稳定交付并持续复用？", "productMethod": ["建立目标拆解、里程碑、素材模板、风险清单和复盘看板。"], "algorithmAndData": ["记录各环节耗时、返工次数和关键转化，定位协作瓶颈。"], "evaluation": ["活动执行效率提升 35%，形成团队标准流程。"], "artifact": ["活动 SOP", "素材模板", "复盘看板"] },
+      "actions": ["统一目标与责任接口", "标准化素材和检查点", "活动后结构化复盘"], "results": ["活动执行效率提升 35%"]
     }
   ]
 }

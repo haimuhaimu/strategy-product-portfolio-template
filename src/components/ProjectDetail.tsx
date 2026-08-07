@@ -7,6 +7,7 @@ import { ImageTextStrategyOnePage } from "@/components/ImageTextStrategyOnePage"
 import { MarketingTrafficOnePage } from "@/components/MarketingTrafficOnePage";
 import { MembershipBusinessOnePage } from "@/components/MembershipBusinessOnePage";
 import { SearchQualityOnePage } from "@/components/SearchQualityOnePage";
+import { GenericProjectDetail } from "@/components/GenericProjectDetail";
 
 type ProjectDetailProps = {
   project: Project;
@@ -447,7 +448,7 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
 
       {narrative ? <ProjectOpening narrative={narrative} /> : null}
 
-      <ProjectOnePage project={project} />
+      {narrative ? <ProjectOnePage project={project} /> : <GenericProjectDetail project={project} />}
 
       {narrative ? <ProjectAiRedo narrative={narrative} /> : null}
     </main>

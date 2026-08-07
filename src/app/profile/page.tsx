@@ -8,7 +8,7 @@ import {
   CapabilitiesSection,
   ExperienceSection,
 } from "@/components/ProfileSections";
-import { getProfile } from "@/lib/projects";
+import { getContact, getProfile } from "@/lib/projects";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
@@ -55,7 +55,7 @@ export default function ProfilePage() {
       <CapabilitiesSection profile={profile} />
       <ExperienceSection profile={profile} />
       <ActionPrinciplesSection />
-      <ClosingCTA profile={profile} />
+      <ClosingCTA contact={getContact()} />
     </main>
   );
 }

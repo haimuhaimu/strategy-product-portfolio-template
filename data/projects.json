@@ -1,5 +1,32 @@
 {
+  "schemaVersion": 2,
   "rolePreset": "product",
+  "home": {
+    "introEyebrow": "策略产品经理作品集",
+    "introTitle": "把复杂业务问题，变成可验证、可复用的产品动作。",
+    "evidenceTitle": "用结果说明工作价值",
+    "evidenceMetrics": [
+      { "label": "图文 DAU 提升", "value": "百万级增量" },
+      { "label": "经验页频道 DAU", "value": "千万级规模" },
+      { "label": "可归因游戏流水", "value": "数亿级" },
+      { "label": "问答式搜索需求覆盖", "value": "双位数比例" }
+    ]
+  },
+  "features": {
+    "profile": false,
+    "thinking": false,
+    "advancedModels": false
+  },
+  "contact": {
+    "title": "期待与你交流",
+    "description": "如果这些项目与你正在解决的问题有关，欢迎通过邮件联系。",
+    "email": "hello@example.com"
+  },
+  "featuredProjectSlugs": [
+    "creator-monetization-health",
+    "image-text-recommendation-strategy",
+    "search-quality-ai-answer"
+  ],
   "profile": {
     "name": "你的名字",
     "role": "策略产品经理 / AI 产品经理",

@@ -119,6 +119,7 @@ test("simulated GitHub Pages build prefixes HTML assets and SEO URLs", () => {
 
   const home = readProjectFile("out/index.html");
   const profile = readProjectFile("out/profile/index.html");
+  const config = readProjectFile("out/config/index.html");
   const robots = readProjectFile("out/robots.txt");
   const sitemap = readProjectFile("out/sitemap.xml");
   const escapedSiteUrl = escapeRegExp(expectedSiteUrl);
@@ -126,8 +127,10 @@ test("simulated GitHub Pages build prefixes HTML assets and SEO URLs", () => {
 
   assert.match(home, new RegExp(`(?:href|src)="${escapedBasePath}/_next/`, "u"));
   assert.match(home, new RegExp(`src="${escapedBasePath}/images/avatar-placeholder\\.svg"`, "u"));
-  assert.match(home, new RegExp(`href="${escapedBasePath}/profile/"`, "u"));
+  assert.match(home, new RegExp(`href="${escapedBasePath}/config/"`, "u"));
   assert.match(home, new RegExp(`<link rel="canonical" href="${escapedSiteUrl}/"`, "u"));
+  assert.match(config, new RegExp(`<link rel="canonical" href="${escapedSiteUrl}/config/"`, "u"));
+  assert.match(config, new RegExp(`(?:href|src)="${escapedBasePath}/_next/`, "u"));
   assert.match(profile, new RegExp(`<link rel="canonical" href="${escapedSiteUrl}/profile/"`, "u"));
   assert.match(robots, new RegExp(`Allow: ${escapedBasePath || ""}/`, "u"));
   assert.match(robots, new RegExp(`Sitemap: ${escapedSiteUrl}/sitemap\\.xml`, "u"));

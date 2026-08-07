@@ -3,7 +3,7 @@ import { BackToTopButton } from "@/components/BackToTopButton";
 import { Header } from "@/components/Header";
 import { PortfolioCompanion } from "@/components/PortfolioCompanion";
 import { UnderstandingProgressWidget } from "@/components/UnderstandingProgressWidget";
-import { getProfile } from "@/lib/projects";
+import { getFeatureFlags, getProfile } from "@/lib/projects";
 import {
   createSiteJsonLd,
   DEFAULT_DESCRIPTION,
@@ -73,6 +73,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const profile = getProfile();
+  const features = getFeatureFlags();
   const siteJsonLd = createSiteJsonLd();
 
   return (
@@ -84,10 +85,10 @@ export default function RootLayout({
             __html: serializeJsonLd(siteJsonLd),
           }}
         />
-        <Header profile={profile} />
+        <Header profile={profile} features={features} />
         {children}
-        <PortfolioCompanion />
-        <UnderstandingProgressWidget />
+        {features.advancedModels ? <PortfolioCompanion /> : null}
+        {features.advancedModels ? <UnderstandingProgressWidget /> : null}
         <BackToTopButton />
       </body>
     </html>
