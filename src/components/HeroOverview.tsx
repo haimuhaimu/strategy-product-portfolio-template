@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { StaticPageLink } from "@/components/StaticPageLink";
 import type { HomeConfig, Profile } from "@/types/project";
 
 type HeroOverviewProps = { profile: Profile; home: HomeConfig };
@@ -21,7 +22,7 @@ export function HeroOverview({ profile, home }: HeroOverviewProps) {
             {profile.location ? <p className="mt-1 text-sm text-[#80654d]">{profile.location}</p> : null}
             <div className="mt-6 flex flex-wrap gap-3">
               <Link href="/#projects" className="rounded-lg bg-[#c92a20] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#a92119]">查看 3 个代表项目</Link>
-              <Link href="/config/" className="rounded-lg border border-[#14110e]/25 px-5 py-3 text-sm font-semibold text-[#14110e] transition hover:border-[#c92a20] hover:text-[#c92a20]">配置我的作品集</Link>
+              <StaticPageLink href="/config/" className="rounded-lg border border-[#14110e]/25 px-5 py-3 text-sm font-semibold text-[#14110e] transition hover:border-[#c92a20] hover:text-[#c92a20]">配置我的作品集</StaticPageLink>
             </div>
           </div>
         </div>

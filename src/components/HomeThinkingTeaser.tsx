@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import { StaticPageLink } from "@/components/StaticPageLink";
 import type { Profile } from "@/types/project";
 import { withBasePath } from "@/lib/paths";
 
@@ -11,7 +11,7 @@ export function HomeThinkingTeaser({ profile }: HomeThinkingTeaserProps) {
   return (
     <section className="mx-auto max-w-[1680px] px-4 pb-5 sm:px-8">
       <div className="grid overflow-hidden rounded-[8px] border border-[#14110e]/25 bg-[#fff8eb] shadow-[0_18px_48px_rgba(20,17,14,0.12)] lg:grid-cols-[0.95fr_1.4fr_0.9fr_1fr]">
-        <Link
+        <StaticPageLink
           href="/profile"
           className="group border-b border-[#14110e]/18 p-3.5 transition hover:bg-[#fff2d8] lg:border-b-0 lg:border-r"
         >
@@ -36,9 +36,9 @@ export function HomeThinkingTeaser({ profile }: HomeThinkingTeaserProps) {
               </p>
             </div>
           </div>
-        </Link>
+        </StaticPageLink>
 
-        <Link
+        <StaticPageLink
           href="/thinking"
           className="group border-b border-[#14110e]/18 p-3.5 transition hover:bg-[#fff2d8] lg:border-b-0 lg:border-r"
         >
@@ -58,9 +58,9 @@ export function HomeThinkingTeaser({ profile }: HomeThinkingTeaserProps) {
           <p className="mt-3 text-[0.84rem] leading-5 text-[#4b3829]">
             我看的是人怎么表达、怎么下注，又怎么被环境改变。
           </p>
-        </Link>
+        </StaticPageLink>
 
-        <Link
+        <StaticPageLink
           href="/thinking"
           className="group border-b border-[#14110e]/18 p-3.5 transition hover:bg-[#fff2d8] lg:border-b-0 lg:border-r"
         >
@@ -80,7 +80,7 @@ export function HomeThinkingTeaser({ profile }: HomeThinkingTeaserProps) {
               我喜欢它那种劲儿：有点好笑，但不放弃。
             </p>
           </div>
-        </Link>
+        </StaticPageLink>
 
         <div className="bg-[#14110e] p-3.5 text-[#fff8eb]">
           <div className="flex items-start justify-between gap-4">

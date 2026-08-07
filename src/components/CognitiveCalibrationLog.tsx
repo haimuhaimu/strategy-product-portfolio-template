@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { StaticPageLink } from "@/components/StaticPageLink";
 import { getProjectBySlug } from "@/lib/projects";
 import type {
   CalibrationStatus,
@@ -98,13 +98,13 @@ export function CognitiveCalibrationLog({
                   </div>
                 </dl>
 
-                <Link
+                <StaticPageLink
                   href={`/projects/${log.projectSlug}/`}
                   className="mt-5 inline-flex items-center justify-between gap-3 border-t border-[#14110e]/20 pt-3 text-sm font-semibold text-[#14110e] transition hover:text-[#c92a20]"
                 >
                   <span>{project?.title ?? "查看关联项目"}</span>
                   <span aria-hidden="true">→</span>
-                </Link>
+                </StaticPageLink>
               </article>
             );
           })}

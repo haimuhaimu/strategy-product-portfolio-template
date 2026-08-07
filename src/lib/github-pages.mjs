@@ -80,3 +80,16 @@ export function withBasePath(pathname, basePath = "") {
   const normalizedPathname = `/${String(pathname).replace(/^\/+|\/+$/gu, "")}`;
   return `${normalizeBasePath(basePath)}${normalizedPathname}`;
 }
+
+export function getStaticPageHref(pathname, basePath = "") {
+  const value = String(pathname);
+  const suffixStart = value.search(/[?#]/u);
+  const route = suffixStart === -1 ? value : value.slice(0, suffixStart);
+  const suffix = suffixStart === -1 ? "" : value.slice(suffixStart);
+  const normalizedRoute = `/${route.replace(/^\/+|\/+$/gu, "")}`;
+  const exportedFile = normalizedRoute === "/"
+    ? "/index.html"
+    : `${normalizedRoute}/index.html`;
+
+  return `${normalizeBasePath(basePath)}${exportedFile}${suffix}`;
+}

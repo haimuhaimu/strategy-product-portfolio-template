@@ -7,6 +7,7 @@ import test from "node:test";
 import {
   getGithubPagesBasePath,
   getSiteUrl,
+  getStaticPageHref,
   normalizeBasePath,
   withBasePath,
 } from "../src/lib/github-pages.mjs";
@@ -66,6 +67,11 @@ test("computes repository and user-site paths with explicit overrides", () => {
     "",
   );
   assert.equal(withBasePath("/images/avatar.svg", "/portfolio"), "/portfolio/images/avatar.svg");
+  assert.equal(getStaticPageHref("/config/", "/portfolio"), "/portfolio/config/index.html");
+  assert.equal(
+    getStaticPageHref("/projects/example/?view=full#results", "/portfolio/"),
+    "/portfolio/projects/example/index.html?view=full#results",
+  );
 });
 
 test("infers the Pages URL while preferring NEXT_PUBLIC_SITE_URL", () => {
@@ -127,7 +133,11 @@ test("simulated GitHub Pages build prefixes HTML assets and SEO URLs", () => {
 
   assert.match(home, new RegExp(`(?:href|src)="${escapedBasePath}/_next/`, "u"));
   assert.match(home, new RegExp(`src="${escapedBasePath}/images/avatar-placeholder\\.svg"`, "u"));
-  assert.match(home, new RegExp(`href="${escapedBasePath}/config/"`, "u"));
+  assert.match(home, new RegExp(`href="${escapedBasePath}/config/index\\.html"`, "u"));
+  assert.match(
+    home,
+    new RegExp(`href="${escapedBasePath}/projects/search-quality-ai-answer/index\\.html"`, "u"),
+  );
   assert.match(home, new RegExp(`<link rel="canonical" href="${escapedSiteUrl}/"`, "u"));
   assert.match(config, new RegExp(`<link rel="canonical" href="${escapedSiteUrl}/config/"`, "u"));
   assert.match(config, new RegExp(`(?:href|src)="${escapedBasePath}/_next/`, "u"));

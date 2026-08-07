@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { StaticPageLink } from "@/components/StaticPageLink";
 import type { Project } from "@/types/project";
 
 export function FeaturedProjectShowcase({ projects }: { projects: Project[] }) {
@@ -13,7 +13,7 @@ export function FeaturedProjectShowcase({ projects }: { projects: Project[] }) {
       </div>
       <div className="mt-7 grid gap-5 lg:grid-cols-3">
         {projects.map((project, index) => (
-          <Link key={project.slug} href={`/projects/${project.slug}/`} className="group flex min-h-[25rem] flex-col rounded-xl border border-[#14110e]/15 bg-[#fffdf8] p-6 transition hover:-translate-y-1 hover:border-[#c92a20]/60 hover:shadow-[0_16px_40px_rgba(20,17,14,0.08)]">
+          <StaticPageLink key={project.slug} href={`/projects/${project.slug}/`} className="group flex min-h-[25rem] flex-col rounded-xl border border-[#14110e]/15 bg-[#fffdf8] p-6 transition hover:-translate-y-1 hover:border-[#c92a20]/60 hover:shadow-[0_16px_40px_rgba(20,17,14,0.08)]">
             <p className="font-mono text-xs font-semibold text-[#c92a20]">0{index + 1} / {project.domain}</p>
             <h3 className="mt-4 text-2xl font-semibold leading-8 text-[#14110e]">{project.title}</h3>
             <p className="mt-4 line-clamp-4 text-sm leading-7 text-[#5b4635]">{project.summary}</p>
@@ -26,7 +26,7 @@ export function FeaturedProjectShowcase({ projects }: { projects: Project[] }) {
               ))}
             </div>
             <p className="mt-auto pt-7 text-sm font-semibold text-[#c92a20]">阅读案例详情 <span className="inline-block transition group-hover:translate-x-1">→</span></p>
-          </Link>
+          </StaticPageLink>
         ))}
       </div>
     </section>
