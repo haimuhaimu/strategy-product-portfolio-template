@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Profile } from "@/types/project";
+import { withBasePath } from "@/lib/paths";
 
 type HomeThinkingTeaserProps = {
   profile: Profile;
@@ -19,7 +20,7 @@ export function HomeThinkingTeaser({ profile }: HomeThinkingTeaserProps) {
           </p>
           <div className="mt-3 flex gap-3">
             <Image
-              src="/images/avatar-placeholder.svg"
+              src={withBasePath("/images/avatar-placeholder.svg")}
               alt="作品集头像占位图"
               width={58}
               height={58}
@@ -68,7 +69,7 @@ export function HomeThinkingTeaser({ profile }: HomeThinkingTeaserProps) {
           </p>
           <div className="mt-3 flex items-center gap-3">
             <Image
-              src="/images/portfolio-companion.svg"
+              src={withBasePath("/images/portfolio-companion.svg")}
               alt="作品集桌面伙伴占位图"
               width={64}
               height={64}

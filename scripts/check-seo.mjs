@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { getSiteUrl } from "../src/lib/github-pages.mjs";
 
 const projectRoot = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -26,37 +27,40 @@ const project = readExportedFile(
 const robots = readExportedFile("robots.txt");
 const sitemap = readExportedFile("sitemap.xml");
 const baiduVerification = process.env.BAIDU_SITE_VERIFICATION?.trim();
+const siteUrl = getSiteUrl(process.env);
 
 assert.match(
   home,
   /<title>[^<]*(产品经理|产品运营|运营)[^<]*作品集[^<]*<\/title>/,
 );
-assert.match(
-  home,
-  /<link rel="canonical" href="https:\/\/portfolio\.example\.com\/"\/?>/,
+assert.ok(
+  home.includes(`<link rel="canonical" href="${siteUrl}/"`),
+  `Home canonical must use ${siteUrl}.`,
 );
 assert.match(home, /type="application\/ld\+json"/);
 assert.match(home, /产品经理与运营/);
 assert.match(thinking, /个人认知操作系统/);
-assert.match(
-  profile,
-  /<link rel="canonical" href="https:\/\/portfolio\.example\.com\/profile\/"\/?>/,
+assert.ok(
+  profile.includes(`<link rel="canonical" href="${siteUrl}/profile/"`),
+  "Profile canonical is missing or incorrect.",
 );
-assert.match(
-  thinking,
-  /<link rel="canonical" href="https:\/\/portfolio\.example\.com\/thinking\/"\/?>/,
+assert.ok(
+  thinking.includes(`<link rel="canonical" href="${siteUrl}/thinking/"`),
+  "Thinking canonical is missing or incorrect.",
 );
-assert.match(
-  project,
-  /<link rel="canonical" href="https:\/\/portfolio\.example\.com\/projects\/creator-monetization-health\/"\/?>/,
+assert.ok(
+  project.includes(
+    `<link rel="canonical" href="${siteUrl}/projects/creator-monetization-health/"`,
+  ),
+  "Project canonical is missing or incorrect.",
 );
-assert.match(
-  robots,
-  /Sitemap: https:\/\/portfolio\.example\.com\/sitemap\.xml/,
+assert.ok(
+  robots.includes(`Sitemap: ${siteUrl}/sitemap.xml`),
+  "robots.txt sitemap URL is missing or incorrect.",
 );
-assert.match(
-  sitemap,
-  /https:\/\/portfolio\.example\.com\/projects\/search-quality-ai-answer\//,
+assert.ok(
+  sitemap.includes(`${siteUrl}/projects/search-quality-ai-answer/`),
+  "sitemap.xml project URL is missing or incorrect.",
 );
 assert.doesNotMatch(sitemap, /localhost|vercel\.app/);
 

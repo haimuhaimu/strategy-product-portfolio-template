@@ -8,6 +8,7 @@ import {
   createSiteJsonLd,
   DEFAULT_DESCRIPTION,
   DEFAULT_KEYWORDS,
+  getAbsoluteUrl,
   serializeJsonLd,
   SITE_NAME,
   SITE_URL,
@@ -28,7 +29,7 @@ export const metadata: Metadata = {
   description: DEFAULT_DESCRIPTION,
   keywords: DEFAULT_KEYWORDS,
   alternates: {
-    canonical: "/",
+    canonical: getAbsoluteUrl("/"),
   },
   robots: {
     index: true,
@@ -47,7 +48,7 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     title: "产品经理与运营个人认知作品集模板",
     description: DEFAULT_DESCRIPTION,
-    url: "/",
+    url: getAbsoluteUrl("/"),
   },
   twitter: {
     card: "summary",

@@ -27,6 +27,7 @@
     "init": "node scripts/init-portfolio.mjs",
     "test:init": "node --test tests/init-portfolio.test.mjs",
     "test:portable-scripts": "node --test tests/next-with-wasm.test.mjs",
+    "test:pages": "node --test tests/github-pages.test.mjs",
     "test:public": "node --test tests/public-template.test.mjs",
     "test:calibration": "node --test tests/cognitive-calibration.test.mjs",
     "test:personal-model": "node --test tests/personal-model.test.mjs",

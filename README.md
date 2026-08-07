@@ -137,11 +137,33 @@ git diff --cached
 
 项目使用 Next.js 静态导出，`npm run build` 后产物位于 `out/`。
 
+### GitHub Pages（零配置）
+
+1. 点击仓库页右上角 **Use this template → Create a new repository**，创建公开仓库并保留默认分支名 `main`。
+2. 在新仓库打开 **Settings → Pages**，将 **Build and deployment → Source** 设为 **GitHub Actions**。
+3. 推送到 `main`，或在 **Actions → Deploy to GitHub Pages → Run workflow** 手动触发。
+4. 部署完成后，从工作流的 `github-pages` environment 打开站点。
+
+`.github/workflows/deploy-pages.yml` 会安装依赖、测试 Pages 路径、构建 `out/`，再通过 GitHub 官方 Pages actions 上传和发布。普通仓库会自动发布到 `https://owner.github.io/repository/`；名为 `owner.github.io` 的用户站点仓库不会增加子路径。本地 `npm run dev` 和默认构建不受影响。
+
+如已绑定自定义域名，请同时设置 `NEXT_PUBLIC_SITE_URL=https://portfolio.example.com` 和 `NEXT_PUBLIC_BASE_PATH=false`，让 canonical、sitemap、robots 与静态资源都从自定义域名根路径提供。路径也可在构建环境中显式控制：
+
+```bash
+# 覆盖自动推断的仓库子路径
+NEXT_PUBLIC_BASE_PATH=/preview npm run build
+
+# 禁用子路径（false、off、none、/ 均可）
+NEXT_PUBLIC_BASE_PATH=false npm run build
+```
+
+`GITHUB_PAGES_BASE_PATH` 是 `NEXT_PUBLIC_BASE_PATH` 的兼容别名，后者优先。在 Actions 中可将这些值写入工作流 job/step 的 `env`，或映射到 GitHub Repository Variables。
+
+其他部署方式：
+
 - Vercel：导入仓库即可部署。
-- GitHub Pages：发布 `out/`，并按仓库子路径配置站点 URL。
 - OSS / CDN：上传 `out/`，将默认首页设为 `index.html`。
 
-线上部署前配置：
+线上部署可配置：
 
 ```bash
 NEXT_PUBLIC_SITE_URL=https://portfolio.example.com

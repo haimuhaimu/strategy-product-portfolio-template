@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
 import type { Project } from "@/types/project";
 import portfolioData from "../../data/projects.json";
+import { getSiteUrl } from "./github-pages.mjs";
 
-const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
-
-export const SITE_URL = (
-  configuredSiteUrl || "https://portfolio.example.com"
-).replace(/\/+$/, "");
+export const SITE_URL = getSiteUrl(process.env);
 export const PERSON_NAME = portfolioData.profile.name;
 export const PERSON_ALTERNATE_NAME = "Your Name";
 export const SITE_NAME = `${PERSON_NAME}的作品集`;
@@ -32,7 +29,8 @@ export const DEFAULT_KEYWORDS = [
 ];
 
 export function getAbsoluteUrl(pathname = "/") {
-  return new URL(pathname, SITE_URL).toString();
+  const normalizedPathname = `/${pathname.replace(/^\/+/, "")}`;
+  return `${SITE_URL}${normalizedPathname}`;
 }
 
 type PageMetadataOptions = {
@@ -50,12 +48,14 @@ export function createPageMetadata({
   keywords = [],
   type = "website",
 }: PageMetadataOptions): Metadata {
+  const absoluteUrl = getAbsoluteUrl(pathname);
+
   return {
     title: { absolute: title },
     description,
     keywords: [...DEFAULT_KEYWORDS, ...keywords],
     alternates: {
-      canonical: pathname,
+      canonical: absoluteUrl,
     },
     openGraph: {
       type,
@@ -63,7 +63,7 @@ export function createPageMetadata({
       siteName: SITE_NAME,
       title,
       description,
-      url: pathname,
+      url: absoluteUrl,
     },
     twitter: {
       card: "summary",
