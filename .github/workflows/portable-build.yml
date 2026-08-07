@@ -27,11 +27,19 @@ jobs:
           node-version: 20
           cache: npm
 
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
       - name: Install dependencies
         run: npm ci
 
       - name: Test portable command contract
         run: npm run test:portable-scripts
+
+      - name: Test Skill audit
+        run: npm run test:skill
 
       - name: Test portfolio initializer
         run: npm run test:init

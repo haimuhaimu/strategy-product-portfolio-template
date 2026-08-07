@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 2,
+  "rolePreset": "product",
+  "home": {
+    "introEyebrow": "产品经理作品集",
+    "introTitle": "待补充：用项目与证据说明解决问题的能力",
+    "featuredTitle": "代表项目",
+    "evidenceTitle": "代表性证据",
+    "evidenceMetrics": [
+      { "label": "核心结果", "value": "待补充" }
+    ]
+  },
+  "features": {
+    "profile": false,
+    "thinking": false,
+    "advancedModels": false
+  },
+  "contact": {
+    "title": "期待与你交流",
+    "description": "待补充：仅放明确授权公开的联系方式。",
+    "email": ""
+  },
+  "featuredProjectSlugs": ["project-one", "project-two", "project-three"],
+  "profile": {
+    "name": "匿名候选人",
+    "role": "产品经理",
+    "location": "",
+    "phone": "",
+    "email": "",
+    "headline": "待补充：目标岗位与差异化定位",
+    "summary": "待补充：用一句话概括问题领域、关键能力与证据",
+    "about": [],
+    "tags": [],
+    "interests": [],
+    "positioning": [],
+    "methodology": [],
+    "insights": [],
+    "workGroups": [],
+    "capabilityGroups": [],
+    "experiences": []
+  },
+  "personalOperatingSystem": {
+    "personModel": [],
+    "rewardFunction": [],
+    "actionStrategy": []
+  },
+  "influences": [],
+  "trainingHistory": [],
+  "calibrationLogs": [],
+  "projects": [
+    {
+      "slug": "project-one",
+      "title": "待补充：代表产品项目",
+      "subtitle": "待补充：解决了什么问题",
+      "company": "匿名业务团队 A",
+      "period": "待补充",
+      "domain": "待补充",
+      "order": 1,
+      "summary": "待补充：问题、关键判断与结果摘要",
+      "keywords": ["待补充：关键词"],
+      "metrics": [
+        { "label": "待补充：指标名", "value": "待补充：指标值" }
+      ],
+      "background": "待补充：目标用户、问题、约束与基线",
+      "caseStudy": {
+        "question": "待补充：要解决的核心用户或业务问题",
+        "productMethod": ["待补充：问题拆解、产品机制或关键取舍"],
+        "algorithmAndData": ["待补充：调研、数据、实验或验证方法"],
+        "evaluation": ["待补充：结果、护栏与结论边界"],
+        "artifact": ["待补充：原型、规则、看板或复用机制"]
+      },
+      "valueAnchor": {
+        "primary": "待补充：核心价值对象",
+        "improves": "待补充：改善的行为或指标",
+        "proof": "待补充：证据载体",
+        "platformBenefit": "待补充：对平台或业务的价值"
+      },
+      "roleContribution": {
+        "scope": "待补充：个人负责范围",
+        "judgment": "待补充：个人关键判断",
+        "usedBy": "待补充：方案使用方",
+        "boundary": "待补充：个人贡献与团队结果边界"
+      },
+      "detailContent": {
+        "difficulty": "待补充：主要约束或冲突",
+        "judgment": "待补充：为何选择该方案",
+        "review": "待补充：复盘与后续改进",
+        "aiMigration": "待补充：如不适用，说明不适用"
+      },
+      "actions": ["待补充：本人执行的具体动作"],
+      "results": ["待补充：带口径、周期和归因边界的结果"]
+    },
+    {
+      "slug": "project-two",
+      "title": "待补充：代表项目二",
+      "subtitle": "待补充：解决了什么问题",
+      "company": "匿名业务团队 B",
+      "period": "待补充",
+      "domain": "待补充",
+      "order": 2,
+      "summary": "待补充：问题、判断与结果摘要",
+      "keywords": ["待补充：关键词"],
+      "metrics": [{ "label": "待补充：指标名", "value": "待补充：指标值" }],
+      "background": "待补充：场景与约束",
+      "caseStudy": {
+        "question": "待补充：核心问题",
+        "productMethod": ["待补充：产品方法"],
+        "algorithmAndData": ["待补充：验证方法"],
+        "evaluation": ["待补充：结果与边界"],
+        "artifact": ["待补充：交付物"]
+      },
+      "actions": ["待补充：具体动作"],
+      "results": ["待补充：可验证结果"]
+    },
+    {
+      "slug": "project-three",
+      "title": "待补充：代表项目三",
+      "subtitle": "待补充：解决了什么问题",
+      "company": "匿名业务团队 C",
+      "period": "待补充",
+      "domain": "待补充",
+      "order": 3,
+      "summary": "待补充：问题、判断与结果摘要",
+      "keywords": ["待补充：关键词"],
+      "metrics": [{ "label": "待补充：指标名", "value": "待补充：指标值" }],
+      "background": "待补充：场景与约束",
+      "caseStudy": {
+        "question": "待补充：核心问题",
+        "productMethod": ["待补充：产品方法"],
+        "algorithmAndData": ["待补充：验证方法"],
+        "evaluation": ["待补充：结果与边界"],
+        "artifact": ["待补充：交付物"]
+      },
+      "actions": ["待补充：具体动作"],
+      "results": ["待补充：可验证结果"]
+    }
+  ]
+}

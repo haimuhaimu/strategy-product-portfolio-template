@@ -32,6 +32,7 @@
     "test:public": "node --test tests/public-template.test.mjs",
     "test:calibration": "node --test tests/cognitive-calibration.test.mjs",
     "test:personal-model": "node --test tests/personal-model.test.mjs",
+    "test:skill": "python skills/portfolio-story-builder/scripts/audit_portfolio.py skills/portfolio-story-builder/assets/portfolio-v2-minimal.json",
     "start": "next start",
     "lint": "eslint"
   },

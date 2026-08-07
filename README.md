@@ -1,24 +1,36 @@
-# 30 分钟生成可投递的产品经理 / 运营作品集
+# Skill-first：把简历 / 经历变成可投递作品集
 
-**无需后端，不上传数据：10 分钟看到自己的页面，30 分钟完成发布。**
+**简历 / 经历 → 单问题追问 → 精选 3 个案例 → 证据与隐私审计 → 可投递网站。**
 
 [![CI](https://github.com/haimuhaimu/strategy-product-portfolio-template/actions/workflows/portable-build.yml/badge.svg)](https://github.com/haimuhaimu/strategy-product-portfolio-template/actions/workflows/portable-build.yml)
 [![Next.js 16.3](https://img.shields.io/badge/Next.js-16.3-000000?logo=next.js)](https://nextjs.org/)
 
-默认首页刻意只保留四段：个人介绍、严格 3 个代表项目、结果证据、联系方式。高级的个人模型与思考页面仍在仓库中，但默认不占用导航和首次配置时间。
+项目的核心是 [`portfolio-story-builder` Skill](skills/portfolio-story-builder/)：它帮助产品经理、产品运营和策略 / 增长运营把零散材料整理成有证据的 3 个代表案例。Next.js 网站模板是可投递输出，不是起点；不使用 Agent 时，`/config/` 可视化编辑器仍可作为 fallback。
+
+> 触发示例：“把我的简历做成产品经理作品集”“从这些经历中选 3 个增长运营案例”“生成可投递作品集并做隐私检查”。
 
 ## 模板亮点
 
-- `/config/` 可视化填写、实时预览、一键下载 `projects.json`。
-- 产品与运营使用不同的问题引导和案例结构，不是只替换标题。
-- v2 数据结构集中管理首页、功能开关、联系方式和代表项目。
-- 自动兼容旧 v1 数据；自定义 slug 自动使用数据驱动的通用详情页。
-- 纯前端静态导出，无后端、数据库和上传行为。
-- 保留 profile、thinking、个人模型和专用案例页，需要时通过 feature flags 开启。
+- **一次只追问一个高价值问题**：材料足够就继续，不机械盘问。
+- **严格精选 3 个案例**：按岗位相关性、证据、个人判断、差异化和互补性选择。
+- **0–5 分证据评分**：检查结果、口径、方法、交付物和贡献边界，不编造指标。
+- **招聘官 30 秒测试**：首屏必须快速回答项目、本人判断、可信证据和岗位关系。
+- **证据 / 隐私审计**：发现占位、弱证据、空话、结构问题和常见敏感信息模式。
+- **首次使用保持硬收缩**：默认仍只有介绍、3 个项目、结果证据、联系方式；高级模块默认关闭。
 
 ## 快速开始
 
-环境要求：Node.js 20+，推荐使用 npm。
+1. 让支持 Agent Skills 的 Agent 读取 [`skills/portfolio-story-builder/SKILL.md`](skills/portfolio-story-builder/SKILL.md)。
+2. 提供简历、经历摘要或项目材料，并说明目标岗位。
+3. 回答每轮一个证据问题，确认 3 个案例和隐私边界。
+4. 让 Agent 生成 v2 `projects.json`、运行 strict 审计，并写入 `data/projects.json`。
+5. 运行测试和构建，得到静态网站。
+
+Skill 的完整价值、工作流与隐私承诺见 [`skills/README.md`](skills/README.md)。
+
+## 可视化 fallback
+
+不使用 Agent 时，可继续用本地编辑器：
 
 ```bash
 npx degit haimuhaimu/strategy-product-portfolio-template my-portfolio
@@ -28,11 +40,11 @@ npm run dev
 ```
 
 1. 打开 `http://localhost:3000/config/`。
-2. 选择「产品经理」或「运营」，填写基本信息和 3 个项目。
-3. 下载 `projects.json`，替换仓库中的 `data/projects.json`。
+2. 选择「产品经理」或「运营」，填写基本信息和严格 3 个项目。
+3. 下载 `projects.json`，替换 `data/projects.json`。
 4. 回到首页检查内容，然后运行 `npm run build`。
 
-配置页只在浏览器内处理数据，不会上传。导出的 JSON 已包含通用项目详情页所需字段。
+配置页只在浏览器内处理数据，不会上传。它保留为可视化 fallback，不会把首次使用扩张到个人模型或思考页面。
 
 ## 一键初始化
 
@@ -47,47 +59,28 @@ npm run init -- --yes \
   --theme cobalt
 ```
 
-`--preset` 可选 `product` / `operations`；`--name`、`--role`、`--location`、`--email`、`--headline`、`--summary`、`--site-url`、`--theme` 参数继续兼容。运营预设会替换为 3 个运营案例，但不会要求填写高级个人模型。
+`--preset` 可选 `product` / `operations`；其他参数继续兼容。运营预设会替换为 3 个运营案例，但不会要求填写高级个人模型。
 
 ## 如何替换成你的内容
 
-优先使用 `/config/`。需要手动编辑时，核心字段如下：
-
-- `home`：首页介绍标题和结果指标。
-- `features`：`profile`、`thinking`、`advancedModels` 功能开关，默认均为 `false`。
-- `contact`：联系方式区文案与邮箱。
-- `featuredProjectSlugs`：首页严格展示的 3 个项目 slug。
-- `profile`：姓名、角色、简介等基本信息。
-- `projects`：项目背景、问题、方法、动作、结果和指标。
-
-旧版 v1 JSON 可继续使用，normalize 层会补齐 v2 默认值。发布前请将示例指标换成你有权公开、能解释口径的数据。
-
-## 目录结构
-
 ```text
-data/projects.json                  作品集 v2 数据
-src/app/config/page.tsx             静态可视化配置页
-src/components/config               配置表单与实时预览
-src/lib/normalize.mjs               v1 / v2 兼容与默认值
-src/lib/config-export.mjs           product / operations 导出逻辑
-scripts/init-portfolio.mjs          兼容 CLI
+skills/portfolio-story-builder/       Skill 开源分发镜像
+skills/.../assets/portfolio-v2-minimal.json
+                                      匿名安全的 v2 起草骨架
+data/projects.json                    网站使用的作品集 v2 数据
+src/app/config/page.tsx               可视化 fallback
+src/lib/normalize.mjs                 v1 / v2 兼容与默认值
+scripts/init-portfolio.mjs            兼容 CLI
 ```
+
+v2 核心字段包括 `home`、`features`、`contact`、`featuredProjectSlugs`、`profile` 和 `projects`。旧版 v1 JSON 可继续使用。发布前请将示例指标换成有权公开、能解释口径的数据；`profile`、`thinking`、`advancedModels` 默认关闭。
 
 ## 隐私检查
 
-发布前运行：
+Skill 审计器和配置页均在本地处理数据，不要求后端、数据库或上传原始简历。不要公开私人邮箱、手机号、家庭住址、内部项目代号、未公开业务数据、聊天记录或无权公开的素材。
 
 ```bash
-npm run test:public
-git status --short
-git diff --check
-```
-
-不要公开私人邮箱、手机号、家庭住址、内部项目代号、未公开业务数据、聊天记录或无权公开的素材。配置页不会上传数据，但下载后的 JSON 会进入你的本地仓库，请在提交前复查。
-
-## 验证
-
-```bash
+npm run test:skill
 npm run test:init
 npm run test:portfolio-v2
 npm run test:personal-model
@@ -97,7 +90,11 @@ npm run lint
 npm run build
 npm run check:seo
 npm run test:pages
+
+git diff --check
 ```
+
+`test:skill` 对匿名起草骨架执行非 strict 审计；真正可投递的数据仍应按 Skill 流程运行 strict 审计，并完成本人隐私确认。
 
 ## 部署
 
