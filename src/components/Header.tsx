@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { withBasePath } from "@/lib/paths";
 import type { Profile } from "@/types/project";
 
 type HeaderProps = {
@@ -12,7 +13,7 @@ export function Header({ profile }: HeaderProps) {
       <div className="mx-auto flex max-w-[1680px] items-center justify-between px-4 py-3 sm:px-8">
         <Link href="/" className="flex items-center gap-3">
           <Image
-            src="/images/avatar-placeholder.svg"
+            src={withBasePath("/images/avatar-placeholder.svg")}
             alt="作品集头像占位图"
             width={40}
             height={40}
@@ -32,7 +33,7 @@ export function Header({ profile }: HeaderProps) {
             项目
           </Link>
           <Link href="/thinking" className="transition hover:text-[#e13024]">
-            思考
+            模型 / 思考
           </Link>
           <Link href="/profile" className="transition hover:text-[#e13024]">
             关于

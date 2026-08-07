@@ -1,0 +1,93 @@
+name: Showcase 作品提交
+description: 提交由本模板创建、已公开且获授权展示的真实作品
+title: "[Showcase] "
+labels:
+  - showcase
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Showcase 用于展示真实用户如何使用本模板。请只提交你本人拥有或已获作者明确授权的公开作品。
+
+        **不得提交任何内部数据或敏感信息**，包括公司内部文档、未公开项目、客户/用户数据、精确敏感业务指标、聊天记录、密钥、私人联系方式、家庭地址，以及含 EXIF、通知栏或访问参数的截图/链接。Issue 和作品站点都是公开内容；不确定能否公开时，请先不要提交。
+  - type: input
+    id: title
+    attributes:
+      label: 作品名称
+      description: 使用作者希望公开展示的名称，可为昵称或作品站标题。
+      placeholder: 一份增长运营的认知作品集
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: 公开作品链接
+      description: 必须无需登录即可访问，且 URL 不含令牌、签名或内部域名。
+      placeholder: https://portfolio.example.com
+    validations:
+      required: true
+  - type: dropdown
+    id: preset
+    attributes:
+      label: 起始 preset
+      options:
+        - product
+        - operations
+        - 未使用初始化器 / 深度自定义
+    validations:
+      required: true
+  - type: dropdown
+    id: role
+    attributes:
+      label: 主要角色方向
+      options:
+        - 产品经理 / 策略产品
+        - 产品运营 / 策略运营
+        - 增长运营
+        - AI / 内容 / 搜索相关
+        - 其他公开角色
+    validations:
+      required: true
+  - type: textarea
+    id: changes
+    attributes:
+      label: 你做了哪些改造
+      description: 介绍内容结构、个人模型、主题或部署方面的公开改造，不要描述内部业务细节。
+      placeholder: 我保留了 Problem → Judgment → Validation → Result 结构，并……
+    validations:
+      required: true
+  - type: textarea
+    id: lesson
+    attributes:
+      label: 对其他使用者有帮助的经验
+      placeholder: 我建议先用 `--dry-run`……；公开前重点检查……
+    validations:
+      required: true
+  - type: input
+    id: attribution
+    attributes:
+      label: 展示署名
+      description: 填写希望在 Showcase 中使用的公开署名；不希望实名可使用昵称。
+      placeholder: 公开昵称
+    validations:
+      required: true
+  - type: checkboxes
+    id: authorization
+    attributes:
+      label: 授权与公开确认
+      options:
+        - label: 我是作品作者，或已获得作者明确授权，可在本项目 Showcase 中展示名称、链接和本 Issue 内容。
+          required: true
+        - label: 作品无需登录即可公开访问，链接不含令牌、签名、内部域名或私有预览权限。
+          required: true
+        - label: 我已检查作品、Issue、截图、图片元数据和链接，确认不含内部数据、用户数据、个人敏感信息、密钥或未授权素材。
+          required: true
+        - label: 我理解 Issue 为公开内容；如需更新或下架，会在本 Issue 中提出请求。
+          required: true
+  - type: checkboxes
+    id: maintenance
+    attributes:
+      label: 维护确认
+      options:
+        - label: 我愿意在链接失效、内容权限变化或授权撤回时通知维护者。
+          required: true

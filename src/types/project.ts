@@ -32,6 +32,8 @@ export type CapabilityGroup = {
   items: string[];
 };
 
+export type RolePreset = "product" | "operations";
+
 export type Profile = {
   name: string;
   role: string;
@@ -42,6 +44,7 @@ export type Profile = {
   summary: string;
   about: string[];
   tags: string[];
+  interests: string[];
   positioning: string[];
   methodology: Methodology[];
   insights: Insight[];
@@ -82,6 +85,16 @@ export type ProjectRoleContribution = {
   boundary: string;
 };
 
+export type CalibrationStatus = "retained" | "revised" | "pending";
+
+export type CognitiveCalibrationLog = {
+  projectSlug: string;
+  prior: string;
+  feedback: string;
+  currentVersion: string;
+  status: CalibrationStatus;
+};
+
 export type Project = {
   slug: string;
   title: string;
@@ -102,7 +115,46 @@ export type Project = {
   results: string[];
 };
 
+export type InfluenceStatus = CalibrationStatus | "applied";
+
+export type PersonalOperatingSystem = {
+  personModel: Array<{
+    dimension: string;
+    observation: string;
+    implication: string;
+  }>;
+  rewardFunction: Array<{
+    signal: string;
+    weight: "high" | "medium" | "low";
+    guardrail: string;
+  }>;
+  actionStrategy: Array<{
+    trigger: string;
+    action: string;
+    feedback: string;
+  }>;
+};
+
+export type Influence = {
+  name: string;
+  type: "work" | "person" | "method" | "experience";
+  takeaway: string;
+  status: InfluenceStatus;
+};
+
+export type TrainingHistory = {
+  stage: string;
+  period: string;
+  trainingData: string;
+  modelUpdate: string;
+};
+
 export type PortfolioData = {
+  rolePreset: RolePreset;
   profile: Profile;
+  personalOperatingSystem: PersonalOperatingSystem;
+  influences: Influence[];
+  trainingHistory: TrainingHistory[];
+  calibrationLogs: CognitiveCalibrationLog[];
   projects: Project[];
 };

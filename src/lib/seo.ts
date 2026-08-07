@@ -1,23 +1,23 @@
 import type { Metadata } from "next";
 import type { Project } from "@/types/project";
 import portfolioData from "../../data/projects.json";
+import { getSiteUrl } from "./github-pages.mjs";
 
-const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
-
-export const SITE_URL = (
-  configuredSiteUrl || "https://portfolio.example.com"
-).replace(/\/+$/, "");
+export const SITE_URL = getSiteUrl(process.env);
 export const PERSON_NAME = portfolioData.profile.name;
 export const PERSON_ALTERNATE_NAME = "Your Name";
 export const SITE_NAME = `${PERSON_NAME}的作品集`;
 
 export const DEFAULT_DESCRIPTION =
-  "中文 AI 产品经理与策略产品经理作品集模板，展示 AI 工作流、推荐搜索、内容生态、作者变现和增长项目的案例表达方式。";
+  "中文产品经理与运营个人认知作品集模板，展示项目证据、人物模型、奖励函数、行动策略与成长训练史。";
 
 export const DEFAULT_KEYWORDS = [
   PERSON_NAME,
   "个人作品集",
   "产品经理作品集模板",
+  "运营作品集模板",
+  "个人认知作品集",
+  "个人操作系统",
   "AI 产品经理",
   "AI 产品经理作品集",
   "AI 策略产品经理",
@@ -29,7 +29,8 @@ export const DEFAULT_KEYWORDS = [
 ];
 
 export function getAbsoluteUrl(pathname = "/") {
-  return new URL(pathname, SITE_URL).toString();
+  const normalizedPathname = `/${pathname.replace(/^\/+/, "")}`;
+  return `${SITE_URL}${normalizedPathname}`;
 }
 
 type PageMetadataOptions = {
@@ -47,12 +48,14 @@ export function createPageMetadata({
   keywords = [],
   type = "website",
 }: PageMetadataOptions): Metadata {
+  const absoluteUrl = getAbsoluteUrl(pathname);
+
   return {
     title: { absolute: title },
     description,
     keywords: [...DEFAULT_KEYWORDS, ...keywords],
     alternates: {
-      canonical: pathname,
+      canonical: absoluteUrl,
     },
     openGraph: {
       type,
@@ -60,7 +63,7 @@ export function createPageMetadata({
       siteName: SITE_NAME,
       title,
       description,
-      url: pathname,
+      url: absoluteUrl,
     },
     twitter: {
       card: "summary",
@@ -100,7 +103,7 @@ export function createSiteJsonLd() {
         name: PERSON_NAME,
         alternateName: PERSON_ALTERNATE_NAME,
         url: `${SITE_URL}/`,
-        jobTitle: ["AI 产品经理", "策略产品经理"],
+        jobTitle: ["产品经理", "产品运营", "策略运营"],
         description: DEFAULT_DESCRIPTION,
         knowsAbout: [
           "AI 工作流",
@@ -116,9 +119,9 @@ export function createSiteJsonLd() {
         "@id": `${SITE_URL}/#website`,
         name: SITE_NAME,
         alternateName: [
-          "Strategy Product Portfolio",
-          "AI Product Manager Portfolio",
-          "策略产品经理作品集模板",
+          "Product & Operations Portfolio",
+          "Personal Cognition Portfolio",
+          "产品经理与运营作品集模板",
         ],
         url: `${SITE_URL}/`,
         inLanguage: "zh-CN",

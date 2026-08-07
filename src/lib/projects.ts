@@ -1,5 +1,12 @@
 import portfolioData from "../../data/projects.json";
-import type { PortfolioData, Project } from "@/types/project";
+import type {
+  CognitiveCalibrationLog,
+  Influence,
+  PersonalOperatingSystem,
+  PortfolioData,
+  Project,
+  TrainingHistory,
+} from "@/types/project";
 
 const data = portfolioData as PortfolioData;
 
@@ -9,6 +16,22 @@ export function getProfile() {
 
 export function getProjects(): Project[] {
   return [...data.projects].sort((a, b) => a.order - b.order);
+}
+
+export function getCalibrationLogs(): CognitiveCalibrationLog[] {
+  return data.calibrationLogs;
+}
+
+export function getPersonalOperatingSystem(): PersonalOperatingSystem {
+  return data.personalOperatingSystem;
+}
+
+export function getInfluences(): Influence[] {
+  return data.influences;
+}
+
+export function getTrainingHistory(): TrainingHistory[] {
+  return data.trainingHistory;
 }
 
 export function getProjectBySlug(slug: string): Project | undefined {

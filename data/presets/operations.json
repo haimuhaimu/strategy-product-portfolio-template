@@ -1,0 +1,115 @@
+{
+  "rolePreset": "operations",
+  "profile": {
+    "role": "产品运营 / 策略运营",
+    "headline": "用用户洞察、策略实验与机制复盘呈现运营判断",
+    "summary": "我把运营问题拆成用户、场景、供给、触达、转化和留存，用数据与一线反馈验证动作，并把有效经验沉淀成可复用机制。",
+    "interests": [
+      "用户行为",
+      "内容趋势",
+      "社区文化",
+      "增长实验",
+      "品牌表达",
+      "AI 工具"
+    ]
+  },
+  "personalOperatingSystem": {
+    "personModel": [
+      {
+        "dimension": "用户敏感度",
+        "observation": "习惯从一线反馈与行为变化中识别真实阻力。",
+        "implication": "先还原场景，再决定活动、内容或产品动作。"
+      },
+      {
+        "dimension": "资源组织",
+        "observation": "擅长把目标拆成节奏、对象、渠道与协作机制。",
+        "implication": "复杂项目用阶段里程碑和责任接口降低损耗。"
+      },
+      {
+        "dimension": "复盘倾向",
+        "observation": "关注增量来自哪里，以及动作能否重复成立。",
+        "implication": "避免把一次热点或自然波动包装成稳定能力。"
+      }
+    ],
+    "rewardFunction": [
+      {
+        "signal": "用户完成有价值的关键行为",
+        "weight": "high",
+        "guardrail": "不以打扰或补贴透支长期关系"
+      },
+      {
+        "signal": "有效动作沉淀为运营机制",
+        "weight": "high",
+        "guardrail": "机制必须能被团队重复执行和评估"
+      },
+      {
+        "signal": "单次活动获得高曝光",
+        "weight": "low",
+        "guardrail": "曝光必须能解释后续转化与留存"
+      }
+    ],
+    "actionStrategy": [
+      {
+        "trigger": "目标只有大盘数字",
+        "action": "拆出关键人群、行为路径、场景阻力与护栏指标。",
+        "feedback": "检查每个动作是否能对应一个可观察变化。"
+      },
+      {
+        "trigger": "需要快速验证运营方向",
+        "action": "选择最小人群和渠道跑小规模实验。",
+        "feedback": "比较转化、留存、成本与用户负反馈。"
+      },
+      {
+        "trigger": "策略获得阶段性增量",
+        "action": "沉淀 SOP、分层规则、内容模板与复盘看板。",
+        "feedback": "由其他成员复用并检查效果稳定性。"
+      }
+    ]
+  },
+  "influences": [
+    {
+      "name": "用户旅程方法",
+      "type": "method",
+      "takeaway": "用连续场景理解用户，而不是只优化一个转化节点。",
+      "status": "applied"
+    },
+    {
+      "name": "精益增长实验",
+      "type": "method",
+      "takeaway": "小范围验证再放大，同时补充长期留存与体验护栏。",
+      "status": "revised"
+    },
+    {
+      "name": "一线用户访谈",
+      "type": "experience",
+      "takeaway": "数据发现异常，真实表达帮助解释异常。",
+      "status": "retained"
+    },
+    {
+      "name": "运营 Agent",
+      "type": "method",
+      "takeaway": "验证重复执行与复盘工作能否被 AI 稳定承接。",
+      "status": "pending"
+    }
+  ],
+  "trainingHistory": [
+    {
+      "stage": "理解用户与场景",
+      "period": "阶段 01",
+      "trainingData": "用户反馈、社群观察、活动执行与内容样本",
+      "modelUpdate": "从完成动作转向判断用户为何行动或流失。"
+    },
+    {
+      "stage": "建立增长实验",
+      "period": "阶段 02",
+      "trainingData": "人群分层、渠道数据、转化漏斗与成本分析",
+      "modelUpdate": "把运营经验拆成可验证变量和护栏指标。"
+    },
+    {
+      "stage": "沉淀经营机制",
+      "period": "阶段 03 / 现在",
+      "trainingData": "长期留存、跨团队复盘、SOP 与 AI 自动化",
+      "modelUpdate": "把一次有效动作升级为可复用、可迭代的系统。"
+    }
+  ]
+}

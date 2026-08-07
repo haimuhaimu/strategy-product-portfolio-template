@@ -8,6 +8,7 @@ import {
   createSiteJsonLd,
   DEFAULT_DESCRIPTION,
   DEFAULT_KEYWORDS,
+  getAbsoluteUrl,
   serializeJsonLd,
   SITE_NAME,
   SITE_URL,
@@ -22,13 +23,13 @@ const baiduVerification =
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "中文 AI 产品经理与策略产品经理作品集模板",
+    default: "产品经理与运营个人认知作品集模板",
     template: `%s | ${SITE_NAME}`,
   },
   description: DEFAULT_DESCRIPTION,
   keywords: DEFAULT_KEYWORDS,
   alternates: {
-    canonical: "/",
+    canonical: getAbsoluteUrl("/"),
   },
   robots: {
     index: true,
@@ -45,13 +46,13 @@ export const metadata: Metadata = {
     type: "website",
     locale: "zh_CN",
     siteName: SITE_NAME,
-    title: "中文 AI 产品经理与策略产品经理作品集模板",
+    title: "产品经理与运营个人认知作品集模板",
     description: DEFAULT_DESCRIPTION,
-    url: "/",
+    url: getAbsoluteUrl("/"),
   },
   twitter: {
     card: "summary",
-    title: "中文 AI 产品经理与策略产品经理作品集模板",
+    title: "产品经理与运营个人认知作品集模板",
     description: DEFAULT_DESCRIPTION,
   },
   verification: googleVerification

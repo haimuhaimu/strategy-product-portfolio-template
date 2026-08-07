@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { withBasePath } from "@/lib/paths";
 
 const rapTags = ["圈层", "身份", "情绪", "机制"];
 
@@ -57,7 +58,7 @@ export function ThinkingVisualWall() {
           <article className="grid min-h-40 grid-cols-[7rem_1fr] overflow-hidden rounded-[8px] border border-[#14110e]/25 bg-[#fff8eb] shadow-[0_14px_34px_rgba(20,17,14,0.1)]">
             <div className="relative">
               <Image
-                src="/images/portfolio-companion.svg"
+                src={withBasePath("/images/portfolio-companion.svg")}
                 alt="作品集桌面伙伴占位图"
                 fill
                 sizes="128px"

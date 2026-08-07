@@ -12,7 +12,7 @@ const publicSources = [
   "package-lock.json",
   "data",
   "src",
-  "scripts/check-seo.mjs",
+  "scripts",
 ];
 
 const forbiddenPatterns = [
@@ -113,6 +113,7 @@ test("README explains how to reuse and sanitize the template", () => {
   for (const heading of [
     "## 模板亮点",
     "## 快速开始",
+    "## 一键初始化",
     "## 如何替换成你的内容",
     "## 隐私检查",
     "## 部署",

@@ -12,9 +12,9 @@ import { getProfile } from "@/lib/projects";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
-  title: "个人介绍模板 | AI 策略产品经理经历与能力",
+  title: "个人介绍模板 | 产品经理与运营经历能力",
   description:
-    "展示 AI 产品经理与策略产品经理经历、能力证明、数据实验和跨团队推进方式的个人介绍模板。",
+    "展示产品经理、产品运营与策略运营的经历、能力证明、实验判断和跨团队推进方式。",
   pathname: "/profile/",
   keywords: [
     "产品经理个人介绍",

@@ -1,30 +1,41 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BehindTheWork } from "@/components/BehindTheWork";
+import { CognitiveCalibrationLog } from "@/components/CognitiveCalibrationLog";
 import { MethodologySection } from "@/components/MethodologySection";
-import { PersonalOperatingSystem } from "@/components/PersonalOperatingSystem";
+import { PersonalModelSystem } from "@/components/PersonalModelSystem";
 import { ThinkingVisualWall } from "@/components/ThinkingVisualWall";
 import { ValueOperatingSystem } from "@/components/ValueOperatingSystem";
 import { FieldNotesSection } from "@/components/ProfileSections";
-import { getProfile } from "@/lib/projects";
+import {
+  getCalibrationLogs,
+  getInfluences,
+  getPersonalOperatingSystem,
+  getProfile,
+  getTrainingHistory,
+} from "@/lib/projects";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
-  title: "产品思考模板 | AI 工作流、Agent 与推荐搜索",
+  title: "个人认知模型 | 产品经理与运营作品集模板",
   description:
-    "用于展示 AI 工作流、Agent 产品设计、推荐搜索、内容生态与长期产品判断的思考页面模板。",
+    "用人物模型、奖励函数、行动策略、影响来源和训练史展示产品经理与运营的个人认知操作系统。",
   pathname: "/thinking/",
   keywords: [
-    "AI 工作流",
-    "Agent 产品设计",
-    "Agent 产品经理",
-    "推荐搜索 AI",
-    "AI 产品思考",
+    "个人认知模型",
+    "产品经理个人操作系统",
+    "运营作品集",
+    "认知校准",
+    "成长训练史",
   ],
 });
 
 export default function ThinkingPage() {
   const profile = getProfile();
+  const calibrationLogs = getCalibrationLogs();
+  const operatingSystem = getPersonalOperatingSystem();
+  const influences = getInfluences();
+  const trainingHistory = getTrainingHistory();
 
   return (
     <main>
@@ -40,19 +51,24 @@ export default function ThinkingPage() {
             Thinking
           </p>
           <h1 className="mt-3 max-w-4xl [font-family:var(--font-display)] text-[2.05rem] font-semibold leading-[1.14] tracking-normal text-[#14110e] sm:text-5xl xl:text-[3.1rem]">
-            判断系统、场外观察和长期笔记。
+            个人模型、判断系统和长期训练记录。
           </h1>
           <p className="mt-4 max-w-3xl text-[0.98rem] leading-7 text-[#3a2e24] sm:text-base sm:leading-8">
-            首页只放结论。这里可以展示更完整的思考来源：怎么判断价值，怎么避免系统看错，以及个人兴趣如何影响产品判断。
+            这里把人物模型、奖励函数、行动策略与影响来源写成当前版本，并用现实反馈持续校准。它既适用于产品判断，也适用于运营决策。
           </p>
         </div>
       </section>
 
       <ThinkingVisualWall />
+      <PersonalModelSystem
+        operatingSystem={operatingSystem}
+        influences={influences}
+        trainingHistory={trainingHistory}
+      />
       <ValueOperatingSystem />
+      <CognitiveCalibrationLog logs={calibrationLogs} />
       <MethodologySection profile={profile} />
       <BehindTheWork />
-      <PersonalOperatingSystem />
       <FieldNotesSection profile={profile} />
     </main>
   );
