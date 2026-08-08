@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { StaticPageLink } from "@/components/StaticPageLink";
 import type { Project } from "@/types/project";
 import { CreatorHealthOnePage } from "@/components/CreatorHealthOnePage";
 import { FollowingRelationshipOnePage } from "@/components/FollowingRelationshipOnePage";
@@ -357,12 +357,12 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
 
   return (
     <main className="case-file-page mx-auto max-w-[1680px] px-4 py-6 sm:px-8 lg:py-8">
-      <Link
+      <StaticPageLink
         href="/#projects"
         className="inline-flex rounded-[6px] border border-[#14110e]/45 bg-[#fff8eb] px-4 py-2 font-mono text-sm font-semibold uppercase text-[#c92a20] shadow-[0_10px_24px_rgba(20,17,14,0.08)] transition hover:-translate-y-0.5 hover:border-[#8b3a28]"
       >
         ← 返回项目目录
-      </Link>
+      </StaticPageLink>
 
       <section className="mt-5 rounded-[8px] border border-[#14110e] bg-[#fff8eb] p-4 shadow-[0_20px_58px_rgba(20,17,14,0.12)] sm:p-5">
         <div className="grid gap-5 lg:grid-cols-[1fr_0.82fr]">

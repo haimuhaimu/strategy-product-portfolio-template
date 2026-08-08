@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import { StaticPageLink } from "@/components/StaticPageLink";
 import { withBasePath } from "@/lib/paths";
 import type { FeatureFlags, Profile } from "@/types/project";
@@ -8,19 +7,19 @@ export function Header({ profile, features }: { profile: Profile; features: Feat
   return (
     <header className="sticky top-0 z-20 border-b border-[#14110e]/10 bg-[#fffdf8]/95 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-8">
-        <Link href="/" className="flex min-w-0 items-center gap-3">
+        <StaticPageLink href="/" className="flex min-w-0 items-center gap-3">
           <Image src={withBasePath("/images/avatar-placeholder.svg")} alt="作品集头像" width={36} height={36} className="size-9 rounded-full border border-[#14110e]/15 object-cover" priority unoptimized />
           <span className="min-w-0">
             <span className="block truncate text-sm font-semibold text-[#14110e]">{profile.name}</span>
             <span className="block truncate text-xs text-[#80654d]">{profile.role}</span>
           </span>
-        </Link>
+        </StaticPageLink>
         <nav className="flex items-center gap-2 text-sm font-semibold text-[#4b3829] sm:gap-5">
-          <Link href="/#projects" className="hidden transition hover:text-[#c92a20] sm:block">项目</Link>
+          <StaticPageLink href="/#projects" className="hidden transition hover:text-[#c92a20] sm:block">项目</StaticPageLink>
           {features.profile ? <StaticPageLink href="/profile/" className="hidden transition hover:text-[#c92a20] md:block">关于</StaticPageLink> : null}
           {features.thinking ? <StaticPageLink href="/thinking/" className="hidden transition hover:text-[#c92a20] md:block">思考</StaticPageLink> : null}
           <StaticPageLink href="/config/" className="rounded-lg border border-[#c92a20] px-3 py-2 text-[#c92a20] transition hover:bg-[#c92a20] hover:text-white">配置作品集</StaticPageLink>
-          <Link href="/#contact" className="hidden transition hover:text-[#c92a20] sm:block">联系</Link>
+          <StaticPageLink href="/#contact" className="hidden transition hover:text-[#c92a20] sm:block">联系</StaticPageLink>
         </nav>
       </div>
     </header>

@@ -3,14 +3,14 @@
 @tailwind utilities;
 
 :root {
-  --background: #f1dfc2;
-  --foreground: #14110e;
-  --surface: #fff8eb;
-  --paper: #f4dfbd;
-  --ink: #14110e;
-  --muted: #5b4635;
-  --line: #241a14;
-  --accent-red: #c92a20;
+  --background: #efefe9;
+  --foreground: #242320;
+  --surface: #f8f8f3;
+  --paper: #e7e5dc;
+  --ink: #242320;
+  --muted: #5f5d56;
+  --line: #292824;
+  --accent-red: #d84b28;
   --font-display: "Songti SC", "STSong", "Noto Serif CJK SC", "Source Han Serif SC", serif;
   --font-body: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
 }
@@ -26,8 +26,8 @@ html {
 body {
   margin: 0;
   background:
-    linear-gradient(90deg, rgba(20, 17, 14, 0.035) 1px, transparent 1px) 0 0 / 28px 28px,
-    linear-gradient(180deg, rgba(241, 223, 194, 0.96), rgba(255, 248, 235, 0.98) 48%, rgba(244, 223, 189, 0.92)),
+    linear-gradient(90deg, rgba(36, 35, 32, 0.032) 1px, transparent 1px) 0 0 / 32px 32px,
+    linear-gradient(180deg, rgba(248, 248, 243, 0.97), rgba(239, 239, 233, 0.98) 55%, rgba(231, 229, 220, 0.92)),
     var(--background);
   color: var(--foreground);
   font-family: var(--font-body);
@@ -371,4 +371,236 @@ a {
     max-width: calc(100vw - 2.5rem);
     width: calc(100vw - 2.5rem);
   }
+}
+
+
+/* Signature Atlas — each mark encodes an ability, project, or evidence path. */
+.signature-atlas,
+.thinking-atlas-page {
+  --atlas-blue: #1437d6;
+  --atlas-orange: #d84b28;
+  --atlas-gold: #9a6818;
+  --atlas-ink: #242320;
+  --atlas-paper: #f3f3ed;
+}
+
+.thinking-atlas-page {
+  background:
+    radial-gradient(circle at 16% 22%, rgba(20, 55, 214, 0.05), transparent 24rem),
+    radial-gradient(circle at 82% 68%, rgba(216, 75, 40, 0.045), transparent 26rem);
+}
+
+.atlas-register {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid rgba(36, 35, 32, 0.18);
+  padding: 0.55rem 0;
+  color: #77736a;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.atlas-preview-card,
+.atlas-hero {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(36, 35, 32, 0.22);
+  background:
+    linear-gradient(rgba(36, 35, 32, 0.035) 1px, transparent 1px) 0 0 / 100% 28px,
+    #f8f8f3;
+  box-shadow: 8px 8px 0 rgba(36, 35, 32, 0.07);
+}
+
+.atlas-kicker {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  color: #6b685f;
+}
+
+.atlas-symbol {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.atlas-back-link {
+  display: inline-flex;
+  border-bottom: 1px solid #242320;
+  padding-bottom: 0.2rem;
+  color: #242320;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.atlas-back-link:focus-visible,
+.star-map-list-item:focus-visible,
+.roadmap-node:focus-visible,
+.star-nodes g:focus-visible {
+  outline: 2px solid #1437d6;
+  outline-offset: 4px;
+}
+
+.atlas-section-heading {
+  display: grid;
+  gap: 0.5rem;
+  border-bottom: 1px solid rgba(36, 35, 32, 0.24);
+  padding-bottom: 1.2rem;
+}
+
+.atlas-section-heading p,
+.atlas-section-heading span {
+  color: #706d65;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.atlas-section-heading h2 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 650;
+  color: #242320;
+}
+
+.atlas-contour {
+  position: absolute;
+  inset: -30% -10% auto auto;
+  width: 14rem;
+  height: 14rem;
+  border: 1px solid rgba(154, 104, 24, 0.13);
+  border-radius: 46% 54% 61% 39%;
+  box-shadow: 0 0 0 18px rgba(154, 104, 24, 0.045), 0 0 0 36px rgba(154, 104, 24, 0.035);
+  transform: rotate(18deg);
+}
+
+.roadmap-axis {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.4rem;
+  padding-top: 0.5rem;
+}
+
+.roadmap-axis::before {
+  content: "";
+  position: absolute;
+  top: 3.45rem;
+  left: 8%;
+  right: 8%;
+  height: 1px;
+  background: linear-gradient(90deg, #1437d6, #d84b28 48%, #9a6818 72%, #d84b28);
+}
+
+.roadmap-axis::after {
+  content: "";
+  position: absolute;
+  top: 3.22rem;
+  left: 8%;
+  width: 2.2rem;
+  height: 0.5rem;
+  background: rgba(20, 55, 214, 0.18);
+  filter: blur(5px);
+  animation: atlas-route-scan 5s ease-in-out infinite;
+}
+
+.roadmap-node {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  gap: 0.62rem;
+  border: 0;
+  background: transparent;
+  padding: 0.25rem;
+  color: #55534d;
+  cursor: pointer;
+}
+
+.roadmap-coordinate {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.roadmap-dot {
+  width: 0.78rem;
+  height: 0.78rem;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  background: #f8f8f3;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.roadmap-title { font-size: 0.8rem; font-weight: 700; color: #34332f; }
+.roadmap-node.is-active .roadmap-dot { transform: scale(1.35); box-shadow: 0 0 0 7px color-mix(in srgb, currentColor 14%, transparent); }
+.tone-blue { color: #1437d6; }
+.tone-orange { color: #d84b28; }
+.tone-gold { color: #9a6818; }
+
+.roadmap-mobile-card {
+  border: 1px solid rgba(36, 35, 32, 0.18);
+  border-left: 3px solid currentColor;
+  background: rgba(248, 248, 243, 0.9);
+  padding: 1rem;
+}
+
+.star-map-grid { display: grid; gap: 1rem; grid-template-columns: minmax(0, 1.65fr) minmax(16rem, 0.75fr); }
+.star-map-grid.is-compact { display: block; }
+.star-map-canvas {
+  position: relative;
+  overflow-x: auto;
+  border: 1px solid rgba(36, 35, 32, 0.2);
+  background: rgba(248, 248, 243, 0.88);
+  scrollbar-width: thin;
+}
+
+.star-map-canvas svg { display: block; width: 100%; height: auto; }
+.star-grid line { stroke: rgba(36, 35, 32, 0.07); stroke-width: 1; }
+.star-edges line { stroke: rgba(36, 35, 32, 0.24); stroke-width: 1.5; transition: opacity 180ms ease, stroke 180ms ease; }
+.star-edges line.is-active { stroke: #9a6818; stroke-width: 3; }
+.star-nodes g { cursor: pointer; transition: opacity 180ms ease; }
+.star-nodes g.is-dimmed { opacity: 0.24; }
+.star-nodes .star-pulse { fill: none; stroke: currentColor; stroke-width: 1; opacity: 0.22; transform-origin: center; animation: atlas-node-breathe 3.8s ease-in-out infinite; }
+.star-nodes .star-core { fill: #f8f8f3; stroke: currentColor; stroke-width: 4; }
+.star-nodes g.is-active .star-core { fill: currentColor; }
+.star-nodes text { fill: #242320; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 15px; font-weight: 800; letter-spacing: 0.04em; }
+.star-coordinate { fill: #77736a; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; }
+.star-map-list-item { display: flex; align-items: center; gap: 0.5rem; border: 1px solid rgba(36, 35, 32, 0.16); background: rgba(248, 248, 243, 0.82); padding: 0.68rem; color: #55534d; font-size: 0.75rem; font-weight: 700; text-align: left; }
+.star-map-list-item.is-active { border-color: #1437d6; color: #242320; }
+.atlas-scan { position: absolute; z-index: 2; top: 0; bottom: 0; width: 1px; background: linear-gradient(transparent, rgba(20, 55, 214, 0.55), transparent); box-shadow: 0 0 12px rgba(20, 55, 214, 0.25); animation: atlas-field-scan 7s linear infinite; pointer-events: none; }
+
+@keyframes atlas-route-scan { 0%, 100% { left: 8%; } 50% { left: 84%; } }
+@keyframes atlas-field-scan { from { left: 3%; } to { left: 97%; } }
+@keyframes atlas-node-breathe { 0%, 100% { transform: scale(0.92); opacity: 0.16; } 50% { transform: scale(1.18); opacity: 0.35; } }
+
+@media (min-width: 768px) {
+  .atlas-section-heading { grid-template-columns: 0.7fr 1fr auto; align-items: end; }
+}
+
+@media (max-width: 900px) {
+  .star-map-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 767px) {
+  .atlas-register { overflow: hidden; }
+  .atlas-register span:nth-child(2) { display: none; }
+  .star-map-canvas svg { width: 620px; }
+  .star-map-grid.is-compact .star-map-canvas svg { width: 600px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .roadmap-axis::after,
+  .star-nodes .star-pulse,
+  .atlas-scan { animation: none; }
+  .roadmap-dot,
+  .star-nodes g,
+  .star-edges line { transition: none; }
 }

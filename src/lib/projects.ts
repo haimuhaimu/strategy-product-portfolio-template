@@ -2,7 +2,7 @@ import portfolioData from "../../data/projects.json";
 import { normalizePortfolioData } from "./normalize.mjs";
 import type {
   CognitiveCalibrationLog, Influence, PersonalOperatingSystem, PortfolioData,
-  Project, TrainingHistory,
+  Project, RoadmapStage, StarMap, TrainingHistory,
 } from "@/types/project";
 
 const data = normalizePortfolioData(portfolioData) as PortfolioData;
@@ -21,6 +21,8 @@ export function getCalibrationLogs(): CognitiveCalibrationLog[] { return data.ca
 export function getPersonalOperatingSystem(): PersonalOperatingSystem { return data.personalOperatingSystem; }
 export function getInfluences(): Influence[] { return data.influences; }
 export function getTrainingHistory(): TrainingHistory[] { return data.trainingHistory; }
+export function getRoadmap(): RoadmapStage[] { return data.roadmap; }
+export function getStarMap(): StarMap { return data.starMap; }
 export function getProjectBySlug(slug: string): Project | undefined { return getProjects().find((project) => project.slug === slug); }
 export function getProjectSlugs() { return getProjects().map((project) => ({ slug: project.slug })); }
 export function getFeaturedMetrics() { return data.home.evidenceMetrics; }

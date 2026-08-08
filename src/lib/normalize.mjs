@@ -87,6 +87,7 @@ export function normalizePortfolioData(input = {}) {
     home: {
       introEyebrow: input.home?.introEyebrow || "个人作品集",
       introTitle: input.home?.introTitle || profile.headline || "用项目与结果证明你的能力",
+      featuredTitle: input.home?.featuredTitle || "三个代表项目",
       evidenceTitle: input.home?.evidenceTitle || "结果证据",
       evidenceMetrics,
     },
@@ -97,6 +98,11 @@ export function normalizePortfolioData(input = {}) {
       email: input.contact?.email || profile.email || "hello@example.com",
     },
     featuredProjectSlugs: featuredProjectSlugs.slice(0, 3),
+    roadmap: asArray(input.roadmap),
+    starMap: {
+      nodes: asArray(input.starMap?.nodes),
+      edges: asArray(input.starMap?.edges),
+    },
     personalOperatingSystem: input.personalOperatingSystem || emptyOperatingSystem,
     influences: asArray(input.influences),
     trainingHistory: asArray(input.trainingHistory),

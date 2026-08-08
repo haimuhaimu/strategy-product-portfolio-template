@@ -63,6 +63,75 @@
   "influences": [],
   "trainingHistory": [],
   "calibrationLogs": [],
+  "roadmap": [
+    {
+      "id": "discover",
+      "index": "R.01",
+      "title": "发现问题",
+      "summary": "从点击、流量与名单之外，追问用户是否被满足、内容是否值得放大。",
+      "proof": "搜索不满足、商业内容体验风险与作者挖掘成本，构成三条真实问题线索。",
+      "projectSlugs": ["search-quality-ai-answer", "marketing-commerce-traffic-system"]
+    },
+    {
+      "id": "define",
+      "index": "R.02",
+      "title": "定义口径",
+      "summary": "把模糊判断拆成满足度、作者价值、内容理解与策略边界。",
+      "proof": "沉淀满足度评估、作者价值口径、内容理解信号等可共同讨论的语言。",
+      "projectSlugs": ["search-quality-ai-answer", "marketing-commerce-traffic-system", "paid-content-evaluation-typing"]
+    },
+    {
+      "id": "validate",
+      "index": "R.03",
+      "title": "实验验证",
+      "summary": "通过样本复盘、横向对照、分组验证与体验护栏校准判断。",
+      "proof": "搜索 bad case 归因与两类商业场景分组验证均已进入实际协作。",
+      "projectSlugs": ["search-quality-ai-answer", "marketing-commerce-traffic-system"]
+    },
+    {
+      "id": "systemize",
+      "index": "R.04",
+      "title": "机制化",
+      "summary": "让一次判断进入评级、分层流量、反馈调优与自动化执行链路。",
+      "proof": "已形成可复用的评估框架、流量机制和策略应用链路。",
+      "projectSlugs": ["marketing-commerce-traffic-system", "paid-content-evaluation-typing"]
+    },
+    {
+      "id": "ai-collaboration",
+      "index": "R.05",
+      "title": "AI 协作",
+      "summary": "让 AI 承接可标准化的内容理解与候选生成，人负责目标、边界和复盘。",
+      "proof": "产品与运营已可面向全量业务作者自行完成挖掘与策略应用。",
+      "projectSlugs": ["paid-content-evaluation-typing"]
+    }
+  ],
+  "starMap": {
+    "nodes": [
+      { "id": "user-value", "label": "用户价值", "kind": "capability", "x": 14, "y": 47, "summary": "以问题是否真正解决，而非单一代理指标作为起点。", "projectSlugs": ["search-quality-ai-answer", "marketing-commerce-traffic-system"] },
+      { "id": "content-understanding", "label": "内容理解", "kind": "capability", "x": 34, "y": 22, "summary": "把内容质量、付费价值与商业适配转成可用信号。", "projectSlugs": ["marketing-commerce-traffic-system", "paid-content-evaluation-typing"] },
+      { "id": "evaluation", "label": "评估体系", "kind": "capability", "x": 52, "y": 47, "summary": "建立跨产品、算法、数据和运营共同使用的质量语言。", "projectSlugs": ["search-quality-ai-answer", "marketing-commerce-traffic-system"] },
+      { "id": "experiment", "label": "实验", "kind": "capability", "x": 36, "y": 76, "summary": "用样本、对照、分组与护栏区分判断和自然波动。", "projectSlugs": ["search-quality-ai-answer", "marketing-commerce-traffic-system"] },
+      { "id": "mechanism", "label": "机制设计", "kind": "capability", "x": 70, "y": 72, "summary": "把验证结论变成评级、分层流量与反馈调优。", "projectSlugs": ["marketing-commerce-traffic-system", "paid-content-evaluation-typing"] },
+      { "id": "ai", "label": "AI 协作", "kind": "capability", "x": 86, "y": 38, "summary": "AI 承接标准化理解与候选生成，人保留目标、边界和复盘。", "projectSlugs": ["paid-content-evaluation-typing"] },
+      { "id": "project-search", "label": "搜索质量", "kind": "project", "x": 22, "y": 64, "summary": "搜索满足度评估与问答式搜索探索。", "projectSlugs": ["search-quality-ai-answer"] },
+      { "id": "project-commerce", "label": "商业流量", "kind": "project", "x": 58, "y": 18, "summary": "优质营销与商单流量体系。", "projectSlugs": ["marketing-commerce-traffic-system"] },
+      { "id": "project-paid", "label": "付费作者", "kind": "project", "x": 82, "y": 61, "summary": "精选会员内容付费作者挖掘与流量策略。", "projectSlugs": ["paid-content-evaluation-typing"] }
+    ],
+    "edges": [
+      { "source": "user-value", "target": "evaluation", "label": "定义价值口径" },
+      { "source": "content-understanding", "target": "evaluation", "label": "提供判断信号" },
+      { "source": "evaluation", "target": "experiment", "label": "形成验证标准" },
+      { "source": "experiment", "target": "mechanism", "label": "验证后机制化" },
+      { "source": "mechanism", "target": "ai", "label": "标准化后协作" },
+      { "source": "project-search", "target": "user-value", "label": "围绕满足度" },
+      { "source": "project-search", "target": "evaluation", "label": "建立评估" },
+      { "source": "project-commerce", "target": "content-understanding", "label": "识别内容价值" },
+      { "source": "project-commerce", "target": "experiment", "label": "分组验证" },
+      { "source": "project-commerce", "target": "mechanism", "label": "承接流量机制" },
+      { "source": "project-paid", "target": "mechanism", "label": "策略应用" },
+      { "source": "project-paid", "target": "ai", "label": "人机工作流" }
+    ]
+  },
   "projects": [
     {
       "slug": "search-quality-ai-answer",

@@ -3,7 +3,8 @@ import { ClosingCTA } from "@/components/ClosingCTA";
 import { FeaturedProjectShowcase } from "@/components/FeaturedProjectShowcase";
 import { HeroOverview } from "@/components/HeroOverview";
 import { HomeEvidenceSection } from "@/components/HomeEvidenceSection";
-import { getContact, getFeaturedProjects, getHomeConfig, getProfile } from "@/lib/projects";
+import { SignatureAtlasSection } from "@/components/SignatureAtlasSection";
+import { getContact, getFeaturedProjects, getHomeConfig, getProfile, getRoadmap, getStarMap } from "@/lib/projects";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
@@ -21,6 +22,7 @@ export default function Home() {
       <div className="mx-auto max-w-7xl px-4 sm:px-8"><HeroOverview profile={profile} home={home} /></div>
       <FeaturedProjectShowcase projects={getFeaturedProjects()} />
       <HomeEvidenceSection home={home} />
+      <SignatureAtlasSection roadmap={getRoadmap()} starMap={getStarMap()} />
       <ClosingCTA contact={getContact()} />
     </main>
   );

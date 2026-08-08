@@ -116,9 +116,9 @@ test("相应功能开启时仍拒绝不完整的个人资料和高级模型", ()
   }
 });
 
-test("思考页接入数据驱动模型，首页兴趣不再硬编码", () => {
-  assert.match(thinkingPage, /<PersonalModelSystem/u);
-  assert.match(thinkingPage, /<CognitiveCalibrationLog/u);
+test("思考页接入数据驱动路线图与星图，首页兴趣不再硬编码", () => {
+  assert.match(thinkingPage, /<PersonalRoadmap/u);
+  assert.match(thinkingPage, /<ThinkingStarMap/u);
   assert.match(modelComponent, /operatingSystem\.personModel\.map/u);
   assert.match(modelComponent, /influences\.map/u);
   assert.match(modelComponent, /trainingHistory\.map/u);

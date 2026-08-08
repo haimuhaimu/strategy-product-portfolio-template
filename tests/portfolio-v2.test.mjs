@@ -18,18 +18,20 @@ function draft(mode) {
   };
 }
 
-test("默认首页只装配四个求职核心区块且严格读取三个代表项目", () => {
+test("首页维持求职主线并在证据之后加入 Signature Atlas", () => {
   const page = read("src/app/page.tsx");
   assert.match(page, /HeroOverview/u);
   assert.match(page, /FeaturedProjectShowcase/u);
   assert.match(page, /HomeEvidenceSection/u);
+  assert.match(page, /SignatureAtlasSection/u);
   assert.match(page, /ClosingCTA/u);
+  assert.ok(page.indexOf("SignatureAtlasSection roadmap") > page.indexOf("HomeEvidenceSection home"));
   assert.doesNotMatch(page, /AiWorkflowExperiments|HomeThinkingTeaser|CareerLifeRoadmap/u);
   const data = JSON.parse(read("data/projects.json"));
   assert.equal(data.featuredProjectSlugs.length, 3);
 });
 
-test("高级入口和组件由默认关闭的 feature flags 控制", () => {
+test("高级入口由 feature flags 控制且思考星图由首页独立进入", () => {
   const data = JSON.parse(read("data/projects.json"));
   assert.deepEqual(data.features, { profile: false, thinking: false, advancedModels: false });
   const header = read("src/components/Header.tsx");
@@ -80,6 +82,23 @@ test("旧 v1 数据经 normalize 补齐 v2 且不报错", () => {
   assert.deepEqual(normalized.featuredProjectSlugs, ["legacy"]);
   assert.equal(normalized.projects[0].caseStudy.question, "旧摘要");
   assert.equal(normalized.features.thinking, false);
+});
+
+test("路线图与星图读取真实项目关系并提供键盘浏览", () => {
+  const data = JSON.parse(read("data/projects.json"));
+  const slugs = new Set(data.projects.map((project) => project.slug));
+  assert.deepEqual(data.roadmap.map((stage) => stage.title), ["发现问题", "定义口径", "实验验证", "机制化", "AI 协作"]);
+  assert.equal(data.starMap.nodes.filter((node) => node.kind === "capability").length, 6);
+  for (const stage of data.roadmap) for (const slug of stage.projectSlugs) assert.ok(slugs.has(slug));
+  for (const node of data.starMap.nodes) for (const slug of node.projectSlugs) assert.ok(slugs.has(slug));
+  const nodeIds = new Set(data.starMap.nodes.map((node) => node.id));
+  for (const edge of data.starMap.edges) {
+    assert.ok(nodeIds.has(edge.source));
+    assert.ok(nodeIds.has(edge.target));
+  }
+  assert.match(read("src/components/PersonalRoadmap.tsx"), /ArrowRight|ArrowLeft/u);
+  assert.match(read("src/components/ThinkingStarMap.tsx"), /tabIndex=\{0\}/u);
+  assert.match(read("src/components/SignatureAtlasSection.tsx"), /StaticPageLink/u);
 });
 
 test("Pages basePath 可覆盖 config 与下载页的静态路由", () => {

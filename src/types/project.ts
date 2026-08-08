@@ -49,13 +49,23 @@ export type Influence = {
 };
 export type TrainingHistory = { stage: string; period: string; trainingData: string; modelUpdate: string };
 export type HomeConfig = {
-  introEyebrow: string; introTitle: string; evidenceTitle: string; evidenceMetrics: Metric[];
+  introEyebrow: string; introTitle: string; featuredTitle: string; evidenceTitle: string; evidenceMetrics: Metric[];
 };
+export type RoadmapStage = {
+  id: string; index: string; title: string; summary: string; proof: string; projectSlugs: string[];
+};
+export type StarMapNode = {
+  id: string; label: string; kind: "capability" | "project"; x: number; y: number;
+  summary: string; projectSlugs: string[];
+};
+export type StarMapEdge = { source: string; target: string; label: string };
+export type StarMap = { nodes: StarMapNode[]; edges: StarMapEdge[] };
 export type FeatureFlags = { profile: boolean; thinking: boolean; advancedModels: boolean };
 export type ContactConfig = { title: string; description: string; email: string };
 export type PortfolioData = {
   schemaVersion: 2; rolePreset: RolePreset; profile: Profile; home: HomeConfig;
   features: FeatureFlags; contact: ContactConfig; featuredProjectSlugs: string[];
+  roadmap: RoadmapStage[]; starMap: StarMap;
   personalOperatingSystem: PersonalOperatingSystem; influences: Influence[];
   trainingHistory: TrainingHistory[]; calibrationLogs: CognitiveCalibrationLog[];
   projects: Project[];
