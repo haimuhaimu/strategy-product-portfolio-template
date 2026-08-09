@@ -97,7 +97,7 @@ python3 scripts/audit_portfolio.py <projects.json> --strict --output <audit-repo
 
 退出码：`0` 通过，`1` 需要修改，`2` 输入或输出错误。根据 JSON 报告修复后重跑；严格模式仍有警告时不得称为可投递版本。
 
-审计器的能力边界是**内容质量检查 + 本 Skill 声明的 v2 最小契约**：它检查关键对象、字段类型、数组元素、占位、证据强度和常见隐私模式，但不替代目标模板的完整类型系统、normalize 行为或运行时约束。最终兼容性仍以目标模板自身的 test/build 结果为准。
+审计器的能力边界是**内容质量检查 + 本 Skill 声明的 v2 最小契约**：它检查关键对象、字段类型、数组元素、占位、证据强度、常见隐私模式，以及 featuredProjectSlugs、roadmap、starMap 的项目引用完整性，但不替代目标模板的完整类型系统、normalize 行为或运行时约束。适合跨语言共享的规则标识、脱水词与隐私模式统一维护在 `audit-manifest.json`，不要在 JS 与 Python 中分别新增硬编码。最终兼容性仍以目标模板自身的 test/build 结果为准。
 
 ## 8. 在目标仓库构建预览
 
@@ -117,7 +117,7 @@ python3 scripts/audit_portfolio.py <projects.json> --strict --output <audit-repo
 
 ## 开发验证
 
-正常作品集工作流只运行 `scripts/audit_portfolio.py`，不执行测试套件。审计器开发测试仅保留在 canonical Skill 中，开源分发镜像不包含测试脚本。
+正常作品集工作流只运行 `scripts/audit_portfolio.py`，不执行测试套件。仅在开发或修改审计器时运行 `python3 -m unittest scripts/test_audit_portfolio.py`；测试入口见 [test_audit_portfolio.py](scripts/test_audit_portfolio.py)。
 
 ## 交付标准
 

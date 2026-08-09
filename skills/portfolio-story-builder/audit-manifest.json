@@ -1,0 +1,54 @@
+{
+  "manifestVersion": 1,
+  "ruleIds": {
+    "fluffWord": "FLUFF_WORD",
+    "placeholder": "PLACEHOLDER",
+    "privacyRisk": "PRIVACY_RISK",
+    "featuredMissing": "FEATURED_MISSING",
+    "roadmapProjectMissing": "ROADMAP_PROJECT_MISSING",
+    "starMapProjectMissing": "STARMAP_PROJECT_MISSING",
+    "starMapEdgeMissing": "STARMAP_EDGE_MISSING"
+  },
+  "emptyWords": ["待补充", "todo", "tbd", "暂无", "待确认"],
+  "fluffWords": ["赋能", "抓手", "闭环", "协同推进", "全面负责", "深度参与", "显著提升", "行业领先", "降本增效"],
+  "scopeWords": ["周期", "期间", "对照", "基线", "范围", "口径", "归因", "样本", "用户", "团队"],
+  "methodWords": ["实验", "对照", "样本", "漏斗", "访谈", "调研", "日志", "看板", "评估", "测试", "复盘", "数据", "归因"],
+  "artifactWords": ["sop", "规则", "原型", "看板", "机制", "标准", "模板", "流程", "文档", "评估集", "策略表"],
+  "boundaryWords": ["个人", "团队", "协同", "边界", "归因", "负责", "主导", "参与", "不代表"],
+  "patterns": {
+    "result": "(?:\\d[\\d,.]*\\s*(?:%|万|亿|千|人|次|天|周|月|年|个|套|家|元)|上线|发布|采用|落地|交付|通过|稳定|减少|提升|增长|降低|缩短)",
+    "placeholderMetric": "(?:\\+?[XYZxyz]\\s*%|xx+|待补充|todo|tbd)"
+  },
+  "privacyPatterns": [
+    {
+      "id": "secret",
+      "label": "密钥或 Token",
+      "pattern": "(?:api[_-]?key|access[_-]?token|secret|password|passwd|cookie|authorization)\\s*[:=]\\s*[^\\s,;]{6,}"
+    },
+    {
+      "id": "private_key",
+      "label": "私钥",
+      "pattern": "-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"
+    },
+    {
+      "id": "internal_url",
+      "label": "内部链接或域名",
+      "pattern": "https?://[^\\s\"']*(?:bytedance\\.net|byted\\.org|larkoffice\\.com|feishu\\.cn|localhost|127\\.0\\.0\\.1|\\.internal|\\.local)[^\\s\"']*"
+    },
+    {
+      "id": "id_number",
+      "label": "身份证件号",
+      "pattern": "(?<!\\d)\\d{17}[\\dXx](?!\\d)"
+    },
+    {
+      "id": "mainland_phone",
+      "label": "手机号",
+      "pattern": "(?<!\\d)1[3-9]\\d{9}(?!\\d)"
+    },
+    {
+      "id": "user_device_id",
+      "label": "用户或设备 ID",
+      "pattern": "\\b(?:user[_-]?id|uid|device[_-]?id|did|order[_-]?id|ticket[_-]?id)\\s*[:=]\\s*[A-Z0-9_-]{5,}\\b"
+    }
+  ]
+}

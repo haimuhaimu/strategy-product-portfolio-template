@@ -1,20 +1,17 @@
-const RESULT_PATTERN = /(?:\d[\d,.]*\s*(?:%|万|亿|千|人|次|天|周|月|年|个|套|家|元)|上线|发布|采用|落地|交付|通过|稳定|减少|提升|增长|降低|缩短)/iu;
-const PLACEHOLDER_PATTERN = /(?:\+?[XYZxyz]\s*%|xx+|待补充|todo|tbd)/iu;
-const SCOPE_WORDS = ["周期", "期间", "对照", "基线", "范围", "口径", "归因", "样本", "用户", "团队"];
-const METHOD_WORDS = ["实验", "对照", "样本", "漏斗", "访谈", "调研", "日志", "看板", "评估", "测试", "复盘", "数据", "归因"];
-const ARTIFACT_WORDS = ["sop", "规则", "原型", "看板", "机制", "标准", "模板", "流程", "文档", "评估集", "策略表"];
-const BOUNDARY_WORDS = ["个人", "团队", "协同", "边界", "归因", "负责", "主导", "参与", "不代表"];
-const FLUFF_WORDS = ["赋能", "抓手", "闭环", "协同推进", "全面负责", "深度参与", "显著提升", "行业领先", "降本增效"];
+import auditManifest from "../../skills/portfolio-story-builder/audit-manifest.json" with { type: "json" };
+
+const RESULT_PATTERN = new RegExp(auditManifest.patterns.result, "iu");
+const PLACEHOLDER_PATTERN = new RegExp(auditManifest.patterns.placeholderMetric, "iu");
+const SCOPE_WORDS = auditManifest.scopeWords;
+const METHOD_WORDS = auditManifest.methodWords;
+const ARTIFACT_WORDS = auditManifest.artifactWords;
+const BOUNDARY_WORDS = auditManifest.boundaryWords;
+const FLUFF_WORDS = auditManifest.fluffWords;
 
 /** @type {Array<[string, RegExp]>} */
 const PRIVACY_RULES = [
-  ["密钥或 Token", /(?:api[_-]?key|access[_-]?token|secret|password|passwd|cookie|authorization)\s*[:=]\s*[^\s,;]{6,}/giu],
-  ["私钥", /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/gu],
-  ["内部链接或域名", /(?:https?:\/\/[^\s"']*(?:bytedance\.net|byted\.org|larkoffice\.com|feishu\.cn|localhost|127\.0\.0\.1|\.internal|\.local)[^\s"']*)/giu],
+  ...auditManifest.privacyPatterns.map((rule) => [rule.label, new RegExp(rule.pattern, "giu")]),
   ["邮箱", /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/giu],
-  ["手机号", /(?<!\d)1[3-9]\d{9}(?!\d)/gu],
-  ["身份证件号", /(?<!\d)\d{17}[\dXx](?!\d)/gu],
-  ["用户或设备 ID", /\b(?:user[_-]?id|uid|device[_-]?id|did|order[_-]?id|ticket[_-]?id)\s*[:=]\s*[A-Z0-9_-]{5,}\b/giu],
 ];
 
 const DIMENSIONS = [
@@ -124,6 +121,52 @@ export function auditPortfolioDraft(draft) {
     fluffFindings,
     questions: buildQuestions(projectScores, privacyRisks, fluffFindings),
   };
+}
+
+export function validatePortfolioReferences(data) {
+  const projects = Array.isArray(data?.projects) ? data.projects : [];
+  const projectSlugs = new Set(projects.map((project) => project?.slug).filter(Boolean));
+  const findings = [];
+  const addMissingProjects = (values, path, code) => {
+    if (!Array.isArray(values)) return;
+    values.forEach((slug, index) => {
+      if (typeof slug === "string" && !projectSlugs.has(slug)) {
+        findings.push({ code, path: `${path}[${index}]`, reference: slug });
+      }
+    });
+  };
+
+  addMissingProjects(data?.featuredProjectSlugs, "featuredProjectSlugs", auditManifest.ruleIds.featuredMissing);
+  if (Array.isArray(data?.roadmap)) {
+    data.roadmap.forEach((stage, index) => addMissingProjects(
+      stage?.projectSlugs,
+      `roadmap[${index}].projectSlugs`,
+      auditManifest.ruleIds.roadmapProjectMissing,
+    ));
+  }
+
+  const nodes = Array.isArray(data?.starMap?.nodes) ? data.starMap.nodes : [];
+  const nodeIds = new Set(nodes.map((node) => node?.id).filter(Boolean));
+  nodes.forEach((node, index) => addMissingProjects(
+    node?.projectSlugs,
+    `starMap.nodes[${index}].projectSlugs`,
+    auditManifest.ruleIds.starMapProjectMissing,
+  ));
+  if (Array.isArray(data?.starMap?.edges)) {
+    data.starMap.edges.forEach((edge, index) => {
+      for (const endpoint of ["source", "target"]) {
+        if (typeof edge?.[endpoint] === "string" && !nodeIds.has(edge[endpoint])) {
+          findings.push({
+            code: auditManifest.ruleIds.starMapEdgeMissing,
+            path: `starMap.edges[${index}].${endpoint}`,
+            reference: edge[endpoint],
+          });
+        }
+      }
+    });
+  }
+
+  return { valid: findings.length === 0, findings };
 }
 
 export function createSafeDiagnosticSummary(report) {

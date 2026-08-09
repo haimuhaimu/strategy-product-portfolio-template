@@ -10,6 +10,10 @@ import sys
 from pathlib import Path
 from typing import Any
 
+MANIFEST_PATH = Path(__file__).resolve().parents[1] / "audit-manifest.json"
+with MANIFEST_PATH.open("r", encoding="utf-8") as manifest_handle:
+    AUDIT_MANIFEST = json.load(manifest_handle)
+
 TOP_OBJECTS = ("home", "features", "contact", "profile")
 PROJECT_STRING_FIELDS = ("slug", "title", "subtitle", "company", "period", "domain", "summary", "background")
 CASE_FIELDS = ("question", "productMethod", "algorithmAndData", "evaluation", "artifact")
@@ -28,19 +32,18 @@ TOP_ENHANCEMENT_ARRAYS = {
     "trainingHistory": ("topic", "practice"),
     "calibrationLogs": ("date", "observation", "adjustment"),
 }
-EMPTY_WORDS = ("待补充", "todo", "tbd", "暂无", "待确认")
-FLUFF_WORDS = ("赋能", "抓手", "闭环", "协同推进", "全面负责", "深度参与", "显著提升", "行业领先", "降本增效")
-METHOD_WORDS = ("实验", "对照", "样本", "漏斗", "访谈", "调研", "日志", "看板", "评估", "测试", "复盘", "数据", "归因")
-ARTIFACT_WORDS = ("sop", "规则", "原型", "看板", "机制", "标准", "模板", "流程", "文档", "评估集", "策略表")
-BOUNDARY_WORDS = ("个人", "团队", "协同", "边界", "归因", "负责", "主导", "参与", "不代表")
-RESULT_PATTERN = re.compile(r"(?:\d[\d,.]*\s*(?:%|万|亿|千|人|次|天|周|月|年|个|套|家|元)|上线|发布|采用|落地|交付|通过|稳定|减少|提升|增长|降低|缩短)", re.I)
-PLACEHOLDER_METRIC = re.compile(r"(?:\+?[XYZxzy]\s*%|xx+|待补充|todo|tbd)", re.I)
-PRIVACY_PATTERNS = (
-    ("secret", re.compile(r"(?:api[_-]?key|access[_-]?token|secret|password|passwd|cookie|authorization)\s*[:=]\s*[^\s,;]{6,}", re.I)),
-    ("private_key", re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----")),
-    ("internal_url", re.compile(r"https?://[^\s\"']*(?:bytedance\.net|byted\.org|larkoffice\.com|feishu\.cn|localhost|127\.0\.0\.1)[^\s\"']*", re.I)),
-    ("id_number", re.compile(r"(?<!\d)\d{17}[\dXx](?!\d)")),
-    ("mainland_phone", re.compile(r"(?<!\d)1[3-9]\d{9}(?!\d)")),
+EMPTY_WORDS = tuple(AUDIT_MANIFEST["emptyWords"])
+FLUFF_WORDS = tuple(AUDIT_MANIFEST["fluffWords"])
+SCOPE_WORDS = tuple(AUDIT_MANIFEST["scopeWords"])
+METHOD_WORDS = tuple(AUDIT_MANIFEST["methodWords"])
+ARTIFACT_WORDS = tuple(AUDIT_MANIFEST["artifactWords"])
+BOUNDARY_WORDS = tuple(AUDIT_MANIFEST["boundaryWords"])
+RULE_IDS = AUDIT_MANIFEST["ruleIds"]
+RESULT_PATTERN = re.compile(AUDIT_MANIFEST["patterns"]["result"], re.I)
+PLACEHOLDER_METRIC = re.compile(AUDIT_MANIFEST["patterns"]["placeholderMetric"], re.I)
+PRIVACY_PATTERNS = tuple(
+    (rule["id"], re.compile(rule["pattern"], re.I))
+    for rule in AUDIT_MANIFEST["privacyPatterns"]
 )
 
 
@@ -238,12 +241,46 @@ def evidence_score(project: dict[str, Any]) -> tuple[int, dict[str, bool]]:
     metric_ok = bool(RESULT_PATTERN.search(results_text)) and not bool(PLACEHOLDER_METRIC.search(results_text))
     rubric = {
         "resultEvidence": metric_ok,
-        "scopeAndAttribution": sum(w in results_text for w in ("周期", "期间", "对照", "基线", "范围", "口径", "归因", "样本", "用户", "团队")) >= 2,
+        "scopeAndAttribution": sum(w in results_text for w in SCOPE_WORDS) >= 2,
         "methodEvidence": any(w in text_of(case) for w in METHOD_WORDS),
         "artifactEvidence": bool(case.get("artifact")) and any(w in text_of(case.get("artifact")).lower() for w in ARTIFACT_WORDS),
         "contributionBoundary": bool(role.get("boundary")) or any(w in all_text for w in BOUNDARY_WORDS),
     }
     return sum(rubric.values()), rubric
+
+
+def validate_references(data: dict[str, Any], project_slugs: set[str], findings: list[dict[str, str]], strict: bool) -> None:
+    level = "error" if strict else "warning"
+
+    def project_refs(value: Any, path: str, code: str) -> None:
+        if not isinstance(value, list):
+            return
+        for index, slug in enumerate(value):
+            if is_nonempty_string(slug) and slug not in project_slugs:
+                findings.append(finding(level, code, f"引用的项目不存在：{slug}", f"{path}[{index}]"))
+
+    roadmap = data.get("roadmap")
+    if isinstance(roadmap, list):
+        for index, stage in enumerate(roadmap):
+            if isinstance(stage, dict):
+                project_refs(stage.get("projectSlugs"), f"roadmap[{index}].projectSlugs", RULE_IDS["roadmapProjectMissing"])
+
+    star_map = data.get("starMap")
+    if not isinstance(star_map, dict):
+        return
+    nodes = star_map.get("nodes") if isinstance(star_map.get("nodes"), list) else []
+    node_ids = {node.get("id") for node in nodes if isinstance(node, dict) and is_nonempty_string(node.get("id"))}
+    for index, node in enumerate(nodes):
+        if isinstance(node, dict):
+            project_refs(node.get("projectSlugs"), f"starMap.nodes[{index}].projectSlugs", RULE_IDS["starMapProjectMissing"])
+    edges = star_map.get("edges") if isinstance(star_map.get("edges"), list) else []
+    for index, edge in enumerate(edges):
+        if not isinstance(edge, dict):
+            continue
+        for endpoint in ("source", "target"):
+            reference = edge.get(endpoint)
+            if is_nonempty_string(reference) and reference not in node_ids:
+                findings.append(finding(level, RULE_IDS["starMapEdgeMissing"], f"引用的星图节点不存在：{reference}", f"starMap.edges[{index}].{endpoint}"))
 
 
 def audit(data: Any, strict: bool = False) -> dict[str, Any]:
@@ -333,12 +370,14 @@ def audit(data: Any, strict: bool = False) -> dict[str, Any]:
         project_text = text_of(project)
         for word in FLUFF_WORDS:
             if word.lower() in project_text.lower():
-                findings.append(finding("warning", "FLUFF_WORD", f"发现空话词“{word}”，需补充对象、动作或证据", path))
+                findings.append(finding("warning", RULE_IDS["fluffWord"], f"发现空话词“{word}”，需补充对象、动作或证据", path))
         if any(word.lower() in project_text.lower() for word in EMPTY_WORDS):
-            findings.append(finding("error" if strict else "warning", "PLACEHOLDER", "存在“待补充/TODO”类占位内容", path))
+            findings.append(finding("error" if strict else "warning", RULE_IDS["placeholder"], "存在“待补充/TODO”类占位内容", path))
         for kind, pattern in PRIVACY_PATTERNS:
             if pattern.search(project_text):
-                findings.append(finding("error", "PRIVACY_RISK", f"发现潜在隐私风险模式：{kind}", path))
+                findings.append(finding("error", RULE_IDS["privacyRisk"], f"发现潜在隐私风险模式：{kind}", path))
+
+    validate_references(data, set(by_slug), findings, strict)
 
     if isinstance(featured, list):
         for slug in featured:
@@ -346,7 +385,7 @@ def audit(data: Any, strict: bool = False) -> dict[str, Any]:
                 continue
             if slug not in by_slug:
                 if strict:
-                    findings.append(finding("error", "FEATURED_MISSING", f"featured project 不存在：{slug}", "featuredProjectSlugs"))
+                    findings.append(finding("error", RULE_IDS["featuredMissing"], f"featured project 不存在：{slug}", "featuredProjectSlugs"))
                 continue
             project = by_slug[slug]
             score, rubric = evidence_score(project)
@@ -366,11 +405,11 @@ def audit(data: Any, strict: bool = False) -> dict[str, Any]:
         findings.append(finding("warning", "PRESET_MISMATCH", "product 预设与纯运营 profile.role 叙事可能不一致", "profile.role"))
 
     whole_text = text_of(data)
-    if any(word.lower() in whole_text.lower() for word in EMPTY_WORDS) and not any(item["code"] == "PLACEHOLDER" for item in findings):
-        findings.append(finding("error" if strict else "warning", "PLACEHOLDER", "顶层内容存在“待补充/TODO”类占位内容"))
+    if any(word.lower() in whole_text.lower() for word in EMPTY_WORDS) and not any(item["code"] == RULE_IDS["placeholder"] for item in findings):
+        findings.append(finding("error" if strict else "warning", RULE_IDS["placeholder"], "顶层内容存在“待补充/TODO”类占位内容"))
     for kind, pattern in PRIVACY_PATTERNS:
-        if pattern.search(whole_text) and not any(f["code"] == "PRIVACY_RISK" and kind in f["message"] for f in findings):
-            findings.append(finding("error", "PRIVACY_RISK", f"顶层内容发现潜在隐私风险模式：{kind}"))
+        if pattern.search(whole_text) and not any(f["code"] == RULE_IDS["privacyRisk"] and kind in f["message"] for f in findings):
+            findings.append(finding("error", RULE_IDS["privacyRisk"], f"顶层内容发现潜在隐私风险模式：{kind}"))
 
     errors = sum(1 for item in findings if item["level"] == "error")
     warnings = sum(1 for item in findings if item["level"] == "warning")
