@@ -53,7 +53,11 @@ npm ci
 npm run dev
 ```
 
-打开 [`http://localhost:3000/config/`](http://localhost:3000/config/)，填写信息与 3 个项目并下载 `projects.json`。配置页在浏览器内处理数据；项目筛选与证据追问由 Agent Skill 提供。
+打开 [`http://localhost:3000/config/`](http://localhost:3000/config/)，完成下面这条真实闭环：
+
+`输入项目草稿 → 浏览器即时审计 → 按 1–3 条高价值追问补证据 → 导出作品集`
+
+配置页会按结果证据、口径完整、方法证据、资产证据、贡献边界五维评分，并单独提示常见隐私红线与空泛表达。诊断只在浏览器内存运行，不上传填写内容；可复制不含原始敏感内容的诊断摘要，交给 Agent 或同事继续协作。完成后下载 `projects.json`，直接替换 `data/projects.json`。自动检查不能判断组织保密规则，发布前仍需本人确认披露权限。
 
 ## 对话示例
 

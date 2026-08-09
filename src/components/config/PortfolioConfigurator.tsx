@@ -2,17 +2,21 @@
 
 import { useMemo, useState } from "react";
 import { createPortfolioExport } from "@/lib/config-export.mjs";
+import { auditPortfolioDraft } from "@/lib/evidence-audit.mjs";
+import { PortfolioCompanion } from "@/components/PortfolioCompanion";
 import { ConfigPreview } from "./ConfigPreview";
 import { ConfigProjectFields, type DraftProject } from "./ConfigProjectFields";
+import { EvidenceAuditPanel } from "./EvidenceAuditPanel";
 
 type Mode = "product" | "operations";
-const emptyProject = (): DraftProject => ({ title: "", problem: "", method: "", goal: "", actions: "", result: "" });
+const emptyProject = (): DraftProject => ({ title: "", problem: "", method: "", goal: "", actions: "", result: "", artifact: "", contribution: "" });
 
 export function PortfolioConfigurator() {
   const [mode, setMode] = useState<Mode>("product");
   const [profile, setProfile] = useState({ name: "", role: "", summary: "", email: "" });
   const [projects, setProjects] = useState<DraftProject[]>([emptyProject(), emptyProject(), emptyProject()]);
   const exported = useMemo(() => createPortfolioExport({ mode, ...profile, projects }), [mode, profile, projects]);
+  const auditReport = useMemo(() => auditPortfolioDraft({ mode, profile, projects }), [mode, profile, projects]);
 
   function updateProject(index: number, key: keyof DraftProject, value: string) {
     setProjects((current) => current.map((project, projectIndex) => projectIndex === index ? { ...project, [key]: value } : project));
@@ -59,11 +63,13 @@ export function PortfolioConfigurator() {
             </label>
           </section>
           <div className="mt-5"><ConfigProjectFields mode={mode} projects={projects} onChange={updateProject} /></div>
+          <div className="mt-6"><EvidenceAuditPanel report={auditReport} /></div>
           <button type="button" onClick={download} className="mt-6 w-full rounded-xl bg-[#c92a20] px-6 py-4 font-semibold text-white transition hover:bg-[#a92119]">下载 projects.json</button>
           <p className="mt-3 text-center text-xs text-[#80654d]">下载文件包含通用详情页所需字段，且高级模型默认关闭。</p>
         </div>
         <ConfigPreview name={profile.name} role={profile.role} summary={profile.summary} mode={mode} projects={projects} />
       </div>
+      <PortfolioCompanion suggestions={auditReport.questions} alwaysVisible />
     </main>
   );
 }

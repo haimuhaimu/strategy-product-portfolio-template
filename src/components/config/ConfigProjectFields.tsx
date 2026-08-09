@@ -1,6 +1,15 @@
 "use client";
 
-type DraftProject = { title: string; problem: string; method: string; goal: string; actions: string; result: string };
+type DraftProject = {
+  title: string;
+  problem: string;
+  method: string;
+  goal: string;
+  actions: string;
+  result: string;
+  artifact: string;
+  contribution: string;
+};
 
 type Props = {
   mode: "product" | "operations";
@@ -37,6 +46,12 @@ export function ConfigProjectFields({ mode, projects, onChange }: Props) {
               <textarea value={project[key]} onChange={(event) => onChange(index, key, event.target.value)} placeholder={placeholder} rows={3} className="mt-2 w-full resize-y rounded-lg border border-[#14110e]/20 px-3 py-2.5 font-normal leading-6 outline-none focus:border-[#c92a20]" />
             </label>
           ))}
+          <label className="mt-4 block text-sm font-semibold text-[#14110e]">交付资产 / 可复用沉淀
+            <textarea value={project.artifact} onChange={(event) => onChange(index, "artifact", event.target.value)} placeholder="例如：交付评估集、策略规则、原型、SOP 或复盘看板" rows={2} className="mt-2 w-full resize-y rounded-lg border border-[#14110e]/20 px-3 py-2.5 font-normal leading-6 outline-none focus:border-[#c92a20]" />
+          </label>
+          <label className="mt-4 block text-sm font-semibold text-[#14110e]">个人贡献 / 团队边界
+            <textarea value={project.contribution} onChange={(event) => onChange(index, "contribution", event.target.value)} placeholder="写清个人判断与动作、团队结果，以及尚未验证的部分" rows={2} className="mt-2 w-full resize-y rounded-lg border border-[#14110e]/20 px-3 py-2.5 font-normal leading-6 outline-none focus:border-[#c92a20]" />
+          </label>
         </fieldset>
       ))}
     </div>
