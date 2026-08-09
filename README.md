@@ -126,4 +126,4 @@ out/                             npm run build 生成的静态网站
 
 ## 开源许可
 
-代码使用 [MIT License](LICENSE)。
+代码使用 [MIT License](LICENSE)。安全问题和敏感信息披露方式见 [`SECURITY.md`](SECURITY.md)。
