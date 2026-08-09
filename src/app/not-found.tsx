@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { StaticPageLink } from "@/components/StaticPageLink";
 
 export default function NotFound() {
   return (
@@ -9,14 +9,14 @@ export default function NotFound() {
           没有找到这个项目
         </h1>
         <p className="mt-4 text-base leading-7 text-slate-600">
-          当前链接不在项目集中，可以返回首页查看 7 个已整理的策略产品项目。
+          当前链接不在项目集中，可以返回首页查看 3 个已整理的代表项目。
         </p>
-        <Link
+        <StaticPageLink
           href="/"
           className="mt-8 inline-flex rounded-lg bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
         >
           返回首页
-        </Link>
+        </StaticPageLink>
       </section>
     </main>
   );

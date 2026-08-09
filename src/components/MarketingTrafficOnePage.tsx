@@ -46,27 +46,27 @@ const experimentCards = [
     body: "优质作者池 → 随机分组 → 流量倾斜验证 → 对比 VV、GMV、投稿供给变化",
   },
   {
-    title: "实验控制",
-    body: "周期 2-4 周，千万级曝光；控制基础流量、作者分层、护栏指标与统计口径",
+    title: "验证边界",
+    body: "控制基础流量、作者分层与用户体验护栏；具体周期、样本量和提升比例未公开。",
   },
 ];
 
 const resultCards = [
   {
-    title: "商单",
+    title: "分组验证",
     metrics: [
-      { label: "优质作者商单收入", value: "+X%" },
-      { label: "用户体验护栏", value: "稳定" },
+      { label: "已验证场景", value: "2 类" },
+      { label: "用户体验", value: "设置护栏" },
     ],
-    note: "在用户体验不受损的前提下验证收入正向收益。",
+    note: "商单与交易内容分别验证，不用未经确认的比例替代结论。",
   },
   {
-    title: "交易内容",
+    title: "机制承接",
     metrics: [
-      { label: "优质作者 VV", value: "+Y%" },
-      { label: "GMV", value: "+Z%" },
+      { label: "策略状态", value: "已应用" },
+      { label: "结果边界", value: "不披露未确认比例" },
     ],
-    note: "验证流量倾斜能带动内容曝光和交易效率。",
+    note: "验证结论进入评级、分层流量和反馈调优机制。",
   },
 ];
 
@@ -92,15 +92,15 @@ const mechanismCards = [
 const impactCards = [
   {
     title: "对作者",
-    items: ["收入显著提升", "更多商单与曝光机会", "长期留存与投稿意愿增强"],
+    items: ["按价值口径进入候选池", "获得可验证的商单与流量机会", "反馈进入后续分层"],
   },
   {
     title: "对平台",
-    items: ["优质商业内容供给提升", "商业变现效率提升", "生态健康度增强"],
+    items: ["形成商业内容评级", "用实验而非观点决策", "把结论沉淀为策略机制"],
   },
   {
     title: "对用户",
-    items: ["优质商业内容体验提升", "价值匹配更精准", "整体体验满意度提升"],
+    items: ["体验指标作为护栏", "不默认放大所有商业内容", "负向反馈约束策略"],
   },
 ];
 
@@ -269,7 +269,7 @@ export function MarketingTrafficOnePage() {
               </div>
             ))}
             <div className="rounded-[8px] border border-[#8b3a28]/18 bg-[#fff2d8] p-4 text-sm leading-6 text-[#3a2e24]">
-              收入与转化数据只代表优质作者样本的实验验证，不代表全量作者收入变化。
+              作品集仅保留两类场景完成验证及策略已应用的事实；具体比例、收入、周期与样本量未获公开确认。
             </div>
           </div>
         </section>

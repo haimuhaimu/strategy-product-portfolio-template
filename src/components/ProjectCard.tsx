@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { StaticPageLink } from "@/components/StaticPageLink";
 import type { Project } from "@/types/project";
 
 type ProjectCardProps = {
@@ -9,8 +9,8 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const primaryMetric = project.metrics[0];
 
   return (
-    <Link
-      href={`/projects/${project.slug}`}
+    <StaticPageLink
+      href={`/projects/${project.slug}/`}
       className="group flex h-full flex-col border border-slate-300 bg-[#fbfaf7] p-5 transition hover:-translate-y-0.5 hover:border-slate-500 hover:bg-white"
     >
       <div className="flex items-start justify-between gap-4 border-b border-slate-200 pb-4">
@@ -71,6 +71,6 @@ export function ProjectCard({ project }: ProjectCardProps) {
       <div className="mt-5 text-sm font-semibold text-sky-700 transition group-hover:text-sky-950">
         打开项目档案 →
       </div>
-    </Link>
+    </StaticPageLink>
   );
 }

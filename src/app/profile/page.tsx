@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { ClosingCTA } from "@/components/ClosingCTA";
+import { StaticPageLink } from "@/components/StaticPageLink";
 import { CredibilityProof } from "@/components/CredibilityProof";
 import {
   AboutSection,
@@ -8,7 +8,7 @@ import {
   CapabilitiesSection,
   ExperienceSection,
 } from "@/components/ProfileSections";
-import { getProfile } from "@/lib/projects";
+import { getContact, getProfile } from "@/lib/projects";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
@@ -31,12 +31,12 @@ export default function ProfilePage() {
   return (
     <main>
       <section className="mx-auto max-w-[1680px] px-4 py-6 sm:px-8 lg:py-8">
-        <Link
+        <StaticPageLink
           href="/"
           className="inline-flex rounded-[6px] border border-[#14110e]/45 bg-[#fff8eb] px-4 py-2 font-mono text-sm font-semibold uppercase text-[#c92a20] shadow-[0_10px_24px_rgba(20,17,14,0.08)] transition hover:-translate-y-0.5 hover:border-[#8b3a28]"
         >
           ← 返回首页
-        </Link>
+        </StaticPageLink>
         <div className="mt-5 rounded-[8px] border border-[#14110e]/25 bg-[#fff8eb] p-5 shadow-[0_20px_58px_rgba(20,17,14,0.12)] sm:p-7">
           <p className="font-mono text-xs font-semibold uppercase text-[#c92a20]">
             Profile
@@ -55,7 +55,7 @@ export default function ProfilePage() {
       <CapabilitiesSection profile={profile} />
       <ExperienceSection profile={profile} />
       <ActionPrinciplesSection />
-      <ClosingCTA profile={profile} />
+      <ClosingCTA contact={getContact()} />
     </main>
   );
 }

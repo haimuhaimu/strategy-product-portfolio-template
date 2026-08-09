@@ -1,57 +1,28 @@
 import portfolioData from "../../data/projects.json";
+import { normalizePortfolioData } from "./normalize.mjs";
 import type {
-  CognitiveCalibrationLog,
-  Influence,
-  PersonalOperatingSystem,
-  PortfolioData,
-  Project,
-  TrainingHistory,
+  CognitiveCalibrationLog, Influence, PersonalOperatingSystem, PortfolioData,
+  Project, RoadmapStage, StarMap, TrainingHistory,
 } from "@/types/project";
 
-const data = portfolioData as PortfolioData;
+const data = normalizePortfolioData(portfolioData) as PortfolioData;
 
-export function getProfile() {
-  return data.profile;
+export function getPortfolioData() { return data; }
+export function getProfile() { return data.profile; }
+export function getHomeConfig() { return data.home; }
+export function getFeatureFlags() { return data.features; }
+export function getContact() { return data.contact; }
+export function getProjects(): Project[] { return [...data.projects].sort((a, b) => a.order - b.order); }
+export function getFeaturedProjects(): Project[] {
+  const bySlug = new Map(getProjects().map((project) => [project.slug, project]));
+  return data.featuredProjectSlugs.map((slug) => bySlug.get(slug)).filter((project): project is Project => Boolean(project)).slice(0, 3);
 }
-
-export function getProjects(): Project[] {
-  return [...data.projects].sort((a, b) => a.order - b.order);
-}
-
-export function getCalibrationLogs(): CognitiveCalibrationLog[] {
-  return data.calibrationLogs;
-}
-
-export function getPersonalOperatingSystem(): PersonalOperatingSystem {
-  return data.personalOperatingSystem;
-}
-
-export function getInfluences(): Influence[] {
-  return data.influences;
-}
-
-export function getTrainingHistory(): TrainingHistory[] {
-  return data.trainingHistory;
-}
-
-export function getProjectBySlug(slug: string): Project | undefined {
-  return getProjects().find((project) => project.slug === slug);
-}
-
-export function getProjectSlugs() {
-  return getProjects().map((project) => ({
-    slug: project.slug,
-  }));
-}
-
-export function getFeaturedMetrics() {
-  return [
-    { label: "商单收入提升", value: "+X%" },
-    { label: "交易内容收入增长", value: "+Z%" },
-    { label: "图文 DAU 提升", value: "百万级增量" },
-    { label: "经验页频道 DAU", value: "千万级规模" },
-    { label: "小游戏 DAU", value: "百万级规模" },
-    { label: "可归因游戏流水", value: "数亿级" },
-    { label: "问答式搜索覆盖需求", value: "双位数比例" },
-  ];
-}
+export function getCalibrationLogs(): CognitiveCalibrationLog[] { return data.calibrationLogs; }
+export function getPersonalOperatingSystem(): PersonalOperatingSystem { return data.personalOperatingSystem; }
+export function getInfluences(): Influence[] { return data.influences; }
+export function getTrainingHistory(): TrainingHistory[] { return data.trainingHistory; }
+export function getRoadmap(): RoadmapStage[] { return data.roadmap; }
+export function getStarMap(): StarMap { return data.starMap; }
+export function getProjectBySlug(slug: string): Project | undefined { return getProjects().find((project) => project.slug === slug); }
+export function getProjectSlugs() { return getProjects().map((project) => ({ slug: project.slug })); }
+export function getFeaturedMetrics() { return data.home.evidenceMetrics; }

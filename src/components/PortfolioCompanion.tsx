@@ -85,7 +85,13 @@ function getDefaultPetPosition(): Position {
   });
 }
 
-export function PortfolioCompanion() {
+type PortfolioCompanionProps = {
+  suggestions?: string[];
+  alwaysVisible?: boolean;
+};
+
+export function PortfolioCompanion({ suggestions = [], alwaysVisible = false }: PortfolioCompanionProps) {
+  const activeLines = suggestions.length > 0 ? suggestions.slice(0, 3) : lines;
   const [position, setPosition] = useState<Position | null>(null);
   const [closed, setClosed] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -120,14 +126,14 @@ export function PortfolioCompanion() {
 
   useEffect(() => {
     const updateVisibility = () => {
-      setVisible(window.scrollY > REVEAL_SCROLL_Y);
+      setVisible(alwaysVisible || window.scrollY > REVEAL_SCROLL_Y);
     };
 
     updateVisibility();
     window.addEventListener("scroll", updateVisibility, { passive: true });
 
     return () => window.removeEventListener("scroll", updateVisibility);
-  }, []);
+  }, [alwaysVisible]);
 
   useEffect(() => {
     if (!dragState) return;
@@ -235,7 +241,7 @@ export function PortfolioCompanion() {
       return;
     }
 
-    setLineIndex((current) => (current + 1) % lines.length);
+    setLineIndex((current) => (current + 1) % activeLines.length);
     setBubbleOpen(true);
   };
 
@@ -243,7 +249,7 @@ export function PortfolioCompanion() {
     <aside
       aria-label="作品集桌面伙伴"
       data-floating-pet
-      className="portfolio-companion-pet hidden min-[1880px]:block"
+      className={`portfolio-companion-pet ${alwaysVisible ? "hidden lg:block" : "hidden min-[1880px]:block"}`}
       onMouseDown={handleMouseDown}
       onTouchStart={handleTouchStart}
       onClick={handleClick}
@@ -288,7 +294,7 @@ export function PortfolioCompanion() {
             data-pet-line
             className="mt-1 text-xs font-semibold leading-5"
           >
-            {lines[lineIndex]}
+            {activeLines[lineIndex % activeLines.length]}
           </p>
         </div>
 
