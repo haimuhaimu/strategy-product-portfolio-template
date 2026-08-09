@@ -122,7 +122,7 @@ src/app/config/page.tsx          可视化编辑器
 out/                             npm run build 生成的静态网站
 ```
 
-详细能力边界与工作流见 [`skills/README.md`](skills/README.md)。
+详细能力边界与工作流见 [`skills/README.md`](skills/README.md)，近期面向使用者的变化见 [`CHANGELOG.md`](CHANGELOG.md)。
 
 ## 开源许可
 
