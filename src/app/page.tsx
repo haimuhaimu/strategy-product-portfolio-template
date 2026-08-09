@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import React from "react";
 import { ClosingCTA } from "@/components/ClosingCTA";
+import { EvidenceSnapshot } from "@/components/EvidenceSnapshot";
 import { FeaturedProjectShowcase } from "@/components/FeaturedProjectShowcase";
 import { HeroOverview } from "@/components/HeroOverview";
 import { HomeEvidenceSection } from "@/components/HomeEvidenceSection";
@@ -17,10 +19,12 @@ export const metadata: Metadata = createPageMetadata({
 export default function Home() {
   const profile = getProfile();
   const home = getHomeConfig();
+  const featuredProjects = getFeaturedProjects();
   return (
     <main className="home-page">
       <div className="mx-auto max-w-7xl px-4 sm:px-8"><HeroOverview profile={profile} home={home} /></div>
-      <FeaturedProjectShowcase projects={getFeaturedProjects()} />
+      <FeaturedProjectShowcase projects={featuredProjects} />
+      <EvidenceSnapshot projects={featuredProjects} />
       <HomeEvidenceSection home={home} />
       <SignatureAtlasSection roadmap={getRoadmap()} starMap={getStarMap()} />
       <ClosingCTA contact={getContact()} />
