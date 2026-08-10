@@ -9,7 +9,7 @@
 - Bug、文案修正和小范围可访问性改进可以直接提交 PR。
 - 新角色 preset、新主题、数据结构变化或跨多个页面的功能，请先提交 Feature Request，对齐用户场景、最小范围和兼容性。
 - 不确定是否适合核心模板时，先描述真实使用问题，不要先做大规模重构。
-- Showcase 不通过代码 PR 征集，请使用 Showcase Issue 模板。
+- Showcase 使用低冲突 JSON 流程：先阅读 [`showcase/README.md`](showcase/README.md)，再通过 [Showcase Issue](https://github.com/haimuhaimu/strategy-product-portfolio-template/issues/new?template=showcase.yml) 提交公开信息；每位贡献者只新增 `showcase/entries/<slug>.json`，不要修改他人条目。
 
 ## 本地开发
 
@@ -86,6 +86,14 @@ npm run init -- --preset operations --dry-run
 
 主题贡献不应改写示例内容，也不应引入仅为主题服务的运行时依赖。
 
+### Showcase
+
+1. 先阅读 [`showcase/README.md`](showcase/README.md) 并提交 [Showcase Issue](https://github.com/haimuhaimu/strategy-product-portfolio-template/issues/new?template=showcase.yml)。
+2. 一位贡献者只新增一个 `showcase/entries/<slug>.json`，文件名与 `slug` 一致；不要编辑共享清单或他人条目。
+3. 只提交公开 URL、角色标签、公开亮点、审计摘要和披露确认。不得加入邮箱、内部链接或原始敏感材料。
+4. 审计分必须来自实际输出；维护者自测必须标记 `maintainer/self-test`，不得描述成第三方客户案例。
+5. 运行 `npm run test:showcase` 与 `npm run test:public`，并在 PR 中链接对应 Issue。
+
 ### Bugfix
 
 1. Bug Report 中提供最小复现、Node.js 版本、操作系统、浏览器（如相关）及实际/预期结果。
@@ -103,6 +111,7 @@ npm run test:init
 npm run test:personal-model
 npm run test:calibration
 npm run test:public
+npm run test:showcase
 npm run lint
 npm run build
 npm run check:seo

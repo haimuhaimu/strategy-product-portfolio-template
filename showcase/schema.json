@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/haimuhaimu/strategy-product-portfolio-template/blob/main/showcase/schema.json",
+  "title": "Evidence-driven portfolio showcase entry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["slug", "kind", "publicUrl", "roleTags", "publicHighlights", "auditSummary", "disclosure"],
+  "properties": {
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "kind": {
+      "enum": ["community", "maintainer/self-test"]
+    },
+    "publicUrl": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://"
+    },
+    "roleTags": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1, "maxLength": 40 }
+    },
+    "publicHighlights": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 5,
+      "items": { "type": "string", "minLength": 1, "maxLength": 160 }
+    },
+    "auditSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["strict", "score", "maxScore", "dimensions"],
+      "properties": {
+        "strict": { "const": true },
+        "score": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "maxScore": { "const": 5 },
+        "dimensions": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["resultEvidence", "scopeAndAttribution", "methodEvidence", "artifactEvidence", "contributionBoundary"],
+          "properties": {
+            "resultEvidence": { "type": "boolean" },
+            "scopeAndAttribution": { "type": "boolean" },
+            "methodEvidence": { "type": "boolean" },
+            "artifactEvidence": { "type": "boolean" },
+            "contributionBoundary": { "type": "boolean" }
+          }
+        }
+      }
+    },
+    "disclosure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authorized", "publiclyAccessible", "sensitiveMaterialReviewed", "takedownAvailable"],
+      "properties": {
+        "authorized": { "const": "confirmed" },
+        "publiclyAccessible": { "const": "confirmed" },
+        "sensitiveMaterialReviewed": { "const": "confirmed" },
+        "takedownAvailable": { "const": "confirmed" }
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
 {
   "name": "product-operations-portfolio-template",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "description": "A privacy-conscious Next.js personal cognition portfolio template for product managers and operations professionals.",
   "keywords": [
@@ -25,7 +25,9 @@
     "build": "node scripts/next-with-wasm.mjs build --webpack",
     "check:seo": "node scripts/check-seo.mjs",
     "init": "node scripts/init-portfolio.mjs",
+    "test": "node --test tests/*.test.mjs",
     "test:init": "node --test tests/init-portfolio.test.mjs",
+    "test:showcase": "node --test tests/showcase.test.mjs",
     "test:portable-scripts": "node --test tests/next-with-wasm.test.mjs",
     "test:pages": "node --test tests/github-pages.test.mjs",
     "test:portfolio-v2": "node --test tests/portfolio-v2.test.mjs",

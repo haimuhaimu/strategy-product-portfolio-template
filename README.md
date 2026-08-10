@@ -1,34 +1,68 @@
-# 把经历变成证据，把证据变成作品集
+# 面向产品经理与运营的证据驱动作品集系统
 
-**为产品经理和运营设计的 Agent Skill：从全部经历中选出最强的 3 个项目，追问关键证据，生成可投递的网站。**
+**把零散经历变成 3 个代表项目、可审计的证据叙事和可直接部署的网站。** Agent Skill 是访谈与证据审计引擎，网站是最终输出；两者共同服务于同一个目标：让招聘官在 30 秒内看懂你解决了什么问题、做了什么判断、证据是否可信。
 
-[`portfolio-story-builder`](skills/portfolio-story-builder/) 把项目选择、证据审计与案例表达放进同一条工作流，交付 **3 个代表项目**、可直接构建的 **`projects.json`**，以及记录证据分、待补事实和披露边界的**审计报告**。
+| 适合谁 | 最终得到什么 |
+| --- | --- |
+| 产品经理、策略 / 增长产品、产品运营、策略 / 增长运营 | **3 个代表项目** + **证据审计报告** + **可部署作品集网站** |
+
+[**查看在线作品集 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/) · [**打开在线配置器 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/config/) · [**导入 Agent Skill →**](skills/portfolio-story-builder/)
+
+![真实作品集成品首页](public/images/portfolio-preview.png)
+
+> 真实成品截图：仓库当前数据构建的作品集。配置器中的证据审计同样来自真实页面，不是聊天 UI 或概念图。
+
+![在线配置器中的本地证据审计区域](public/images/config-evidence-audit.png)
 
 [![CI](https://github.com/haimuhaimu/strategy-product-portfolio-template/actions/workflows/portable-build.yml/badge.svg)](https://github.com/haimuhaimu/strategy-product-portfolio-template/actions/workflows/portable-build.yml)
 [![Next.js 16.3](https://img.shields.io/badge/Next.js-16.3-000000?logo=next.js)](https://nextjs.org/)
 
-> **5 分钟开始：**让 Agent 导入 [`skills/portfolio-story-builder/`](skills/portfolio-story-builder/)，然后说：
->
-> `请根据我的简历和项目材料，为「增长产品经理」岗位选出 3 个最有说服力的案例；一次只问一个关键问题，核对指标与归因，生成 projects.json 和审计报告，并在发布前检查隐私。所有事实以我的材料为准。`
+## 先看一个真实 Before / After
 
-## 核心能力
+> **披露：这是维护者使用本人已确认、已脱敏材料完成的 self-test，不是第三方客户案例。** 下列内容不代表客户评价，也不外推收入、提升比例、具体组织或时间。
 
-多数作品集工具解决排版；这个 Skill 解决排版之前更关键的三件事：**选什么、凭什么、怎么讲。**
+### 1. 原始材料摘录
+
+> 过去付费作者挖掘通常需要 1 名 DA 或 1 名算法同学写 SQL、制定策略；现在产品和运营可借助 AI 内容理解与自动化策略自行完成。
+
+这段材料说明了工作方式变化，但尚未交代可公开的覆盖范围和应用状态。
+
+### 2. Skill 的唯一高价值追问
+
+> **目前能公开确认的覆盖范围、量级与应用状态分别是什么？**
+
+### 3. 补充证据
+
+> 覆盖全量业务作者，规模为几十万量级；相关策略已经实际应用。
+
+### 4. 最终项目叙事
+
+> 过去，付费作者挖掘通常需要 1 名 DA 或 1 名算法同学写 SQL、制定策略；现在，产品和运营已能借助 AI 内容理解与自动化策略自行完成。该能力覆盖全量业务作者，量级为几十万，相关策略已经实际应用。已确认的是工作方式变化、覆盖范围和采用事实；转化、收入、留存提升、具体组织与时间均不展示。
+
+### 5. strict audit 五维结构评分
+
+仓库当前 `data/projects.json` 的 strict audit 实际输出为 **4 / 5**，未手填拔高：
+
+| 结果证据 | 口径完整 | 方法证据 | 资产证据 | 贡献边界 |
+| --- | --- | --- | --- | --- |
+| 通过 | **待补** | 通过 | 通过 | 通过 |
+
+未通过项来自当前审计器的 `scopeAndAttribution: false`。结构分只表示材料完整度，不代表第三方事实核验。完整公开条目见 [`showcase/entries/maintainer-ai-pm.json`](showcase/entries/maintainer-ai-pm.json)。
+
+## 核心工作流
+
+多数作品集工具解决排版；这套系统先解决 **选什么、凭什么、怎么讲**：
+
+`材料盘点 → 叙事判断 → 一次一问补证据 → 精选 3 个项目 → 五维证据评分 → 30 秒测试 → 挑战模式 → 隐私检查 → 生成网站`
 
 | 能力 | 产出 |
 | --- | --- |
 | 三项目精选 | 按岗位相关性、证据、个人判断与组合价值，从全部经历中选出 3 个代表项目 |
-| 证据评分 | 检查基线、周期、口径、证据载体与个人贡献，逐项目给出 0–5 分 |
-| 招聘官 30 秒测试 | 检验首屏信息密度，让项目、动作、证据与岗位关系一目了然 |
-| 挑战模式 | 从招聘官视角追问归因、失败样本和贡献边界，定位薄弱环节 |
+| 证据审计 | 检查结果、口径、方法、资产与贡献边界，逐项目给出 0–5 分 |
+| 招聘官 30 秒测试 | 检验项目、动作、可信证据与岗位关系能否快速被理解 |
+| 挑战模式 | 从招聘官视角追问归因、失败样本和贡献边界 |
 | 产品 / 运营双叙事 | 产品突出问题、机制与取舍；运营突出人群、策略与经营闭环 |
-| 网站生成 | 生成 v2 `projects.json`、审计报告和可构建的静态作品集 |
-
-工作流：
-
-`材料盘点 → 叙事判断 → 一次一问补证据 → 精选 3 个项目 → 证据评分 → 30 秒测试 → 挑战模式 → 隐私检查 → 生成网站`
-
-输入可以是简历、项目复盘、工作笔记、指标或交付物摘要；建议同时提供目标岗位或 JD。
+| 网站输出 | 生成 v2 `projects.json`、审计报告和纯静态作品集 |
 
 ## 三种使用方式
 
@@ -42,50 +76,43 @@
 
 ### B. 让 Agent 直接读取 Skill
 
-让 Agent 读取 [`skills/portfolio-story-builder/SKILL.md`](skills/portfolio-story-builder/SKILL.md)，再提供上面的触发语和材料。客户端没有 Skill 导入功能时，也可按其中的工作流执行。
+让 Agent 读取 [`skills/portfolio-story-builder/SKILL.md`](skills/portfolio-story-builder/SKILL.md)，再提供上面的触发语和材料。客户端没有 Skill 导入功能时，也可按其中工作流执行。
 
-### C. 使用可视化编辑器
+### C. 使用可视化配置器
 
-在已下载的仓库目录中运行：
+直接使用[在线配置器](https://haimuhaimu.github.io/strategy-product-portfolio-template/config/)，或在仓库目录运行：
 
 ```bash
 npm ci
 npm run dev
 ```
 
-打开 [`http://localhost:3000/config/`](http://localhost:3000/config/)，完成下面这条真实闭环：
+打开 [`http://localhost:3000/config/`](http://localhost:3000/config/)，完成：
 
 `输入项目草稿 → 浏览器即时审计 → 按 1–3 条高价值追问补证据 → 导出作品集`
 
-配置页会按结果证据、口径完整、方法证据、资产证据、贡献边界五维评分，并单独提示常见隐私红线与空泛表达。诊断只在浏览器内存运行，不上传填写内容；可复制不含原始敏感内容的诊断摘要，交给 Agent 或同事继续协作。完成后下载 `projects.json`，直接替换 `data/projects.json`。自动检查不能判断组织保密规则，发布前仍需本人确认披露权限。
+诊断只在浏览器内存运行，不上传填写内容；可复制不含原始敏感内容的摘要继续协作。自动检查不能判断组织保密规则，发布前仍需本人确认披露权限。
 
-## 对话示例
+## Showcase：低冲突提交真实作品
 
-```text
-你：这是我的简历，我想投增长运营，请帮我做作品集。
+Showcase 使用“一位贡献者一个 JSON”的方式，避免多人修改同一清单：
 
-Agent：我盘点出 6 段候选经历。为了判断哪个项目最值得进入前三，先确认一件事：
-在“新用户召回”活动中，最能证明效果的一项结果是什么？请同时说明指标口径和观察周期。
+- 流程与字段说明：[`showcase/README.md`](showcase/README.md)
+- 公开字段约束：[`showcase/schema.json`](showcase/schema.json)
+- 首个维护者自测：[`showcase/entries/maintainer-ai-pm.json`](showcase/entries/maintainer-ai-pm.json)
+- 提交入口：[Showcase Issue](https://github.com/haimuhaimu/strategy-product-portfolio-template/issues/new?template=showcase.yml)
 
-你：活动后 14 天内，沉默 30 天用户的回访率从 8.1% 提升到 11.6%；数据来自活动复盘看板。
+Showcase 不收集邮箱、内部链接或原始敏感材料；只有公开 URL、角色标签、公开亮点、审计摘要和明确披露确认会进入条目。
 
-Agent：已记录结果、基线、周期和证据载体。下一个最大缺口是个人贡献：
-这个提升中，你亲自做出的一个关键判断是什么？
+## 完整安装与发布
+
+1. 安装依赖并从 Agent 或 `/config/` 导出 `projects.json`：
+
+```bash
+npm ci
 ```
 
-每轮聚焦当前价值最高的证据缺口；信息充分时直接推进，缺失事实进入“待补充”。
-
-## 适用场景
-
-- 产品经理、产品运营、策略 / 增长运营求职
-- 晋升答辩前整理代表项目与个人贡献
-- 建设个人品牌，将职业经历沉淀为公开案例
-
-## 发布流程
-
-1. 从 Agent 或 `/config/` 导出 `projects.json`。
-2. 替换 [`data/projects.json`](data/projects.json)。
-3. 在仓库根目录运行审计、测试与构建：
+2. 替换 [`data/projects.json`](data/projects.json)，运行审计、测试与构建：
 
 ```bash
 python3 skills/portfolio-story-builder/scripts/audit_portfolio.py data/projects.json --strict --output audit-report.json
@@ -93,9 +120,10 @@ npm run test:portfolio-v2
 npm run test:public
 npm run lint
 npm run build
+npm run check:seo
 ```
 
-4. 将 `out/` 发布到 **GitHub Pages**、**Vercel** 或其他静态托管服务。
+3. 将 `out/` 发布到 **GitHub Pages**、**Vercel** 或其他静态托管服务。
 
 GitHub Pages 会根据 `GITHUB_REPOSITORY` 推断仓库子路径；也可显式设置：
 
@@ -109,20 +137,17 @@ NEXT_PUBLIC_SITE_URL=https://portfolio.example.com NEXT_PUBLIC_BASE_PATH=false n
 
 Skill 依据用户材料组织内容，对证据不足处明确标记“待补充”，并在生成前检查常见敏感信息。指标、客户、职责、因果关系与个人贡献均以可核验事实为准；事实核验和最终披露权限由使用者确认。处理工作材料时，请先脱敏并遵守所在组织的保密规则。
 
-## 可选：高级个人模型 / 兴趣史
-
-完成 3 个案例与网站后，可按需加入个人工作系统、影响来源或训练史，用于补充个人特质，不替代项目证据。
-
 ## 仓库结构
 
 ```text
 skills/portfolio-story-builder/  Agent Skill：访谈、选项目、审计与生成规范
 data/projects.json               网站读取的作品集数据
-src/app/config/page.tsx          可视化编辑器
+src/app/config/page.tsx          可视化配置器
+showcase/entries/                一位贡献者一个公开 Showcase JSON
 out/                             npm run build 生成的静态网站
 ```
 
-详细能力边界与工作流见 [`skills/README.md`](skills/README.md)，近期面向使用者的变化见 [`CHANGELOG.md`](CHANGELOG.md)。
+详细能力边界见 [`skills/README.md`](skills/README.md)，版本变化见 [`CHANGELOG.md`](CHANGELOG.md)，贡献流程见 [`CONTRIBUTING.md`](CONTRIBUTING.md)。
 
 ## 开源许可
 

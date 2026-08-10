@@ -2,6 +2,12 @@
 
 本文件记录面向使用者的重要变化。完整提交历史与技术细节请查看 GitHub Commits 和 Pull Requests。
 
+## 2026-08-10 — v0.3.0
+
+本版暂停扩展功能，集中优化转化、证据、Showcase 与发布：README 首屏统一为“面向产品经理与运营的证据驱动作品集系统”，增加真实成品与配置器审计截图、三个直接入口，以及维护者真实 Before / After 自测案例。
+
+新增低冲突 Showcase 目录、公开字段 schema、首个 `maintainer/self-test` 条目和自动校验；校验覆盖字段、slug 唯一、公共 URL 安全与明确披露确认。同步 CONTRIBUTING、Showcase Issue、`0.3.0` 版本号与发布说明。Skill 逻辑未修改。
+
 ## 2026-08-09 — Skill-first 作品集体验
 
 这次更新把项目从静态作品集模板升级为以 `portfolio-story-builder` 为入口的完整工作流：材料盘点、单问题追问、三项目精选、五维证据评分、隐私检查和静态网站生成被连接到同一条路径。

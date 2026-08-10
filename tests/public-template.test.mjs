@@ -11,6 +11,8 @@ const publicSources = [
   "package.json",
   "package-lock.json",
   "data",
+  "showcase",
+  "docs",
   "src",
   "scripts",
 ];

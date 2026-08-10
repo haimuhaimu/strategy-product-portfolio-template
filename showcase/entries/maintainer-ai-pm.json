@@ -1,0 +1,29 @@
+{
+  "slug": "maintainer-ai-pm",
+  "kind": "maintainer/self-test",
+  "publicUrl": "https://haimuhaimu.github.io/strategy-product-portfolio-template/",
+  "roleTags": ["AI 产品经理", "策略产品经理"],
+  "publicHighlights": [
+    "从全部经历中精选 3 个代表项目，并明确事实、迁移设想与贡献边界。",
+    "付费作者挖掘能力覆盖全量业务作者、几十万量级，相关策略已经实际应用。",
+    "维护者使用本人已确认并脱敏材料完成的自测，不是第三方客户案例。"
+  ],
+  "auditSummary": {
+    "strict": true,
+    "score": 4,
+    "maxScore": 5,
+    "dimensions": {
+      "resultEvidence": true,
+      "scopeAndAttribution": false,
+      "methodEvidence": true,
+      "artifactEvidence": true,
+      "contributionBoundary": true
+    }
+  },
+  "disclosure": {
+    "authorized": "confirmed",
+    "publiclyAccessible": "confirmed",
+    "sensitiveMaterialReviewed": "confirmed",
+    "takedownAvailable": "confirmed"
+  }
+}

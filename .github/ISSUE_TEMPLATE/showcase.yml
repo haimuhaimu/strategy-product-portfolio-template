@@ -7,7 +7,10 @@ body:
   - type: markdown
     attributes:
       value: |
-        Showcase 用于展示真实用户如何使用本模板。请只提交你本人拥有或已获作者明确授权的公开作品。
+        Showcase 用于展示真实用户如何使用本系统。提交前请先阅读公开字段与低冲突 JSON 流程：
+        https://github.com/haimuhaimu/strategy-product-portfolio-template/blob/main/showcase/README.md
+
+        Issue 审核通过后，每位贡献者只新增一个 `showcase/entries/<slug>.json`；字段契约见 `showcase/schema.json`。请只提交你本人拥有或已获作者明确授权的公开作品。
 
         **不得提交任何内部数据或敏感信息**，包括公司内部文档、未公开项目、客户/用户数据、精确敏感业务指标、聊天记录、密钥、私人联系方式、家庭地址，以及含 EXIF、通知栏或访问参数的截图/链接。Issue 和作品站点都是公开内容；不确定能否公开时，请先不要提交。
   - type: input
