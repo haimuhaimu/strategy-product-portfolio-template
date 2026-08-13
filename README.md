@@ -8,6 +8,8 @@
 
 [**查看在线作品集 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/) · [**打开在线配置器 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/config/) · [**导入 Agent Skill →**](skills/portfolio-story-builder/)
 
+> 如果你想稍后继续使用这套方法，或关注后续版本，可以 [Star 保存项目](https://github.com/haimuhaimu/strategy-product-portfolio-template)。
+
 ![真实作品集成品首页](public/images/portfolio-preview.png)
 
 > 真实成品截图：仓库当前数据构建的作品集。配置器中的证据审计同样来自真实页面，不是聊天 UI 或概念图。
