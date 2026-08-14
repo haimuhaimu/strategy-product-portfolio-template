@@ -32,7 +32,8 @@ const project = readExportedFile(
 );
 const robots = readExportedFile("robots.txt");
 const sitemap = readExportedFile("sitemap.xml");
-const baiduVerification = process.env.BAIDU_SITE_VERIFICATION?.trim();
+const baiduVerification =
+  process.env.NEXT_PUBLIC_BAIDU_SITE_VERIFICATION?.trim();
 const siteUrl = getSiteUrl(process.env);
 
 assert.match(
