@@ -1,12 +1,18 @@
-# 面向产品经理与运营的证据驱动作品集系统
+**EVIDENCE-DRIVEN PORTFOLIO SYSTEM**
 
-**把零散经历变成 3 个代表项目、可审计的证据叙事和可直接部署的网站。** Agent Skill 是访谈与证据审计引擎，网站是最终输出；两者共同服务于同一个目标：让招聘官在 30 秒内看懂你解决了什么问题、做了什么判断、证据是否可信。
+# 把零散经历，变成可验证的作品集
 
-| 适合谁 | 最终得到什么 |
-| --- | --- |
-| 产品经理、策略 / 增长产品、产品运营、策略 / 增长运营 | **3 个代表项目** + **证据审计报告** + **可部署作品集网站** |
+**面向产品经理与运营：先选项目、审计证据和校准叙事，再生成可直接部署的网站。**
 
 [**查看在线作品集 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/) · [**打开在线配置器 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/config/) · [**导入 Agent Skill →**](skills/portfolio-story-builder/)
+
+| 3 个代表项目精选 | 5 类证据审计 | 1 套可部署网站 |
+| --- | --- | --- |
+| 按岗位相关性、证据与个人判断筛选 | 结果、口径、方法、资产与贡献边界 | 浏览器配置、静态导出与 GitHub Pages |
+
+Agent Skill 是访谈与证据审计引擎，网站是最终输出；两者共同服务于同一个目标：让招聘官在 30 秒内看懂你解决了什么问题、做了什么判断、证据是否可信。
+
+> 如果你想稍后继续使用这套方法，或关注后续版本，可以 [Star 保存项目](https://github.com/haimuhaimu/strategy-product-portfolio-template)。
 
 ![真实作品集成品首页](public/images/portfolio-preview.png)
 

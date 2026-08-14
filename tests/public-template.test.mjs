@@ -188,6 +188,28 @@ test("direct PostCSS dependency meets the audited security baseline", () => {
   );
 });
 
+test("README leads with the approved value-first discovery hierarchy", () => {
+  const readme = readFileSync(path.join(root, "README.md"), "utf8");
+  const screenshotIndex = readme.indexOf("![真实作品集成品首页]");
+
+  assert.notEqual(screenshotIndex, -1, "README must retain the real preview image");
+  const hero = readme.slice(0, screenshotIndex);
+  for (const content of [
+    "EVIDENCE-DRIVEN PORTFOLIO SYSTEM",
+    "# 把零散经历，变成可验证的作品集",
+    "面向产品经理与运营：先选项目、审计证据和校准叙事，再生成可直接部署的网站。",
+    "| 3 个代表项目精选 | 5 类证据审计 | 1 套可部署网站 |",
+    "[Star 保存项目]",
+  ]) {
+    assert.ok(hero.includes(content), `README hero is missing: ${content}`);
+  }
+  assert.ok(
+    hero.indexOf("# 把零散经历，变成可验证的作品集") <
+      hero.indexOf("查看在线作品集"),
+    "The value proposition must appear before the primary actions",
+  );
+});
+
 test("GitHub Actions use supported JavaScript runtimes", () => {
   const workflow = readFileSync(
     path.join(root, ".github/workflows/portable-build.yml"),
