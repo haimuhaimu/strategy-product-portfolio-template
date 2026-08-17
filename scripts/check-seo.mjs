@@ -18,6 +18,10 @@ function readExportedFile(relativePath) {
   return readFileSync(filePath, "utf8");
 }
 
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/gu, "\\$&");
+}
+
 const portfolio = JSON.parse(
   readFileSync(path.join(projectRoot, "data/projects.json"), "utf8"),
 );
@@ -32,7 +36,8 @@ const project = readExportedFile(
 );
 const robots = readExportedFile("robots.txt");
 const sitemap = readExportedFile("sitemap.xml");
-const baiduVerification = process.env.BAIDU_SITE_VERIFICATION?.trim();
+const baiduVerification =
+  process.env.NEXT_PUBLIC_BAIDU_SITE_VERIFICATION?.trim();
 const siteUrl = getSiteUrl(process.env);
 
 assert.match(
@@ -70,13 +75,18 @@ assert.ok(
 );
 assert.doesNotMatch(sitemap, /localhost|vercel\.app/);
 
+const baiduMetaPattern =
+  /<meta name="baidu-site-verification" content="[^"]*"\s*\/?>/u;
 if (baiduVerification) {
   assert.match(
     home,
     new RegExp(
-      `<meta name="baidu-site-verification" content="${baiduVerification}"\\s*/?>`,
+      `<meta name="baidu-site-verification" content="${escapeRegExp(baiduVerification)}"\\s*/?>`,
+      "u",
     ),
   );
+} else {
+  assert.doesNotMatch(home, baiduMetaPattern);
 }
 
 console.log(

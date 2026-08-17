@@ -14,10 +14,12 @@ import {
 
 const projectRoot = path.resolve(import.meta.dirname, "..");
 const repository = process.env.GITHUB_REPOSITORY || "octocat/portfolio";
+const fakeBaiduVerification = "test-only-baidu-verification-token";
 const buildEnvironment = {
   ...process.env,
   GITHUB_ACTIONS: "true",
   GITHUB_REPOSITORY: repository,
+  NEXT_PUBLIC_BAIDU_SITE_VERIFICATION: fakeBaiduVerification,
 };
 const expectedBasePath = getGithubPagesBasePath(buildEnvironment);
 const expectedSiteUrl = getSiteUrl(buildEnvironment);
@@ -139,6 +141,32 @@ test("simulated GitHub Pages build prefixes HTML assets and SEO URLs", () => {
     new RegExp(`href="${escapedBasePath}/projects/search-quality-ai-answer/index\\.html"`, "u"),
   );
   assert.match(home, new RegExp(`<link rel="canonical" href="${escapedSiteUrl}/"`, "u"));
+  assert.match(
+    home,
+    new RegExp(
+      `<meta name="baidu-site-verification" content="${fakeBaiduVerification}"\\s*/?>`,
+      "u",
+    ),
+  );
+  assert.doesNotMatch(home, /content="wrong-baidu-verification-token"/u);
+  execFileSync(process.execPath, ["scripts/check-seo.mjs"], {
+    cwd: projectRoot,
+    env: buildEnvironment,
+    stdio: "inherit",
+  });
+  assert.throws(
+    () =>
+      execFileSync(process.execPath, ["scripts/check-seo.mjs"], {
+        cwd: projectRoot,
+        env: {
+          ...buildEnvironment,
+          NEXT_PUBLIC_BAIDU_SITE_VERIFICATION:
+            "wrong-baidu-verification-token",
+        },
+        stdio: "pipe",
+      }),
+    /Command failed/u,
+  );
   assert.match(config, new RegExp(`<link rel="canonical" href="${escapedSiteUrl}/config/"`, "u"));
   assert.match(config, new RegExp(`(?:href|src)="${escapedBasePath}/_next/`, "u"));
   assert.match(profile, new RegExp(`<link rel="canonical" href="${escapedSiteUrl}/profile/"`, "u"));
@@ -148,4 +176,25 @@ test("simulated GitHub Pages build prefixes HTML assets and SEO URLs", () => {
   if (expectedBasePath) {
     assert.doesNotMatch(home, /(?:href|src)="\/(?:_next|images)\//u);
   }
+
+  const unconfiguredEnvironment = {
+    ...buildEnvironment,
+    NEXT_PUBLIC_BAIDU_SITE_VERIFICATION: "",
+  };
+  execFileSync(
+    process.execPath,
+    ["scripts/next-with-wasm.mjs", "build", "--webpack"],
+    {
+      cwd: projectRoot,
+      env: unconfiguredEnvironment,
+      stdio: "inherit",
+    },
+  );
+  const unconfiguredHome = readProjectFile("out/index.html");
+  assert.doesNotMatch(unconfiguredHome, /name="baidu-site-verification"/u);
+  execFileSync(process.execPath, ["scripts/check-seo.mjs"], {
+    cwd: projectRoot,
+    env: unconfiguredEnvironment,
+    stdio: "inherit",
+  });
 });
