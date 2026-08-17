@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import test from "node:test";
 
@@ -167,6 +167,25 @@ test("simulated GitHub Pages build prefixes HTML assets and SEO URLs", () => {
       }),
     /Command failed/u,
   );
+
+  const homePath = path.join(projectRoot, "out/index.html");
+  const assertMutatedSeoFails = (mutatedHome) => {
+    writeFileSync(homePath, mutatedHome);
+    assert.throws(
+      () => execFileSync(process.execPath, ["scripts/check-seo.mjs"], {
+        cwd: projectRoot,
+        env: buildEnvironment,
+        stdio: "pipe",
+      }),
+      /Command failed/u,
+    );
+    writeFileSync(homePath, home);
+  };
+  assertMutatedSeoFails(home.replace(/portfolio-preview\.png/u, "missing-share-image.png"));
+  assertMutatedSeoFails(home.replace(/content="https:[^"]+portfolio-preview\.png"/u, "content=\"/relative-share-image.png\""));
+  assertMutatedSeoFails(home.replace(/content="index, follow"/u, "content=\"noindex, nofollow\""));
+  assertMutatedSeoFails(home.replace(/content="summary_large_image"/u, "content=\"invalid-card\""));
+
   assert.match(config, new RegExp(`<link rel="canonical" href="${escapedSiteUrl}/config/"`, "u"));
   assert.match(config, new RegExp(`(?:href|src)="${escapedBasePath}/_next/`, "u"));
   assert.match(profile, new RegExp(`<link rel="canonical" href="${escapedSiteUrl}/profile/"`, "u"));

@@ -12,11 +12,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
-      url: getAbsoluteUrl("/config/"),
-      changeFrequency: "yearly",
-      priority: 0.6,
-    },
-    {
       url: getAbsoluteUrl("/profile/"),
       changeFrequency: "monthly",
       priority: 0.8,
