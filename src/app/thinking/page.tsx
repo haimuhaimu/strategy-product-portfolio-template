@@ -6,10 +6,10 @@ import { getRoadmap, getStarMap } from "@/lib/projects";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
-  title: "个人路线图与思考星图",
-  description: "从发现问题到 AI 协作，展示能力演进以及用户价值、评估、实验、机制与三个真实项目之间的关系。",
+  title: "证据驱动的产品思考路线图",
+  description: "把用户价值、评估、实验、机制与 AI 协作连接到三个项目证据，呈现策略产品经理的能力演进。",
   pathname: "/thinking/",
-  keywords: ["个人路线图", "思考星图", "产品经理认知模型", "AI 产品经理"],
+  keywords: ["策略产品经理", "证据驱动作品集"],
 });
 
 export default function ThinkingPage() {

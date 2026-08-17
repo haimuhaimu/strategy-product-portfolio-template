@@ -36,7 +36,7 @@ export async function generateMetadata({
   }
 
   return createPageMetadata({
-    title: `${project.title} | 产品经理与运营作品集模板`,
+    title: project.title,
     description: project.summary,
     pathname: `/projects/${project.slug}/`,
     keywords: getProjectSeoKeywords(project),

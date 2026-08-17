@@ -9,27 +9,27 @@ import {
   ExperienceSection,
 } from "@/components/ProfileSections";
 import { getContact, getProfile } from "@/lib/projects";
-import { createPageMetadata } from "@/lib/seo";
+import { createPageMetadata, createProfileJsonLd, serializeJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
-  title: "个人介绍模板 | 产品经理与运营经历能力",
+  title: "产品与运营能力及经历",
   description:
-    "展示产品经理、产品运营与策略运营的经历、能力证明、实验判断和跨团队推进方式。",
+    "以脱敏证据展示产品与运营经历、AI 产品判断、跨团队推进方式及个人贡献边界。",
   pathname: "/profile/",
-  keywords: [
-    "产品经理个人介绍",
-    "产品经理工作经历",
-    "AI 策略产品经理",
-    "推荐搜索产品经理",
-    "内容生态产品经理",
-  ],
+  keywords: ["AI 产品经理", "策略产品经理"],
 });
 
 export default function ProfilePage() {
   const profile = getProfile();
+  const profileJsonLd = createProfileJsonLd();
 
   return (
-    <main>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(profileJsonLd) }}
+      />
+      <main>
       <section className="mx-auto max-w-[1680px] px-4 py-6 sm:px-8 lg:py-8">
         <StaticPageLink
           href="/"
@@ -56,6 +56,7 @@ export default function ProfilePage() {
       <ExperienceSection profile={profile} />
       <ActionPrinciplesSection />
       <ClosingCTA contact={getContact()} />
-    </main>
+      </main>
+    </>
   );
 }
