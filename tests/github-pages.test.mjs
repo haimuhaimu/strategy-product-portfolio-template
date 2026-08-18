@@ -181,8 +181,8 @@ test("simulated GitHub Pages build prefixes HTML assets and SEO URLs", () => {
     );
     writeFileSync(homePath, home);
   };
-  assertMutatedSeoFails(home.replace(/portfolio-preview\.png/u, "missing-share-image.png"));
-  assertMutatedSeoFails(home.replace(/content="https:[^"]+portfolio-preview\.png"/u, "content=\"/relative-share-image.png\""));
+  assertMutatedSeoFails(home.replace(/og-share\.png/u, "missing-share-image.png"));
+  assertMutatedSeoFails(home.replace(/content="https:[^"]+og-share\.png"/u, "content=\"/relative-share-image.png\""));
   assertMutatedSeoFails(home.replace(/content="index, follow"/u, "content=\"noindex, nofollow\""));
   assertMutatedSeoFails(home.replace(/content="summary_large_image"/u, "content=\"invalid-card\""));
 
