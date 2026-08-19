@@ -9,6 +9,8 @@ import {
   RELEASE_FILE_NAMES,
 } from "@/lib/launchpad.mjs";
 import { StaticPageLink } from "@/components/StaticPageLink";
+import { isTemplateId } from "@/lib/templates.mjs";
+import type { TemplateId } from "@/types/project";
 
 type Assessment = ReturnType<typeof assessPortfolioData>;
 type ImportState = {
@@ -50,12 +52,13 @@ function CheckRow({ label, state, detail }: { label: string; state: "block" | "w
 export function LaunchpadWorkbench() {
   const [raw, setRaw] = useState("");
   const [result, setResult] = useState<ImportState | null>(null);
+  const [selectedTemplate, setSelectedTemplate] = useState<TemplateId>("atlas");
   const [message, setMessage] = useState("等待导入 projects.json");
   const fileInput = useRef<HTMLInputElement>(null);
   const releasePack = useMemo(() => {
     if (!result?.assessment.canGenerateRelease) return null;
-    return createReleasePack(result.assessment);
-  }, [result]);
+    return createReleasePack(result.assessment, { selectedTemplate });
+  }, [result, selectedTemplate]);
 
   function inspectJson(source: string, sourceName: string) {
     const parsed = parsePortfolioJson(source);
@@ -65,6 +68,8 @@ export function LaunchpadWorkbench() {
       return;
     }
     const assessment = assessPortfolioData(parsed.data);
+    const importedTemplate = parsed.data.template?.active;
+    setSelectedTemplate(isTemplateId(importedTemplate) ? importedTemplate as TemplateId : assessment.templateMatches[0].id as TemplateId);
     setResult({ sourceName, assessment });
     setMessage(`已在本地完成检查 · ${sourceName}`);
   }
@@ -180,6 +185,27 @@ export function LaunchpadWorkbench() {
             </>
           )}
         </div>
+      </section>
+
+      <section className="mt-8 border border-[#14110e]/20 bg-[#f8f8f3] p-5 sm:p-8" aria-labelledby="template-match-title">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div><p className="font-mono text-xs font-bold text-[#80654d]">03 / TEMPLATE MATCH</p><h2 id="template-match-title" className="mt-2 text-3xl font-semibold">按内容信号推荐，不按皮肤推荐。</h2><p className="mt-3 max-w-3xl text-sm leading-6 text-[#6e5743]">评分仅使用导入数据中的角色、词汇、五维证据、路线图与星图。手动选择只改变 Release Pack 的 projects.json，不能绕过隐私或引用阻断。</p></div>
+          <StaticPageLink href="/templates/" className="text-sm font-semibold text-[#80654d] underline underline-offset-4">查看四种结构说明 →</StaticPageLink>
+        </div>
+        {!result ? <p className="mt-6 border border-dashed border-[#14110e]/20 bg-white p-5 text-sm text-[#80654d]">导入并通过基础解析后，这里会出现四模板 0–100 排序与解释。</p> : (
+          <ol className="mt-6 grid gap-4 lg:grid-cols-2">
+            {result.assessment.templateMatches.map((match, index) => (
+              <li key={match.id}>
+                <button type="button" onClick={() => setSelectedTemplate(match.id as TemplateId)} className={`h-full w-full border p-5 text-left transition ${selectedTemplate === match.id ? "border-[#c92a20] bg-[#fffaf0] shadow-[5px_5px_0_rgba(201,42,32,0.15)]" : "border-[#14110e]/15 bg-white hover:border-[#80654d]"}`} aria-pressed={selectedTemplate === match.id}>
+                  <div className="flex items-start justify-between gap-4"><div><span className="font-mono text-[10px] font-bold text-[#80654d]">#{index + 1} · {match.id}</span><h3 className="mt-1 text-xl font-semibold">{match.name}</h3></div><strong className="font-mono text-3xl text-[#c92a20]">{match.score}</strong></div>
+                  <p className="mt-3 text-sm font-semibold leading-6 text-[#4b3829]">{match.focus}</p>
+                  <div className="mt-4 grid gap-3 sm:grid-cols-2"><div><p className="font-mono text-[10px] font-bold text-[#26734d]">加分理由</p><ul className="mt-2 space-y-1 text-xs leading-5 text-[#5b4635]">{match.reasons.map((reason) => <li key={reason}>+ {reason}</li>)}</ul></div><div><p className="font-mono text-[10px] font-bold text-[#9a6818]">当前缺口</p><ul className="mt-2 space-y-1 text-xs leading-5 text-[#5b4635]">{match.gaps.length ? match.gaps.map((gap) => <li key={gap}>− {gap}</li>) : <li>未识别到关键结构缺口</li>}</ul></div></div>
+                  <span className="mt-4 block text-xs font-bold text-[#c92a20]">{selectedTemplate === match.id ? "已选择，将写入 template.active" : "选择此模板"}</span>
+                </button>
+              </li>
+            ))}
+          </ol>
+        )}
       </section>
 
       <section className="mt-8 border border-[#14110e]/20 bg-[#14110e] p-5 text-[#f8f8f3] sm:p-8" aria-labelledby="release-title">

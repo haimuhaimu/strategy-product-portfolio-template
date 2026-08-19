@@ -1,3 +1,5 @@
+import { getActiveTemplateId } from "./templates.mjs";
+
 export const CONFIG_DRAFT_VERSION = 1;
 export const CONFIG_DRAFT_KEY = "portfolio-config-draft:v1";
 
@@ -8,6 +10,7 @@ const EMPTY_PROJECT = Object.freeze({
 export function createEmptyConfigDraft() {
   return {
     mode: "product",
+    template: "atlas",
     profile: { name: "", role: "", summary: "", email: "" },
     projects: Array.from({ length: 3 }, () => ({ ...EMPTY_PROJECT })),
   };
@@ -75,6 +78,7 @@ export function portfolioDataToConfigDraft(input) {
   const profile = data.profile && typeof data.profile === "object" ? data.profile : {};
   return {
     mode,
+    template: getActiveTemplateId(data),
     profile: {
       name: typeof profile.name === "string" ? profile.name : "",
       role: typeof profile.role === "string" ? profile.role : "",
@@ -106,6 +110,7 @@ export function parseConfigDraft(raw) {
       savedAt: typeof parsed.savedAt === "string" ? parsed.savedAt : "",
       draft: {
         mode: parsed.draft.mode === "operations" ? "operations" : "product",
+        template: getActiveTemplateId({ template: { active: parsed.draft.template } }),
         profile: Object.fromEntries(Object.keys(empty.profile).map((key) => [key, text(parsed.draft.profile[key])])),
         projects,
       },

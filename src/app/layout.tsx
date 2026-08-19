@@ -3,7 +3,7 @@ import { BackToTopButton } from "@/components/BackToTopButton";
 import { Header } from "@/components/Header";
 import { PortfolioCompanion } from "@/components/PortfolioCompanion";
 import { UnderstandingProgressWidget } from "@/components/UnderstandingProgressWidget";
-import { getFeatureFlags, getProfile } from "@/lib/projects";
+import { getActiveTemplate, getFeatureFlags, getProfile } from "@/lib/projects";
 import {
   DEFAULT_DESCRIPTION,
   DEFAULT_KEYWORDS,
@@ -85,9 +85,10 @@ export default function RootLayout({
 }>) {
   const profile = getProfile();
   const features = getFeatureFlags();
+  const activeTemplate = getActiveTemplate();
 
   return (
-    <html lang="zh-CN" data-scroll-behavior="smooth">
+    <html lang="zh-CN" data-scroll-behavior="smooth" data-template={activeTemplate}>
       <body>
         <Header profile={profile} features={features} />
         {children}
