@@ -7,7 +7,8 @@ import { HeroOverview } from "@/components/HeroOverview";
 import { HomeEvidenceSection } from "@/components/HomeEvidenceSection";
 import { SignatureAtlasSection } from "@/components/SignatureAtlasSection";
 import { StaticPageLink } from "@/components/StaticPageLink";
-import { getContact, getFeaturedProjects, getHomeConfig, getProfile, getRoadmap, getStarMap } from "@/lib/projects";
+import { TemplateHome } from "@/components/templates/TemplateHome";
+import { getActiveTemplate, getContact, getFeaturedProjects, getHomeConfig, getPortfolioData, getProfile, getRoadmap, getStarMap } from "@/lib/projects";
 import { createPageMetadata, createSiteJsonLd, serializeJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
@@ -21,6 +22,7 @@ export default function Home() {
   const profile = getProfile();
   const home = getHomeConfig();
   const featuredProjects = getFeaturedProjects();
+  const activeTemplate = getActiveTemplate();
   const siteJsonLd = createSiteJsonLd();
   return (
     <>
@@ -28,6 +30,7 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(siteJsonLd) }}
       />
+      {activeTemplate === "atlas" ? (
       <main className="home-page">
       <div className="mx-auto max-w-7xl px-4 sm:px-8"><HeroOverview profile={profile} home={home} /></div>
       <FeaturedProjectShowcase projects={featuredProjects} />
@@ -42,6 +45,9 @@ export default function Home() {
         </div>
       </aside>
       </main>
+      ) : (
+        <TemplateHome template={activeTemplate} data={getPortfolioData()} projects={featuredProjects} />
+      )}
     </>
   );
 }

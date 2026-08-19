@@ -2,6 +2,7 @@ import { portfolioDataToConfigDraft } from "./config-draft.mjs";
 import { createPortfolioExport } from "./config-export.mjs";
 import { auditPortfolioDraft, createSafeDiagnosticSummary, validatePortfolioReferences } from "./evidence-audit.mjs";
 import { normalizePortfolioData } from "./normalize.mjs";
+import { applyTemplateSelection, matchPortfolioTemplates, resolveTemplateId } from "./templates.mjs";
 
 export const RELEASE_FILE_NAMES = [
   "projects.json",
@@ -114,6 +115,7 @@ export function assessPortfolioData(input) {
     projects: configDraft.projects,
   });
   const audit = auditPortfolioDraft(input);
+  const templateMatches = matchPortfolioTemplates(normalizedData, audit);
   const references = validatePortfolioReferences(input);
   const template = detectTemplateState(input);
   const featured = featuredGuard(input);
@@ -139,6 +141,7 @@ export function assessPortfolioData(input) {
     audit,
     references,
     template,
+    templateMatches,
     featured,
     blockers,
     warnings,
@@ -181,10 +184,12 @@ function createAuditExport(assessment) {
   };
 }
 
-export function createReleasePack(assessment) {
+export function createReleasePack(assessment, options = {}) {
   if (!assessment?.canGenerateRelease) {
     throw new Error("Release Pack 已阻断：请先修复结构、隐私或引用问题。");
   }
+  const selectedTemplate = resolveTemplateId(options.selectedTemplate ?? assessment.normalizedData.template?.active);
+  const releaseData = applyTemplateSelection(assessment.normalizedData, selectedTemplate);
   const summary = createSafeReleaseSummary(assessment);
   const dimensions = aggregateDimensions(assessment.audit);
   const evidenceScore = Object.values(dimensions).filter(Boolean).length;
@@ -234,7 +239,7 @@ export function createReleasePack(assessment) {
   };
 
   return {
-    "projects.json": `${JSON.stringify(assessment.normalizedData, null, 2)}\n`,
+    "projects.json": `${JSON.stringify(releaseData, null, 2)}\n`,
     "audit-report.json": `${JSON.stringify(createAuditExport(assessment), null, 2)}\n`,
     "RELEASE_CHECKLIST.md": `${checklist}\n`,
     "SHARE_COPY.md": `${shareCopy}\n`,

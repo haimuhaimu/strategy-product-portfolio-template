@@ -6,7 +6,7 @@
 | --- | --- |
 | 产品经理、策略 / 增长产品、产品运营、策略 / 增长运营 | **3 个代表项目** + **证据审计报告** + **可部署作品集网站** |
 
-[**选择起步路径 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/start/) · [**打开本地 Launchpad →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/launchpad/) · [**体验示例配置器 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/config/) · [**导入 Agent Skill →**](skills/portfolio-story-builder/)
+[**浏览四种叙事模板 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/templates/) · [**选择起步路径 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/start/) · [**打开本地 Launchpad →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/launchpad/) · [**体验示例配置器 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/config/) · [**导入 Agent Skill →**](skills/portfolio-story-builder/)
 
 ![真实作品集成品首页](public/images/portfolio-preview.png)
 
@@ -16,6 +16,21 @@
 
 [![CI](https://github.com/haimuhaimu/strategy-product-portfolio-template/actions/workflows/portable-build.yml/badge.svg)](https://github.com/haimuhaimu/strategy-product-portfolio-template/actions/workflows/portable-build.yml)
 [![Next.js 16.3](https://img.shields.io/badge/Next.js-16.3-000000?logo=next.js)](https://nextjs.org/)
+
+## v0.5 模板系统：结构选择，不是换皮
+
+`projects.json` 现在可在根级声明 `template.active`，可选值为 `atlas`、`growth`、`systems`、`ai-workflow`。四个模板读取同一份项目事实，但首页与项目页的叙事顺序不同：
+
+| 模板 | 首屏优先展示 | 项目页主线 | 主要匹配依据 |
+| --- | --- | --- | --- |
+| Atlas | 个人判断、代表项目与证据图谱 | 开场判断 → 核心指标 → 项目展开 | 五维证据、路线图、星图 |
+| Growth | 指标、实验与增长闭环 | 增长目标 → 实验 → 护栏 → 复盘 → 资产 | `rolePreset`、指标/实验/转化词 |
+| Systems | 系统域、机制、资产与边界 | 系统边界 → 机制 → 协作契约 → 资产 → 结果 | 系统/规则/标准/资产词、贡献边界 |
+| AI Workflow | 人机工作流、评估、护栏与回滚 | 人机边界 → 工作流 → 评估 → 护栏 → 回滚 | AI/Agent/RAG、评估/护栏/回滚词 |
+
+模板不改写项目事实，也不虚构缺失信号。Launchpad 在基础解析后为四模板给出 0–100 排序、加分理由和当前缺口；用户可以手动选择，但模板选择不能绕过隐私或引用阻断。Release Pack 只在 `projects.json` 写入最终选择，其余四个安全文件不因模板选择而改变。
+
+**兼容性：** schemaVersion 仍为 `2`，没有因为模板系统升级 schema。旧数据缺少 `template` 时 normalize 为 `atlas`；normalize 保留根级、已知嵌套对象和项目中的未知字段。配置器与 Launchpad 导出均写入 `template.active`。
 
 ## v0.4 起步闭环
 
@@ -158,6 +173,8 @@ Skill 依据用户材料组织内容，对证据不足处明确标记“待补�
 ```text
 skills/portfolio-story-builder/  Agent Skill：访谈、选项目、审计与生成规范
 data/projects.json               网站读取的作品集数据
+src/app/templates/page.tsx        四模板公开库与结构预览
+src/lib/templates.mjs             模板注册表、选择写回与纯函数匹配器
 src/app/start/page.tsx           三路径起步分流
 src/app/launchpad/page.tsx       本地发布工作台
 src/lib/launchpad.mjs            校验状态与 Release Pack

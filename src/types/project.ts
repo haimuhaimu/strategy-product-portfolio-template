@@ -5,6 +5,8 @@ export type Insight = { title: string; description: string };
 export type WorkGroup = { title: string; description: string; projectSlugs: string[] };
 export type CapabilityGroup = { title: string; items: string[] };
 export type RolePreset = "product" | "operations";
+export type TemplateId = "atlas" | "growth" | "systems" | "ai-workflow";
+export type TemplateConfig = { active?: TemplateId };
 
 export type Profile = {
   name: string; role: string; location: string; phone: string; email: string;
@@ -63,7 +65,7 @@ export type StarMap = { nodes: StarMapNode[]; edges: StarMapEdge[] };
 export type FeatureFlags = { profile: boolean; thinking: boolean; advancedModels: boolean };
 export type ContactConfig = { title: string; description: string; email: string };
 export type PortfolioData = {
-  schemaVersion: 2; rolePreset: RolePreset; profile: Profile; home: HomeConfig;
+  schemaVersion: 2; rolePreset: RolePreset; template?: TemplateConfig; profile: Profile; home: HomeConfig;
   features: FeatureFlags; contact: ContactConfig; featuredProjectSlugs: string[];
   roadmap: RoadmapStage[]; starMap: StarMap;
   personalOperatingSystem: PersonalOperatingSystem; influences: Influence[];

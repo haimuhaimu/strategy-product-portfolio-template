@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProjectDetail } from "@/components/ProjectDetail";
-import { getProjectBySlug, getProjectSlugs } from "@/lib/projects";
+import { TemplateProjectDetail } from "@/components/templates/TemplateProjectDetail";
+import { getActiveTemplate, getProjectBySlug, getProjectSlugs } from "@/lib/projects";
 import {
   createPageMetadata,
   createProjectJsonLd,
@@ -53,6 +54,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   }
 
   const projectJsonLd = createProjectJsonLd(project);
+  const activeTemplate = getActiveTemplate();
 
   return (
     <>
@@ -62,7 +64,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           __html: serializeJsonLd(projectJsonLd),
         }}
       />
-      <ProjectDetail project={project} />
+      {activeTemplate === "atlas" ? <ProjectDetail project={project} /> : <TemplateProjectDetail template={activeTemplate} project={project} />}
     </>
   );
 }

@@ -12,30 +12,35 @@ import {
   saveConfigDraft,
 } from "@/lib/config-draft.mjs";
 import { auditPortfolioDraft } from "@/lib/evidence-audit.mjs";
+import { TEMPLATE_REGISTRY } from "@/lib/templates.mjs";
+import type { TemplateId } from "@/types/project";
 import { PortfolioCompanion } from "@/components/PortfolioCompanion";
+import { StaticPageLink } from "@/components/StaticPageLink";
 import { ConfigPreview } from "./ConfigPreview";
 import { ConfigProjectFields, type DraftProject } from "./ConfigProjectFields";
 import { EvidenceAuditPanel } from "./EvidenceAuditPanel";
 
 type Mode = "product" | "operations";
 type Profile = { name: string; role: string; summary: string; email: string };
-type ConfigDraft = { mode: Mode; profile: Profile; projects: DraftProject[] };
+type ConfigDraft = { mode: Mode; template: TemplateId; profile: Profile; projects: DraftProject[] };
 
 const initialDraft = createEmptyConfigDraft() as ConfigDraft;
 
 export function PortfolioConfigurator() {
   const [mode, setMode] = useState<Mode>(initialDraft.mode);
+  const [template, setTemplate] = useState<TemplateId>(initialDraft.template);
   const [profile, setProfile] = useState<Profile>(initialDraft.profile);
   const [projects, setProjects] = useState<DraftProject[]>(initialDraft.projects);
   const [storageStatus, setStorageStatus] = useState("正在检查本地草稿…");
   const [clearArmed, setClearArmed] = useState(false);
   const hydrated = useRef(false);
   const clearTimer = useRef<number | null>(null);
-  const exported = useMemo(() => createPortfolioExport({ mode, ...profile, projects }), [mode, profile, projects]);
+  const exported = useMemo(() => createPortfolioExport({ mode, template, ...profile, projects }), [mode, template, profile, projects]);
   const auditReport = useMemo(() => auditPortfolioDraft({ mode, profile, projects }), [mode, profile, projects]);
 
   function applyDraft(draft: ConfigDraft) {
     setMode(draft.mode);
+    setTemplate(draft.template);
     setProfile(draft.profile);
     setProjects(draft.projects);
   }
@@ -62,11 +67,11 @@ export function PortfolioConfigurator() {
   useEffect(() => {
     if (!hydrated.current) return;
     const timer = window.setTimeout(() => {
-      const result = saveConfigDraft(window.localStorage, { mode, profile, projects });
+      const result = saveConfigDraft(window.localStorage, { mode, template, profile, projects });
       setStorageStatus(result.ok ? "草稿已自动保存 · 仅保存在此浏览器" : "浏览器阻止本地保存，本页内容不会上传");
     }, 250);
     return () => window.clearTimeout(timer);
-  }, [mode, profile, projects]);
+  }, [mode, template, profile, projects]);
 
   useEffect(() => () => {
     if (clearTimer.current) window.clearTimeout(clearTimer.current);
@@ -132,6 +137,20 @@ export function PortfolioConfigurator() {
               </button>
             ))}
           </div>
+          <section className="mt-5 rounded-xl border border-[#14110e]/15 bg-[#fffaf0] p-5">
+            <div className="flex items-end justify-between gap-4">
+              <div><p className="font-mono text-xs font-bold text-[#80654d]">TEMPLATE</p><h2 className="mt-1 text-lg font-semibold">选择叙事结构</h2></div>
+              <StaticPageLink href="/templates/" className="text-xs font-semibold text-[#80654d] underline underline-offset-4">查看模板库</StaticPageLink>
+            </div>
+            <div className="mt-4 grid gap-2 sm:grid-cols-2">
+              {TEMPLATE_REGISTRY.map((item) => (
+                <button key={item.id} type="button" onClick={() => setTemplate(item.id as TemplateId)} className={`rounded-lg border p-3 text-left ${template === item.id ? "border-[#c92a20] bg-white" : "border-[#14110e]/15 bg-[#f8f8f3]"}`}>
+                  <span className="block text-sm font-semibold">{item.shortName}</span>
+                  <span className="mt-1 block text-xs leading-5 text-[#80654d]">{item.focus}</span>
+                </button>
+              ))}
+            </div>
+          </section>
           <section className="mt-5 rounded-xl border border-[#14110e]/15 bg-white p-5">
             <h2 className="text-lg font-semibold">基本信息</h2>
             <div className="mt-4 grid gap-4 sm:grid-cols-2">
