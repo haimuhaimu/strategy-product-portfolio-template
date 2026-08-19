@@ -12,6 +12,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
+      url: getAbsoluteUrl("/start/"),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
       url: getAbsoluteUrl("/profile/"),
       changeFrequency: "monthly",
       priority: 0.8,

@@ -37,7 +37,7 @@ test("高级入口由 feature flags 控制且思考星图由首页独立进入",
   const header = read("src/components/Header.tsx");
   assert.match(header, /features\.profile/u);
   assert.match(header, /features\.thinking/u);
-  assert.match(header, /配置作品集/u);
+  assert.match(header, /作者入口/u);
   assert.match(read("src/app/layout.tsx"), /features\.advancedModels/u);
 });
 
@@ -104,5 +104,5 @@ test("路线图与星图读取真实项目关系并提供键盘浏览", () => {
 test("Pages basePath 可覆盖 config 与下载页的静态路由", () => {
   assert.match(read("next.config.ts"), /output: "export"/u);
   assert.match(read("next.config.ts"), /basePath/u);
-  assert.match(read("src/components/Header.tsx"), /href="\/config\/"/u);
+  assert.match(read("src/components/Header.tsx"), /href="\/start\/"/u);
 });

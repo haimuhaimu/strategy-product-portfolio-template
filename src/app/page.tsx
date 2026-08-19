@@ -6,6 +6,7 @@ import { FeaturedProjectShowcase } from "@/components/FeaturedProjectShowcase";
 import { HeroOverview } from "@/components/HeroOverview";
 import { HomeEvidenceSection } from "@/components/HomeEvidenceSection";
 import { SignatureAtlasSection } from "@/components/SignatureAtlasSection";
+import { StaticPageLink } from "@/components/StaticPageLink";
 import { getContact, getFeaturedProjects, getHomeConfig, getProfile, getRoadmap, getStarMap } from "@/lib/projects";
 import { createPageMetadata, createSiteJsonLd, serializeJsonLd } from "@/lib/seo";
 
@@ -34,6 +35,12 @@ export default function Home() {
       <HomeEvidenceSection home={home} />
       <SignatureAtlasSection roadmap={getRoadmap()} starMap={getStarMap()} />
       <ClosingCTA contact={getContact()} />
+      <aside className="border-t border-[#14110e]/15 bg-[#f8f8f3] px-4 py-5 sm:px-8" aria-label="作品集作者入口">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 text-sm text-[#6e5743]">
+          <p><strong className="text-[#14110e]">你也在整理作品集？</strong> 从材料、JSON 或示例中任选一条路径开始。</p>
+          <StaticPageLink href="/start/" className="font-semibold text-[#80654d] underline decoration-[#80654d]/30 underline-offset-4 hover:text-[#c92a20]">进入作者工作台 →</StaticPageLink>
+        </div>
+      </aside>
       </main>
     </>
   );

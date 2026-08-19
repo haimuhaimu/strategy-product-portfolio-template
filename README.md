@@ -6,7 +6,7 @@
 | --- | --- |
 | 产品经理、策略 / 增长产品、产品运营、策略 / 增长运营 | **3 个代表项目** + **证据审计报告** + **可部署作品集网站** |
 
-[**查看在线作品集 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/) · [**打开在线配置器 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/config/) · [**导入 Agent Skill →**](skills/portfolio-story-builder/)
+[**选择起步路径 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/start/) · [**打开本地 Launchpad →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/launchpad/) · [**体验示例配置器 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/config/) · [**导入 Agent Skill →**](skills/portfolio-story-builder/)
 
 ![真实作品集成品首页](public/images/portfolio-preview.png)
 
@@ -16,6 +16,22 @@
 
 [![CI](https://github.com/haimuhaimu/strategy-product-portfolio-template/actions/workflows/portable-build.yml/badge.svg)](https://github.com/haimuhaimu/strategy-product-portfolio-template/actions/workflows/portable-build.yml)
 [![Next.js 16.3](https://img.shields.io/badge/Next.js-16.3-000000?logo=next.js)](https://nextjs.org/)
+
+## v0.4 起步闭环
+
+先打开 [`/start/`](https://haimuhaimu.github.io/strategy-product-portfolio-template/start/)，按手头材料选择唯一入口：
+
+| 你现在有 | 推荐路径 | 产出 |
+| --- | --- | --- |
+| 只有简历或零散材料 | **Skill-first**：盘点经历、一次一问补证据、精选 3 个项目 | v2 `projects.json` + 审计报告 |
+| 已有 `projects.json` | **Launchpad**：本地导入、结构/隐私/引用/证据检查 | 5 文件 Release Pack |
+| 想先体验 | **示例配置器**：载入产品或运营示例 | 可编辑草稿 + `projects.json` |
+
+[`/launchpad/`](https://haimuhaimu.github.io/strategy-product-portfolio-template/launchpad/) 是纯前端发布工作台：不 fetch、不上传、不依赖账号。它会在浏览器内运行 schema-lite、normalize、引用校验、常见隐私扫描和证据审计，并把结论收敛为 **BLOCK / WARN / PASS** 与一个明确下一步。隐私或引用阻断时禁止生成 Release Pack；通过后可分别下载 `projects.json`、`audit-report.json`、`RELEASE_CHECKLIST.md`、`SHARE_COPY.md` 和 `SHOWCASE_ENTRY.json`。
+
+### 与普通简历工具有什么不同
+
+普通简历工具通常从“怎么排版”开始；这里从“选什么、凭什么、能否安全公开”开始。系统强制面对三项目组合、结果口径、个人与团队边界、弱证据、模板占位、隐私和断链，而不是把更多经历塞进一个更漂亮的页面。分享文案只使用不含项目原文的安全摘要，自动检查仍不替代本人对事实与披露权限的最终确认。
 
 ## 先看一个真实 Before / After
 
@@ -142,6 +158,9 @@ Skill 依据用户材料组织内容，对证据不足处明确标记“待补�
 ```text
 skills/portfolio-story-builder/  Agent Skill：访谈、选项目、审计与生成规范
 data/projects.json               网站读取的作品集数据
+src/app/start/page.tsx           三路径起步分流
+src/app/launchpad/page.tsx       本地发布工作台
+src/lib/launchpad.mjs            校验状态与 Release Pack
 src/app/config/page.tsx          可视化配置器
 showcase/entries/                一位贡献者一个公开 Showcase JSON
 out/                             npm run build 生成的静态网站
