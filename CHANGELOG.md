@@ -2,6 +2,14 @@
 
 本文件记录面向使用者的重要变化。完整提交历史与技术细节请查看 GitHub Commits 和 Pull Requests。
 
+## 2026-08-19 — v0.6.0
+
+新增公开可索引的 `/pilot/` 首批目标人群页，明确 3–8 年经验、转型 AI / 策略产品或产品运营、材料多但不会筛选 / 证明 / 脱敏的人群，并把单轮成功 gate 收敛为真实材料导入、Release Pack 生成与公开上线。首页、Start、README、sitemap 与 SEO 检查同步增加克制入口；Launchpad 继续 noindex。
+
+新增默认关闭、明确 opt-in、7 天 TTL 的纯前端匿名 PMF 日志，仅允许枚举、布尔、计数、模板 ID 与时间戳，支持 enable / disable / clear / export。Start 与 Launchpad 覆盖 persona、路径、真实/示例导入、审计、Release Pack、公开平台、投递与面试反馈事件；示例不计真实导入，不收集或存储 URL。
+
+Release Pack 增加安全的第六文件 `PMF_PILOT_LOG.json`，未启用时只输出 disabled 状态，隐私与引用阻断仍优先。新增独立 PMF Pilot Issue Form、版本与安全测试；未引入依赖、第三方统计或 Showcase schema 变更。
+
 ## 2026-08-19 — v0.5.0
 
 新增可扩展模板注册表与纯函数匹配器。Atlas 保持原首页和项目页；Growth、Systems、AI Workflow 分别以指标实验闭环、系统机制资产边界、人机工作流评估护栏回滚组织首页和项目页，不是仅替换色彩。全局 `data-template` 提供四组主题 token，在密度、字号、圆角/边框、色彩与背景装置上形成差异。

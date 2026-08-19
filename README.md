@@ -6,7 +6,7 @@
 | --- | --- |
 | 产品经理、策略 / 增长产品、产品运营、策略 / 增长运营 | **3 个代表项目** + **证据审计报告** + **可部署作品集网站** |
 
-[**浏览四种叙事模板 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/templates/) · [**选择起步路径 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/start/) · [**打开本地 Launchpad →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/launchpad/) · [**体验示例配置器 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/config/) · [**导入 Agent Skill →**](skills/portfolio-story-builder/)
+[**参加 v0.6 PMF Pilot →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/pilot/) · [**浏览四种叙事模板 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/templates/) · [**选择起步路径 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/start/) · [**打开本地 Launchpad →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/launchpad/) · [**体验示例配置器 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/config/) · [**导入 Agent Skill →**](skills/portfolio-story-builder/)
 
 ![真实作品集成品首页](public/images/portfolio-preview.png)
 
@@ -16,6 +16,16 @@
 
 [![CI](https://github.com/haimuhaimu/strategy-product-portfolio-template/actions/workflows/portable-build.yml/badge.svg)](https://github.com/haimuhaimu/strategy-product-portfolio-template/actions/workflows/portable-build.yml)
 [![Next.js 16.3](https://img.shields.io/badge/Next.js-16.3-000000?logo=next.js)](https://nextjs.org/)
+
+## v0.6 PMF Pilot 招募
+
+本轮招募的核心人群是：**3–8 年经验、正在转型 AI / 策略产品或产品运营、材料很多但不会筛选 / 证明 / 脱敏的人**。先访问公开可索引的 [`/pilot/`](https://haimuhaimu.github.io/strategy-product-portfolio-template/pilot/) 完成枚举式自检，再进入 Start 或 Launchpad。当前不宣称已有试点用户或验证效果。
+
+**单轮成功 gate：**完成真实材料导入、生成包含 6 个文件的 Release Pack，并公开上线作品集。载入仓库示例不算真实导入；投递与面试是后续强信号，不要求本轮必达。
+
+匿名 PMF 日志默认关闭。只有主动 opt-in 后，浏览器才在 localStorage 保存枚举、布尔、计数、模板 ID 和时间戳；7 天自动过期，可一键清空或关闭删除，不记录自由文本、URL、公司名、项目原文、邮箱或电话。Launchpad 不要求输入作品 URL，未启用时也只生成 `disabled` 状态的 `PMF_PILOT_LOG.json`。
+
+**非目标人群：**只想自动美化排版、不准备核对事实和公开权限；希望上传原始简历或内部材料到第三方；没有可公开材料且本轮不准备补充；期待工具保证投递、面试或 Offer 的人。
 
 ## v0.5 模板系统：结构选择，不是换皮
 
@@ -39,10 +49,10 @@
 | 你现在有 | 推荐路径 | 产出 |
 | --- | --- | --- |
 | 只有简历或零散材料 | **Skill-first**：盘点经历、一次一问补证据、精选 3 个项目 | v2 `projects.json` + 审计报告 |
-| 已有 `projects.json` | **Launchpad**：本地导入、结构/隐私/引用/证据检查 | 5 文件 Release Pack |
+| 已有 `projects.json` | **Launchpad**：本地导入、结构/隐私/引用/证据检查 | 6 文件 Release Pack |
 | 想先体验 | **示例配置器**：载入产品或运营示例 | 可编辑草稿 + `projects.json` |
 
-[`/launchpad/`](https://haimuhaimu.github.io/strategy-product-portfolio-template/launchpad/) 是纯前端发布工作台：不 fetch、不上传、不依赖账号。它会在浏览器内运行 schema-lite、normalize、引用校验、常见隐私扫描和证据审计，并把结论收敛为 **BLOCK / WARN / PASS** 与一个明确下一步。隐私或引用阻断时禁止生成 Release Pack；通过后可分别下载 `projects.json`、`audit-report.json`、`RELEASE_CHECKLIST.md`、`SHARE_COPY.md` 和 `SHOWCASE_ENTRY.json`。
+[`/launchpad/`](https://haimuhaimu.github.io/strategy-product-portfolio-template/launchpad/) 是纯前端发布工作台：不 fetch、不上传、不依赖账号。它会在浏览器内运行 schema-lite、normalize、引用校验、常见隐私扫描和证据审计，并把结论收敛为 **BLOCK / WARN / PASS** 与一个明确下一步。隐私或引用阻断时禁止生成 Release Pack；通过后可分别下载 `projects.json`、`audit-report.json`、`RELEASE_CHECKLIST.md`、`SHARE_COPY.md`、`SHOWCASE_ENTRY.json` 和安全的 `PMF_PILOT_LOG.json`。
 
 ### 与普通简历工具有什么不同
 
@@ -176,8 +186,10 @@ data/projects.json               网站读取的作品集数据
 src/app/templates/page.tsx        四模板公开库与结构预览
 src/lib/templates.mjs             模板注册表、选择写回与纯函数匹配器
 src/app/start/page.tsx           三路径起步分流
+src/app/pilot/page.tsx           PMF Pilot 人群、自检、成功 gate 与隐私承诺
 src/app/launchpad/page.tsx       本地发布工作台
-src/lib/launchpad.mjs            校验状态与 Release Pack
+src/lib/launchpad.mjs            校验状态与 6 文件 Release Pack
+src/lib/pmf-pilot.mjs            7 天 TTL 的枚举型匿名本地日志
 src/app/config/page.tsx          可视化配置器
 showcase/entries/                一位贡献者一个公开 Showcase JSON
 out/                             npm run build 生成的静态网站

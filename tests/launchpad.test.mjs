@@ -97,12 +97,51 @@ test("Release Pack 文件齐全，分享文件不复制项目原文", () => {
   assert.match(releasePack["SHARE_COPY.md"], /不含项目原文/u);
   assert.doesNotMatch(releasePack["SHARE_COPY.md"], new RegExp(uniqueProjectPhrase, "u"));
   assert.doesNotMatch(releasePack["SHOWCASE_ENTRY.json"], new RegExp(uniqueProjectPhrase, "u"));
+  const pilotLog = JSON.parse(releasePack["PMF_PILOT_LOG.json"]);
+  assert.equal(pilotLog.status, "disabled");
+  assert.deepEqual(pilotLog.events, []);
+});
+
+test("Release Pack 第六文件只保留安全枚举，非法自由文本降级为 disabled", () => {
+  const assessment = assessPortfolioData(clone());
+  const timestamp = "2026-08-19T00:00:00.000Z";
+  const expiresAt = "2026-08-26T00:00:00.000Z";
+  const safePack = createReleasePack(assessment, {
+    pmfPilotLog: {
+      status: "enabled",
+      enabled: true,
+      startedAt: timestamp,
+      expiresAt,
+      events: [
+        { event: "import_result", value: "real_success", timestamp },
+        { event: "release_pack_generated", value: true, templateId: "atlas", timestamp },
+      ],
+    },
+  });
+  const safeLog = JSON.parse(safePack["PMF_PILOT_LOG.json"]);
+  assert.equal(safeLog.status, "enabled");
+  assert.equal(safeLog.eventCount, 2);
+  assert.doesNotMatch(safePack["PMF_PILOT_LOG.json"], /projects|summary|publicUrl/u);
+
+  const secret = "https://internal.example.com/resume";
+  const unsafePack = createReleasePack(assessment, {
+    pmfPilotLog: {
+      status: "enabled",
+      enabled: true,
+      startedAt: timestamp,
+      expiresAt,
+      events: [{ event: "applied", value: true, note: secret, timestamp }],
+    },
+  });
+  assert.equal(JSON.parse(unsafePack["PMF_PILOT_LOG.json"]).status, "disabled");
+  assert.doesNotMatch(unsafePack["PMF_PILOT_LOG.json"], /internal\.example/u);
 });
 
 test("start / launchpad 页面入口与 SEO 源码约束存在", () => {
   const read = (file) => readFileSync(path.join(root, file), "utf8");
   const start = read("src/app/start/page.tsx");
   const launchpad = read("src/app/launchpad/page.tsx");
+  const pilot = read("src/app/pilot/page.tsx");
   const header = read("src/components/Header.tsx");
   const home = read("src/app/page.tsx");
   const sitemap = read("src/app/sitemap.ts");
@@ -113,9 +152,12 @@ test("start / launchpad 页面入口与 SEO 源码约束存在", () => {
   assert.match(start, /\/launchpad\//u);
   assert.match(start, /\/config\//u);
   assert.match(launchpad, /index: false/u);
+  assert.doesNotMatch(pilot, /index: false/u);
+  assert.match(pilot, /pathname: "\/pilot\/"/u);
   assert.match(header, /href="\/start\/"/u);
   assert.match(home, /进入作者工作台/u);
   assert.match(sitemap, /getAbsoluteUrl\("\/start\/"\)/u);
+  assert.match(sitemap, /getAbsoluteUrl\("\/pilot\/"\)/u);
   assert.doesNotMatch(sitemap, /getAbsoluteUrl\("\/launchpad\/"\)/u);
   assert.match(robots, /launchpad\//u);
   assert.doesNotMatch(workbench, /\bfetch\s*\(/u);

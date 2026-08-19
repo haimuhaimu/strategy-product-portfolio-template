@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PilotPathLink } from "@/components/pilot/PilotPathLink";
 import { StaticPageLink } from "@/components/StaticPageLink";
 import { createPageMetadata } from "@/lib/seo";
 
@@ -18,6 +19,7 @@ const paths = [
     outcome: "得到 v2 projects.json + 审计报告",
     href: "https://github.com/haimuhaimu/strategy-product-portfolio-template/tree/main/skills/portfolio-story-builder",
     action: "打开 Portfolio Story Builder",
+    pilotPath: "skill_first",
     external: true,
   },
   {
@@ -25,9 +27,10 @@ const paths = [
     eyebrow: "已有 projects.json",
     title: "进入 Launchpad 做发布检查",
     description: "本地运行 schema-lite、normalize、引用校验、隐私扫描与证据审计；通过护栏后下载完整 Release Pack。",
-    outcome: "得到 5 个可交付发布文件",
+    outcome: "得到 6 个可交付发布文件",
     href: "/launchpad/",
     action: "导入 projects.json",
+    pilotPath: "launchpad",
     external: false,
   },
   {
@@ -38,6 +41,7 @@ const paths = [
     outcome: "10 分钟理解模板与审计逻辑",
     href: "/config/",
     action: "打开示例配置器",
+    pilotPath: "example_config",
     external: false,
   },
 ] as const;
@@ -53,6 +57,11 @@ export default function StartPage() {
         <p className="text-base leading-8 text-[#5b4635]">这不是把简历换个排版。先决定哪 3 个项目最值得被看见，再说明你做了什么判断、证据在哪里、哪些结果属于团队。</p>
       </section>
 
+      <aside className="mt-8 flex flex-wrap items-center justify-between gap-4 border-l-4 border-[#c92a20] bg-[#fff8df] p-5 text-sm leading-6 text-[#6f4a0c]">
+        <p><strong className="text-[#14110e]">v0.6 PMF Pilot：</strong>适合 3–8 年经验、转型 AI / 策略产品或产品运营、材料多但不会筛选证明脱敏的人。</p>
+        <StaticPageLink href="/pilot/" className="font-semibold text-[#c92a20] underline underline-offset-4">先做 30 秒自检 →</StaticPageLink>
+      </aside>
+
       <section className="mt-8 grid gap-5 lg:grid-cols-3" aria-label="三条起步路径">
         {paths.map((path) => (
           <article key={path.index} className="group flex min-h-[26rem] flex-col border border-[#14110e]/20 bg-[#f8f8f3] p-6 shadow-[6px_6px_0_rgba(20,17,14,0.08)] transition hover:-translate-y-1 hover:shadow-[9px_9px_0_rgba(20,17,14,0.11)]">
@@ -60,11 +69,9 @@ export default function StartPage() {
             <h2 className="mt-10 text-2xl font-semibold leading-tight text-[#14110e]">{path.title}</h2>
             <p className="mt-4 text-sm leading-7 text-[#5b4635]">{path.description}</p>
             <p className="mt-5 border-l-2 border-[#d84b28] pl-3 text-sm font-semibold text-[#4b3829]">{path.outcome}</p>
-            {path.external ? (
-              <a href={path.href} target="_blank" rel="noreferrer" className="mt-auto pt-10 font-semibold text-[#c92a20] underline decoration-[#c92a20]/30 underline-offset-4">{path.action} ↗</a>
-            ) : (
-              <StaticPageLink href={path.href} className="mt-auto pt-10 font-semibold text-[#c92a20] underline decoration-[#c92a20]/30 underline-offset-4">{path.action} →</StaticPageLink>
-            )}
+            <PilotPathLink href={path.href} path={path.pilotPath} external={path.external} className="mt-auto pt-10 font-semibold text-[#c92a20] underline decoration-[#c92a20]/30 underline-offset-4">
+              {path.action} {path.external ? "↗" : "→"}
+            </PilotPathLink>
           </article>
         ))}
       </section>
