@@ -2,6 +2,7 @@ import { portfolioDataToConfigDraft } from "./config-draft.mjs";
 import { createPortfolioExport } from "./config-export.mjs";
 import { auditPortfolioDraft, createSafeDiagnosticSummary, validatePortfolioReferences } from "./evidence-audit.mjs";
 import { normalizePortfolioData } from "./normalize.mjs";
+import { sanitizePmfPilotExport } from "./pmf-pilot.mjs";
 import { applyTemplateSelection, matchPortfolioTemplates, resolveTemplateId } from "./templates.mjs";
 
 export const RELEASE_FILE_NAMES = [
@@ -10,6 +11,7 @@ export const RELEASE_FILE_NAMES = [
   "RELEASE_CHECKLIST.md",
   "SHARE_COPY.md",
   "SHOWCASE_ENTRY.json",
+  "PMF_PILOT_LOG.json",
 ];
 
 const TEMPLATE_MARKERS = [
@@ -237,6 +239,7 @@ export function createReleasePack(assessment, options = {}) {
       takedownAvailable: "待确认后改为 confirmed",
     },
   };
+  const pmfPilotLog = sanitizePmfPilotExport(options.pmfPilotLog);
 
   return {
     "projects.json": `${JSON.stringify(releaseData, null, 2)}\n`,
@@ -244,5 +247,6 @@ export function createReleasePack(assessment, options = {}) {
     "RELEASE_CHECKLIST.md": `${checklist}\n`,
     "SHARE_COPY.md": `${shareCopy}\n`,
     "SHOWCASE_ENTRY.json": `${JSON.stringify(showcaseEntry, null, 2)}\n`,
+    "PMF_PILOT_LOG.json": `${JSON.stringify(pmfPilotLog, null, 2)}\n`,
   };
 }

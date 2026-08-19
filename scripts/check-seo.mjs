@@ -123,6 +123,7 @@ const siteUrl = getSiteUrl(process.env);
 const pages = [
   { label: "首页", file: "index.html", pathname: "/" },
   { label: "Start", file: "start/index.html", pathname: "/start/" },
+  { label: "PMF Pilot", file: "pilot/index.html", pathname: "/pilot/" },
   { label: "Templates", file: "templates/index.html", pathname: "/templates/" },
   { label: "Profile", file: "profile/index.html", pathname: "/profile/" },
   { label: "Thinking", file: "thinking/index.html", pathname: "/thinking/" },
