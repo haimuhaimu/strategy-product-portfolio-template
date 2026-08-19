@@ -127,7 +127,9 @@ test("simulated GitHub Pages build prefixes HTML assets and SEO URLs", () => {
 
   const home = readProjectFile("out/index.html");
   const profile = readProjectFile("out/profile/index.html");
+  const start = readProjectFile("out/start/index.html");
   const config = readProjectFile("out/config/index.html");
+  const launchpad = readProjectFile("out/launchpad/index.html");
   const robots = readProjectFile("out/robots.txt");
   const sitemap = readProjectFile("out/sitemap.xml");
   const escapedSiteUrl = escapeRegExp(expectedSiteUrl);
@@ -135,7 +137,9 @@ test("simulated GitHub Pages build prefixes HTML assets and SEO URLs", () => {
 
   assert.match(home, new RegExp(`(?:href|src)="${escapedBasePath}/_next/`, "u"));
   assert.match(home, new RegExp(`src="${escapedBasePath}/images/avatar-placeholder\\.svg"`, "u"));
-  assert.match(home, new RegExp(`href="${escapedBasePath}/config/index\\.html"`, "u"));
+  assert.match(home, new RegExp(`href="${escapedBasePath}/start/index\\.html"`, "u"));
+  assert.match(start, new RegExp(`href="${escapedBasePath}/launchpad/index\\.html"`, "u"));
+  assert.match(start, new RegExp(`href="${escapedBasePath}/config/index\\.html"`, "u"));
   assert.match(
     home,
     new RegExp(`href="${escapedBasePath}/projects/search-quality-ai-answer/index\\.html"`, "u"),
@@ -188,9 +192,15 @@ test("simulated GitHub Pages build prefixes HTML assets and SEO URLs", () => {
 
   assert.match(config, new RegExp(`<link rel="canonical" href="${escapedSiteUrl}/config/"`, "u"));
   assert.match(config, new RegExp(`(?:href|src)="${escapedBasePath}/_next/`, "u"));
+  assert.match(start, new RegExp(`<link rel="canonical" href="${escapedSiteUrl}/start/"`, "u"));
+  assert.match(launchpad, new RegExp(`<link rel="canonical" href="${escapedSiteUrl}/launchpad/"`, "u"));
+  assert.match(launchpad, /content="noindex, nofollow"/u);
   assert.match(profile, new RegExp(`<link rel="canonical" href="${escapedSiteUrl}/profile/"`, "u"));
   assert.match(robots, new RegExp(`Allow: ${escapedBasePath || ""}/`, "u"));
   assert.match(robots, new RegExp(`Sitemap: ${escapedSiteUrl}/sitemap\\.xml`, "u"));
+  assert.match(robots, new RegExp(`Disallow: ${escapedBasePath || ""}/launchpad/`, "u"));
+  assert.match(sitemap, new RegExp(`${escapedSiteUrl}/start/`, "u"));
+  assert.doesNotMatch(sitemap, /\/launchpad\//u);
   assert.match(sitemap, new RegExp(`${escapedSiteUrl}/projects/search-quality-ai-answer/`, "u"));
   if (expectedBasePath) {
     assert.doesNotMatch(home, /(?:href|src)="\/(?:_next|images)\//u);

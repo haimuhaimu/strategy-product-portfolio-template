@@ -2,6 +2,10 @@
 
 本文件记录面向使用者的重要变化。完整提交历史与技术细节请查看 GitHub Commits 和 Pull Requests。
 
+## 2026-08-19 — v0.4.0
+
+新增 `/start/` 三路径起步页与 `/launchpad/` 本地发布工作台。Launchpad 可上传或粘贴 v2 `projects.json`，在浏览器内完成 schema-lite、normalize、引用、隐私与证据检查，并以 BLOCK / WARN / PASS 和唯一下一步呈现结论；隐私或断链阻断时禁止生成包含 5 个独立文件的 Release Pack。同步增加首次成功护栏、低干扰作者入口、SEO/robots/sitemap 约束与发布安全测试。
+
 ## 2026-08-10 — v0.3.0
 
 本版暂停扩展功能，集中优化转化、证据、Showcase 与发布：README 首屏统一为“面向产品经理与运营的证据驱动作品集系统”，增加真实成品与配置器审计截图、三个直接入口，以及维护者真实 Before / After 自测案例。

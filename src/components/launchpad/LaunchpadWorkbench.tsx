@@ -1,0 +1,203 @@
+"use client";
+
+import { useMemo, useRef, useState } from "react";
+import examplePortfolio from "../../../data/projects.json";
+import {
+  assessPortfolioData,
+  createReleasePack,
+  parsePortfolioJson,
+  RELEASE_FILE_NAMES,
+} from "@/lib/launchpad.mjs";
+import { StaticPageLink } from "@/components/StaticPageLink";
+
+type Assessment = ReturnType<typeof assessPortfolioData>;
+type ImportState = {
+  sourceName: string;
+  assessment: Assessment;
+};
+
+const statusCopy = {
+  block: { label: "BLOCK", title: "暂不能发布", tone: "border-[#c92a20] bg-[#fff0ec] text-[#8e211b]" },
+  warn: { label: "WARN", title: "可以导出，但建议先补强", tone: "border-[#9a6818] bg-[#fff8df] text-[#6f4a0c]" },
+  pass: { label: "PASS", title: "发布护栏已通过", tone: "border-[#26734d] bg-[#eff9f2] text-[#245c40]" },
+} as const;
+
+function downloadText(filename: string, content: string) {
+  const type = filename.endsWith(".json") ? "application/json" : "text/markdown";
+  const blob = new Blob([content], { type: `${type};charset=utf-8` });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = filename;
+  anchor.click();
+  URL.revokeObjectURL(url);
+}
+
+function CheckRow({ label, state, detail }: { label: string; state: "block" | "warn" | "pass"; detail: string }) {
+  const styles = {
+    block: "bg-[#fff0ec] text-[#9d2119]",
+    warn: "bg-[#fff8df] text-[#7a5310]",
+    pass: "bg-[#eff9f2] text-[#245c40]",
+  };
+  return (
+    <li className="grid gap-2 border-t border-[#14110e]/10 py-4 sm:grid-cols-[8rem_1fr] sm:items-start">
+      <span className={`w-fit rounded px-2 py-1 font-mono text-[11px] font-bold ${styles[state]}`}>{state.toUpperCase()}</span>
+      <div><p className="font-semibold text-[#14110e]">{label}</p><p className="mt-1 text-sm leading-6 text-[#6e5743]">{detail}</p></div>
+    </li>
+  );
+}
+
+export function LaunchpadWorkbench() {
+  const [raw, setRaw] = useState("");
+  const [result, setResult] = useState<ImportState | null>(null);
+  const [message, setMessage] = useState("等待导入 projects.json");
+  const fileInput = useRef<HTMLInputElement>(null);
+  const releasePack = useMemo(() => {
+    if (!result?.assessment.canGenerateRelease) return null;
+    return createReleasePack(result.assessment);
+  }, [result]);
+
+  function inspectJson(source: string, sourceName: string) {
+    const parsed = parsePortfolioJson(source);
+    if (!parsed.ok) {
+      setResult(null);
+      setMessage(parsed.message ?? "JSON 无法解析，请检查后重试。");
+      return;
+    }
+    const assessment = assessPortfolioData(parsed.data);
+    setResult({ sourceName, assessment });
+    setMessage(`已在本地完成检查 · ${sourceName}`);
+  }
+
+  async function importFile(file: File | undefined) {
+    if (!file) return;
+    if (!file.name.toLowerCase().endsWith(".json")) {
+      setResult(null);
+      setMessage("请选择 .json 文件；文件不会上传。");
+      return;
+    }
+    try {
+      const content = await file.text();
+      setRaw(content);
+      inspectJson(content, file.name);
+    } catch {
+      setResult(null);
+      setMessage("浏览器无法读取该文件，请改用粘贴导入。");
+    }
+  }
+
+  function loadExample() {
+    const content = JSON.stringify(examplePortfolio, null, 2);
+    setRaw(content);
+    inspectJson(content, "仓库脱敏示例");
+  }
+
+  const checks = result ? [
+    {
+      label: "Schema-lite",
+      state: result.assessment.schema.valid ? "pass" : "block",
+      detail: result.assessment.schema.valid ? "v2 核心字段、项目数组与 slug 结构通过。" : result.assessment.schema.errors.map((item) => `${item.path}：${item.message}`).join("；"),
+    },
+    {
+      label: "三项目精选",
+      state: result.assessment.featured.pass ? "pass" : "warn",
+      detail: result.assessment.featured.message,
+    },
+    {
+      label: "模板态",
+      state: result.assessment.template.detected ? "warn" : "pass",
+      detail: result.assessment.template.detected ? `检测到 ${result.assessment.template.markerCount} 类占位标记，请替换后再发布。` : "未检测到常见模板占位标记。",
+    },
+    {
+      label: "证据审计",
+      state: result.assessment.audit.level === "弱证据" ? "warn" : "pass",
+      detail: `平均 ${result.assessment.audit.totalScore}/5（${result.assessment.audit.level}）。${result.assessment.audit.questions[0] || "五维证据覆盖稳定。"}`,
+    },
+    {
+      label: "隐私扫描",
+      state: result.assessment.audit.privacyRisks.length ? "block" : "pass",
+      detail: result.assessment.audit.privacyRisks.length
+        ? result.assessment.audit.privacyRisks.map((risk) => risk.message).join("；")
+        : "未命中常见邮箱、电话、内部链接、Token 或用户 ID 模式；仍需人工确认披露权限。",
+    },
+    {
+      label: "引用校验",
+      state: result.assessment.references.valid ? "pass" : "block",
+      detail: result.assessment.references.valid
+        ? "featured、roadmap 与 starMap 引用均可解析。"
+        : `发现 ${result.assessment.references.findings.length} 处断链：${result.assessment.references.findings.map((item) => item.path).join("、")}`,
+    },
+  ] as const : [];
+  const currentStatus = result ? statusCopy[result.assessment.status as keyof typeof statusCopy] : null;
+
+  return (
+    <main className="mx-auto max-w-7xl px-4 py-10 sm:px-8 sm:py-14">
+      <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
+        <div>
+          <p className="font-mono text-xs font-bold tracking-[0.18em] text-[#c92a20]">PORTFOLIO LAUNCHPAD / LOCAL ONLY</p>
+          <h1 className="mt-4 max-w-4xl font-serif text-4xl font-semibold leading-tight text-[#14110e] sm:text-6xl">把 projects.json 变成一套可发布的证据包。</h1>
+          <p className="mt-5 max-w-3xl text-base leading-8 text-[#5b4635]">上传或粘贴后，浏览器本地执行结构、引用、隐私和证据检查。没有账号、没有 fetch、没有内容上传。</p>
+        </div>
+        <aside className="border-l-2 border-[#c92a20] bg-[#fffaf0] p-5 text-sm leading-6 text-[#5b4635]">
+          <strong className="block text-[#14110e]">隐私承诺</strong>
+          文件只进入当前页面内存；刷新即清空。下载的分享文案只含计数、状态和建议，不复制项目原文或命中的敏感值。
+        </aside>
+      </div>
+
+      <section className="mt-10 grid gap-6 lg:grid-cols-2" aria-labelledby="import-title">
+        <div className="border border-[#14110e]/20 bg-[#f8f8f3] p-5 shadow-[7px_7px_0_rgba(20,17,14,0.08)] sm:p-7">
+          <div className="flex items-center justify-between gap-3">
+            <div><p className="font-mono text-xs font-bold text-[#80654d]">01 / IMPORT</p><h2 id="import-title" className="mt-2 text-2xl font-semibold">导入本地数据</h2></div>
+            <button type="button" onClick={loadExample} className="text-sm font-semibold text-[#80654d] underline decoration-[#80654d]/40 underline-offset-4 hover:text-[#c92a20]">载入脱敏示例</button>
+          </div>
+          <input ref={fileInput} type="file" accept="application/json,.json" className="sr-only" onChange={(event) => void importFile(event.target.files?.[0])} />
+          <button type="button" onClick={() => fileInput.current?.click()} className="mt-6 w-full border border-dashed border-[#14110e]/35 bg-white px-5 py-7 text-left transition hover:border-[#c92a20] hover:bg-[#fffaf0]">
+            <span className="block font-semibold text-[#14110e]">选择 projects.json</span>
+            <span className="mt-1 block text-sm text-[#80654d]">只读取，不上传 · 也可在下方直接粘贴</span>
+          </button>
+          <label className="mt-5 block text-sm font-semibold text-[#14110e]">粘贴 JSON
+            <textarea value={raw} onChange={(event) => setRaw(event.target.value)} rows={12} spellCheck={false} placeholder={'{\n  "schemaVersion": 2,\n  "rolePreset": "product",\n  ...\n}'} className="mt-2 w-full resize-y border border-[#14110e]/20 bg-white p-4 font-mono text-xs font-normal leading-6 outline-none focus:border-[#c92a20]" />
+          </label>
+          <button type="button" onClick={() => inspectJson(raw, "粘贴内容")} className="mt-4 w-full bg-[#14110e] px-5 py-3.5 font-semibold text-white transition hover:bg-[#c92a20]">运行本地发布检查</button>
+          <p role="status" aria-live="polite" className="mt-3 text-sm text-[#80654d]">{message}</p>
+        </div>
+
+        <div className="border border-[#14110e]/20 bg-white p-5 sm:p-7">
+          <p className="font-mono text-xs font-bold text-[#80654d]">02 / GATE</p>
+          {!result || !currentStatus ? (
+            <div className="mt-16 text-center"><p className="text-5xl text-[#14110e]/15">◇</p><h2 className="mt-5 text-2xl font-semibold">等待检查</h2><p className="mt-2 text-sm leading-6 text-[#80654d]">先导入 v2 projects.json，才会生成明确的 block / warn / pass 结论。</p></div>
+          ) : (
+            <>
+              <div className={`mt-5 border-l-4 p-5 ${currentStatus.tone}`}>
+                <div className="flex items-center justify-between gap-3"><span className="font-mono text-xs font-bold tracking-widest">{currentStatus.label}</span><span className="text-xs">{result.sourceName}</span></div>
+                <h2 className="mt-2 text-2xl font-semibold">{currentStatus.title}</h2>
+              </div>
+              <ul className="mt-4">{checks.map((check) => <CheckRow key={check.label} {...check} />)}</ul>
+              <div className="mt-4 border-2 border-[#14110e] bg-[#f4dfbd] p-5 shadow-[5px_5px_0_#14110e]">
+                <p className="font-mono text-xs font-bold">唯一下一步</p>
+                <p className="mt-2 font-semibold leading-7">{result.assessment.nextStep}</p>
+              </div>
+            </>
+          )}
+        </div>
+      </section>
+
+      <section className="mt-8 border border-[#14110e]/20 bg-[#14110e] p-5 text-[#f8f8f3] sm:p-8" aria-labelledby="release-title">
+        <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
+          <div><p className="font-mono text-xs font-bold tracking-[0.16em] text-[#d3b992]">03 / RELEASE PACK</p><h2 id="release-title" className="mt-2 text-3xl font-semibold">五个文件，分别下载。</h2><p className="mt-3 max-w-2xl text-sm leading-6 text-[#d3b992]">隐私或引用断链会关闭全部下载。模板态、非三项目或弱证据会保留警告，避免把“能导出”误当成“可投递”。</p></div>
+          <StaticPageLink href="/start/" className="text-sm font-semibold text-[#f4dfbd] underline underline-offset-4">还没有 projects.json？返回起步页</StaticPageLink>
+        </div>
+        <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+          {RELEASE_FILE_NAMES.map((filename, index) => {
+            const releaseFilename = filename as keyof NonNullable<typeof releasePack>;
+            return (
+            <button key={filename} type="button" disabled={!releasePack} onClick={() => releasePack && downloadText(filename, releasePack[releaseFilename])} className="min-h-28 border border-[#f8f8f3]/25 bg-[#f8f8f3]/5 p-4 text-left transition enabled:hover:border-[#f4dfbd] enabled:hover:bg-[#f8f8f3]/10 disabled:cursor-not-allowed disabled:opacity-35">
+              <span className="font-mono text-[10px] text-[#d3b992]">0{index + 1}</span><span className="mt-5 block break-all text-sm font-semibold">{filename}</span>
+            </button>
+            );
+          })}
+        </div>
+      </section>
+    </main>
+  );
+}

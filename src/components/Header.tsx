@@ -18,8 +18,8 @@ export function Header({ profile, features }: { profile: Profile; features: Feat
           <StaticPageLink href="/#projects" className="hidden transition hover:text-[#c92a20] sm:block">项目</StaticPageLink>
           {features.profile ? <StaticPageLink href="/profile/" className="hidden transition hover:text-[#c92a20] md:block">关于</StaticPageLink> : null}
           {features.thinking ? <StaticPageLink href="/thinking/" className="hidden transition hover:text-[#c92a20] md:block">思考</StaticPageLink> : null}
-          <StaticPageLink href="/config/" className="rounded-lg border border-[#c92a20] px-3 py-2 text-[#c92a20] transition hover:bg-[#c92a20] hover:text-white">配置作品集</StaticPageLink>
-          <StaticPageLink href="/#contact" className="hidden transition hover:text-[#c92a20] sm:block">联系</StaticPageLink>
+          <StaticPageLink href="/start/" className="hidden text-xs font-semibold text-[#80654d] transition hover:text-[#c92a20] sm:block">作者入口</StaticPageLink>
+          <StaticPageLink href="/#contact" className="transition hover:text-[#c92a20]">联系</StaticPageLink>
         </nav>
       </div>
     </header>

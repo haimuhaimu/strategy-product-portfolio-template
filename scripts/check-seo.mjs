@@ -122,6 +122,7 @@ const portfolio = JSON.parse(readFileSync(path.join(projectRoot, "data/projects.
 const siteUrl = getSiteUrl(process.env);
 const pages = [
   { label: "首页", file: "index.html", pathname: "/" },
+  { label: "Start", file: "start/index.html", pathname: "/start/" },
   { label: "Profile", file: "profile/index.html", pathname: "/profile/" },
   { label: "Thinking", file: "thinking/index.html", pathname: "/thinking/" },
   ...portfolio.featuredProjectSlugs.map((slug) => ({
@@ -163,7 +164,7 @@ assert.equal(new Set(projectPages.map((page) => page.canonical)).size, projectPa
 assert.equal(new Set(projectPages.map((page) => page.description)).size, projectPages.length, "项目 description 必须唯一。");
 assert.equal(new Set(projectPages.map((page) => page.title)).size, projectPages.length, "项目 title 必须唯一。");
 
-for (const [label, file] of [["Config", "config/index.html"], ["404", "404.html"]]) {
+for (const [label, file] of [["Config", "config/index.html"], ["Launchpad", "launchpad/index.html"], ["404", "404.html"]]) {
   const html = readExportedFile(file);
   const robotDirectives = [...html.matchAll(/<meta[^>]*name="robots"[^>]*content="([^"]+)"[^>]*>/giu)]
     .map((match) => match[1])
@@ -177,9 +178,10 @@ const sitemap = readExportedFile("sitemap.xml");
 const sitePath = `${new URL(siteUrl).pathname.replace(/\/+$/, "")}/`;
 assert.match(robots, new RegExp(`Allow: ${escapeRegExp(sitePath)}`, "u"));
 assert.match(robots, new RegExp(`Disallow: ${escapeRegExp(`${sitePath}config/`)}`, "u"));
+assert.match(robots, new RegExp(`Disallow: ${escapeRegExp(`${sitePath}launchpad/`)}`, "u"));
 assert.ok(robots.includes(`Sitemap: ${siteUrl}/sitemap.xml`), "robots sitemap URL 错误。");
 assert.doesNotMatch(robots, /^Host:/mu, "robots 不应输出误导性的 Host。");
-assert.doesNotMatch(sitemap, /\/config\//u, "Config 不得进入 sitemap。");
+assert.doesNotMatch(sitemap, /\/(?:config|launchpad)\//u, "工具页不得进入 sitemap。");
 for (const page of checked) assert.ok(sitemap.includes(page.canonical), `sitemap 缺少 ${page.canonical}。`);
 assert.doesNotMatch(sitemap, /localhost|vercel\.app/iu);
 
