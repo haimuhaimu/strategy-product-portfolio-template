@@ -9,8 +9,8 @@ export const DEFAULT_TITLE = "产品经理与运营作品集开源模板";
 export const DEFAULT_DESCRIPTION =
   "开源静态作品集系统，用三个项目组织产品经理与运营经历，并通过证据审计区分事实、个人贡献与待补充信息。";
 export const SHARE_IMAGE_PATH = "/images/og-share.png";
-export const SHARE_IMAGE_WIDTH = 1376;
-export const SHARE_IMAGE_HEIGHT = 768;
+export const SHARE_IMAGE_WIDTH = 2048;
+export const SHARE_IMAGE_HEIGHT = 1152;
 
 export const DEFAULT_KEYWORDS = [
   "产品经理作品集",
