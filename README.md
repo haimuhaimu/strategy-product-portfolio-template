@@ -1,17 +1,27 @@
-# 用你自己的 Agent，把经历变成可发布的作品集
+# Product Manager Portfolio Template：用自己的 Agent，把经历变成可发布的作品集
 
-这不是在线简历编辑器，也不要求你先学习一套复杂工具。它是一套给**你自己的 Agent**使用的开源作品集方法、展示模板和本地检查工具：Agent 负责盘点材料、追问关键证据、精选三个项目、检查隐私并生成文件；网站负责把结果展示和发布出来。
+面向**产品经理、AI 产品经理与产品运营**的开源作品集生成系统。它不是在线简历编辑器，而是一套给你自己的 Agent 使用的方法、四种展示模板和本地检查工具：从材料盘点、关键追问和三个案例精选，到证据审计、隐私检查、静态网站生成与 GitHub Pages 发布。
 
-| 适合谁 | 最终得到什么 |
-| --- | --- |
-| 产品经理、策略 / 增长产品、产品运营、策略 / 增长运营 | 3 个代表项目 + 可检查的作品集文件 + 可部署网站 |
+> Open-source **product manager portfolio template** and **operations portfolio generator** with Agent-guided case studies, evidence review, privacy checks, four narrative layouts, and a deployable Next.js static site.
 
-[**开始：把提示词交给自己的 Agent →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/start/) · [**已有文件：检查并下载 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/launchpad/) · [**浏览四种展示结构 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/templates/) · [**查看 portfolio-story-builder Agent 工作说明 →**](skills/portfolio-story-builder/)
+| 适合谁 | 最终得到什么 | 与普通作品集模板的区别 |
+| --- | --- | --- |
+| 产品经理、AI / 策略 / 增长产品、产品运营、策略 / 增长运营 | 3 个代表案例 + 可检查的数据文件 + 可部署网站 | 不只换皮：Agent 帮你选项目、补证据、查隐私，再匹配叙事结构 |
 
-![真实作品集成品首页](public/images/portfolio-preview.png)
+[**在线 Demo →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/) · [**用 Agent 开始制作 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/start/) · [**检查并下载作品集 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/launchpad/) · [**比较四种模板 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/templates/)
+
+![产品经理与运营作品集模板：三个案例、证据快览与思考星图](public/images/portfolio-preview.png)
 
 [![CI](https://github.com/haimuhaimu/strategy-product-portfolio-template/actions/workflows/portable-build.yml/badge.svg)](https://github.com/haimuhaimu/strategy-product-portfolio-template/actions/workflows/portable-build.yml)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-GitHub_Pages-1437d6?logo=github)](https://haimuhaimu.github.io/strategy-product-portfolio-template/)
 [![Next.js 16.3](https://img.shields.io/badge/Next.js-16.3-000000?logo=next.js)](https://nextjs.org/)
+[![MIT License](https://img.shields.io/badge/License-MIT-d84b28.svg)](LICENSE)
+
+## 为什么不是普通 Portfolio Template
+
+大多数 portfolio template 解决的是“如何展示”；这个项目先解决“应该展示什么、凭什么相信”。Agent 会从原始材料中精选三个案例，区分事实、个人贡献和待补充信息，再根据证据类型选择 Atlas、Growth、Systems 或 AI Workflow。它既能用于产品经理与运营求职，也能承接 AI product manager portfolio 和 product case study 的证据表达，而不是退化为换配色的个人主页。
+
+核心闭环是：`材料盘点 → 单问题追问 → 三案例精选 → 证据与隐私检查 → 模板匹配 → GitHub Pages 发布`。整个过程不要求上传材料到服务端，也不会为填满页面而编造指标、职责或结果。[查看 portfolio-story-builder Agent 工作说明 →](skills/portfolio-story-builder/)
 
 ## 两种开始方式
 

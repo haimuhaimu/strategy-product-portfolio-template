@@ -85,15 +85,15 @@ test("复制与下载反馈使用状态、aria-live 和 focus-visible", () => {
   assert.match(css, /:focus-visible/u);
 });
 
-test("v0.7.1 不改变静态导出、SEO/basePath 入口与数据版本", () => {
+test("v0.7.2 不改变静态导出、SEO/basePath 入口与数据版本", () => {
   const pkg = JSON.parse(read("package.json"));
   const lock = JSON.parse(read("package-lock.json"));
   const config = read("next.config.ts");
   const layout = read("src/app/layout.tsx");
   const seo = read("scripts/check-seo.mjs");
   const data = JSON.parse(read("data/projects.json"));
-  assert.equal(pkg.version, "0.7.1");
-  assert.equal(lock.version, "0.7.1");
+  assert.equal(pkg.version, "0.7.2");
+  assert.equal(lock.version, "0.7.2");
   assert.equal(data.schemaVersion, 2);
   assert.match(config, /output: "export"/u);
   assert.match(config, /basePath/u);

@@ -150,6 +150,10 @@ const checked = pages.map((page) => {
     siteUrl,
   });
   if (page.file === "index.html") {
+    const keywords = metaContent(html, "name", "keywords") || "";
+    for (const term of ["产品经理作品集", "AI 产品经理作品集", "运营作品集", "product manager portfolio template"]) {
+      assert.ok(keywords.toLowerCase().includes(term.toLowerCase()), `首页 keywords 缺少：${term}。`);
+    }
     const jsonLd = parseJsonLd(html, page.label);
     const types = JSON.stringify(jsonLd);
     assert.match(types, /"WebSite"/u);
