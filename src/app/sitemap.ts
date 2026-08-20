@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getProjects } from "@/lib/projects";
 import { getAbsoluteUrl } from "@/lib/seo";
+import { TEMPLATE_IDS } from "@/lib/templates.mjs";
 
 export const dynamic = "force-static";
 
@@ -33,11 +34,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
+  const templatePages: MetadataRoute.Sitemap = TEMPLATE_IDS.map((id) => ({
+    url: getAbsoluteUrl(`/templates/${id}/`),
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
   const projectPages: MetadataRoute.Sitemap = getProjects().map((project) => ({
     url: getAbsoluteUrl(`/projects/${project.slug}/`),
     changeFrequency: "monthly",
     priority: 0.8,
   }));
 
-  return [...staticPages, ...projectPages];
+  return [...staticPages, ...templatePages, ...projectPages];
 }
