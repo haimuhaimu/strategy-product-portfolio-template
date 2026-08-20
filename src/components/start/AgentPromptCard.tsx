@@ -44,12 +44,12 @@ export function AgentPromptCard() {
           <p className="text-sm font-semibold text-[#14110e]">通用提示词</p>
           <p className="mt-1 text-xs leading-5 text-[#80654d]">复制后连同你的简历、项目文档或材料文件一起发给自己的 Agent。</p>
         </div>
-        <button type="button" onClick={() => void copyPrompt()} className="bg-[#14110e] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#c92a20]">
+        <button type="button" onClick={() => void copyPrompt()} className="feedback-button bg-[#14110e] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#c92a20]" aria-describedby="copy-feedback">
           {copyStatus}
         </button>
       </div>
       <textarea ref={promptRef} readOnly value={AGENT_PROMPT} rows={16} aria-label="可手动复制的通用提示词" className="mt-4 w-full resize-y border border-[#14110e]/15 bg-[#f8f8f3] p-4 font-mono text-xs leading-6 text-[#4b3829] outline-none focus:border-[#c92a20]" />
-      <p className="mt-2 text-xs leading-5 text-[#80654d]">如果浏览器不允许自动复制，点击按钮后使用 Ctrl/Cmd+C；也可以直接选中上方文字手动复制。</p>
+      <p id="copy-feedback" role="status" aria-live="polite" className="mt-2 text-xs leading-5 text-[#80654d]">{copyStatus === "复制提示词" ? "如果浏览器不允许自动复制，点击按钮后使用 Ctrl/Cmd+C；也可以直接选中上方文字手动复制。" : copyStatus}</p>
     </div>
   );
 }

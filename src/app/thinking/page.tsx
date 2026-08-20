@@ -17,7 +17,7 @@ export default function ThinkingPage() {
   const starMap = getStarMap();
 
   return (
-    <main className="thinking-atlas-page">
+    <main className="thinking-atlas-page" data-motion-template="atlas">
       <section className="mx-auto max-w-7xl px-4 pb-10 pt-7 sm:px-8 sm:pb-16">
         <StaticPageLink href="/" className="atlas-back-link">← INDEX.HTML / 返回首页</StaticPageLink>
         <div className="atlas-hero mt-6">
@@ -34,12 +34,12 @@ export default function ThinkingPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-8 sm:py-16" aria-labelledby="roadmap-title">
+      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-8 sm:py-16" aria-labelledby="roadmap-title" data-motion-section>
         <div className="atlas-section-heading"><p>PLATE A / EVOLUTION TRACE</p><h2 id="roadmap-title">个人路线图</h2><span>用方向键浏览节点</span></div>
         <div className="mt-8"><PersonalRoadmap stages={roadmap} /></div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-8 sm:py-16" aria-labelledby="star-map-title">
+      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-8 sm:py-16" aria-labelledby="star-map-title" data-motion-section>
         <div className="atlas-section-heading"><p>PLATE B / RELATIONSHIP FIELD</p><h2 id="star-map-title">思考星图</h2><span>聚焦节点以查看真实连接</span></div>
         <div className="mt-8"><ThinkingStarMap map={starMap} /></div>
       </section>

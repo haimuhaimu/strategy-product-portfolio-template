@@ -16,6 +16,7 @@ import {
   SITE_URL,
 } from "@/lib/seo";
 import "./globals.css";
+import "./motion.css";
 
 const googleVerification =
   process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim();
@@ -90,6 +91,7 @@ export default function RootLayout({
   return (
     <html lang="zh-CN" data-scroll-behavior="smooth" data-template={activeTemplate}>
       <body>
+        <div className="reading-progress" aria-hidden="true" />
         <Header profile={profile} features={features} />
         {children}
         {features.advancedModels ? <PortfolioCompanion /> : null}

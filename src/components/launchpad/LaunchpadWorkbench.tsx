@@ -60,6 +60,7 @@ export function LaunchpadWorkbench() {
   const [result, setResult] = useState<ImportState | null>(null);
   const [selectedTemplate, setSelectedTemplate] = useState<TemplateId>("atlas");
   const [message, setMessage] = useState("等待导入 projects.json");
+  const [downloadStatus, setDownloadStatus] = useState("尚未开始下载");
   const fileInput = useRef<HTMLInputElement>(null);
   const releasePack = useMemo(() => {
     if (!result?.assessment.canGenerateRelease) return null;
@@ -219,11 +220,20 @@ export function LaunchpadWorkbench() {
           <div><p className="font-mono text-xs font-bold tracking-[0.16em] text-[#d3b992]">04 / DOWNLOAD</p><h2 id="release-title" className="mt-2 text-3xl font-semibold">五个发布文件，分别下载。</h2><p className="mt-3 max-w-2xl text-sm leading-6 text-[#d3b992]">发现隐私或内容关联问题时会关闭全部下载。项目数量、占位内容或弱证据会保留提醒，避免把“能下载”误当成“可以投递”。</p></div>
           <StaticPageLink href="/start/" className="text-sm font-semibold text-[#f4dfbd] underline underline-offset-4">还没有 projects.json？返回起步页</StaticPageLink>
         </div>
+        <p id="download-feedback" role="status" aria-live="polite" className="mt-4 text-sm text-[#d3b992]">{downloadStatus}</p>
         <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
           {RELEASE_FILE_NAMES.map((filename, index) => {
             const releaseFilename = filename as keyof NonNullable<typeof releasePack>;
             return (
-            <button key={filename} type="button" disabled={!releasePack} onClick={() => releasePack && downloadText(filename, releasePack[releaseFilename])} className="min-h-28 border border-[#f8f8f3]/25 bg-[#f8f8f3]/5 p-4 text-left transition enabled:hover:border-[#f4dfbd] enabled:hover:bg-[#f8f8f3]/10 disabled:cursor-not-allowed disabled:opacity-35">
+            <button key={filename} type="button" disabled={!releasePack} onClick={() => {
+              if (!releasePack) return;
+              try {
+                downloadText(filename, releasePack[releaseFilename]);
+                setDownloadStatus(`已开始下载 ${filename}`);
+              } catch {
+                setDownloadStatus(`${filename} 下载失败，请重试`);
+              }
+            }} className="feedback-button min-h-28 border border-[#f8f8f3]/25 bg-[#f8f8f3]/5 p-4 text-left transition enabled:hover:border-[#f4dfbd] enabled:hover:bg-[#f8f8f3]/10 disabled:cursor-not-allowed disabled:opacity-35" aria-describedby="download-feedback">
               <span className="font-mono text-[10px] text-[#d3b992]">0{index + 1}</span><span className="mt-5 block break-all text-sm font-semibold">{filename}</span>
             </button>
             );
