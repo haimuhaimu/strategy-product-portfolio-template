@@ -5,6 +5,7 @@ import { EvidenceSnapshot } from "@/components/EvidenceSnapshot";
 import { FeaturedProjectShowcase } from "@/components/FeaturedProjectShowcase";
 import { HeroOverview } from "@/components/HeroOverview";
 import { HomeEvidenceSection } from "@/components/HomeEvidenceSection";
+import { InstantEvidenceDiagnostic } from "@/components/InstantEvidenceDiagnostic";
 import { SignatureAtlasSection } from "@/components/SignatureAtlasSection";
 import { StaticPageLink } from "@/components/StaticPageLink";
 import { TemplateHome } from "@/components/templates/TemplateHome";
@@ -13,7 +14,7 @@ import { createPageMetadata, createSiteJsonLd, DEFAULT_KEYWORDS, serializeJsonLd
 
 export const metadata: Metadata = createPageMetadata({
   title: "产品经理与运营作品集",
-  description: "用三个代表项目和证据审计展示产品经理、运营与 AI 策略实践，明确事实、个人贡献和协作边界。",
+  description: "粘贴一段项目经历，在浏览器本地获得五维证据诊断；再用自己的 Agent 生成产品经理、AI 产品经理或运营作品集。",
   pathname: "/",
   keywords: DEFAULT_KEYWORDS,
 });
@@ -33,6 +34,7 @@ export default function Home() {
       {activeTemplate === "atlas" ? (
       <main className="home-page" data-motion-template="atlas">
       <div className="mx-auto max-w-7xl px-4 sm:px-8"><HeroOverview profile={profile} home={home} /></div>
+      <InstantEvidenceDiagnostic />
       <FeaturedProjectShowcase projects={featuredProjects} />
       <EvidenceSnapshot projects={featuredProjects} />
       <HomeEvidenceSection home={home} />

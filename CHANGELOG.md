@@ -2,6 +2,12 @@
 
 本文件记录面向使用者的重要变化。完整提交历史与技术细节请查看 GitHub Commits 和 Pull Requests。
 
+## 2026-08-20 — v0.8.0
+
+首页新增“粘贴一段经历，立即诊断证据”的零准备入口。用户无需账号、简历或 `projects.json`，即可在浏览器本地检查结果证据、口径完整、方法证据、资产证据和贡献边界，并得到唯一优先追问。
+
+诊断结果不回显原始敏感内容，只展示结构评分、常见隐私风险数量与安全摘要；完整作品集整理继续交给用户自己的 Agent，完整发布检查继续由 Launchpad 承担。未引入服务端、外部 AI、追踪脚本或新增依赖。
+
 ## 2026-08-20 — v0.7.2
 
 GitHub 搜索入口与 README 首屏完成关键词重构：项目名称、英文摘要、核心差异、在线 Demo、图片替代文本和 package metadata 统一围绕 product manager portfolio、AI product manager portfolio、operations portfolio、portfolio template 与 Agent-first 证据审计展开。
