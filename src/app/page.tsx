@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import React from "react";
 import { ClosingCTA } from "@/components/ClosingCTA";
+import { ColdStartGrowthSections } from "@/components/ColdStartGrowthSections";
 import { EvidenceSnapshot } from "@/components/EvidenceSnapshot";
 import { FeaturedProjectShowcase } from "@/components/FeaturedProjectShowcase";
 import { HeroOverview } from "@/components/HeroOverview";
@@ -35,6 +36,7 @@ export default function Home() {
       <main className="home-page" data-motion-template="atlas">
       <div className="mx-auto max-w-7xl px-4 sm:px-8"><HeroOverview profile={profile} home={home} /></div>
       <InstantEvidenceDiagnostic />
+      <ColdStartGrowthSections />
       <FeaturedProjectShowcase projects={featuredProjects} />
       <EvidenceSnapshot projects={featuredProjects} />
       <HomeEvidenceSection home={home} />
