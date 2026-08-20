@@ -2,6 +2,12 @@
 
 本文件记录面向使用者的重要变化。完整提交历史与技术细节请查看 GitHub Commits 和 Pull Requests。
 
+## 2026-08-20 — v0.7.2
+
+GitHub 搜索入口与 README 首屏完成关键词重构：项目名称、英文摘要、核心差异、在线 Demo、图片替代文本和 package metadata 统一围绕 product manager portfolio、AI product manager portfolio、operations portfolio、portfolio template 与 Agent-first 证据审计展开。
+
+站点首页同步扩展中文与英文搜索词，强化产品经理、AI 产品经理、运营作品集、产品案例集和 Next.js 静态模板的定位。未修改作品集事实数据，也未增加追踪脚本或外部依赖。
+
 ## 2026-08-20 — v0.7.1
 
 章节现在会随滚动位置完成“渐入—清晰停留—轻柔渐出”，不再只在进入视口时做一次弱显现。卡片、机制模块与项目详情条目使用更细粒度的进入节奏，让页面在阅读过程中保持灵动，而不是整段内容同时浮动。

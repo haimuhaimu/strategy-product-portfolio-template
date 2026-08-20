@@ -4,19 +4,26 @@ import portfolioData from "../../data/projects.json";
 import { getSiteUrl } from "./github-pages.mjs";
 
 export const SITE_URL = getSiteUrl(process.env);
-export const SITE_NAME = "证据驱动的产品与运营作品集";
-export const DEFAULT_TITLE = "产品经理与运营作品集开源模板";
+export const SITE_NAME = "Agent 驱动的产品经理与运营作品集";
+export const DEFAULT_TITLE = "产品经理、AI 产品经理与运营作品集开源模板";
 export const DEFAULT_DESCRIPTION =
-  "开源静态作品集系统，用三个项目组织产品经理与运营经历，并通过证据审计区分事实、个人贡献与待补充信息。";
+  "Agent 驱动的产品经理与运营作品集生成系统：精选三个案例，完成证据审计、隐私检查与模板匹配，并发布为 Next.js 静态网站。";
 export const SHARE_IMAGE_PATH = "/images/og-share.png";
 export const SHARE_IMAGE_WIDTH = 2048;
 export const SHARE_IMAGE_HEIGHT = 1152;
 
 export const DEFAULT_KEYWORDS = [
   "产品经理作品集",
+  "AI 产品经理作品集",
   "运营作品集",
+  "产品案例集",
+  "产品经理作品集模板",
+  "product manager portfolio template",
+  "operations portfolio",
+  "AI product manager portfolio",
   "证据驱动作品集",
-  "作品集证据审计",
+  "Agent 作品集生成器",
+  "Next.js portfolio template",
 ];
 
 const anonymousProfileNames = new Set([
@@ -42,7 +49,7 @@ const shareImage = {
   url: SHARE_IMAGE_URL,
   width: SHARE_IMAGE_WIDTH,
   height: SHARE_IMAGE_HEIGHT,
-  alt: "证据驱动作品集首页：三个项目及其可核验结果摘要",
+  alt: "Agent 驱动的产品经理与运营作品集：首页、三个案例、证据快览与思考星图",
 };
 
 type PageMetadataOptions = {

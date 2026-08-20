@@ -9,13 +9,13 @@ import { SignatureAtlasSection } from "@/components/SignatureAtlasSection";
 import { StaticPageLink } from "@/components/StaticPageLink";
 import { TemplateHome } from "@/components/templates/TemplateHome";
 import { getActiveTemplate, getContact, getFeaturedProjects, getHomeConfig, getPortfolioData, getProfile, getRoadmap, getStarMap } from "@/lib/projects";
-import { createPageMetadata, createSiteJsonLd, serializeJsonLd } from "@/lib/seo";
+import { createPageMetadata, createSiteJsonLd, DEFAULT_KEYWORDS, serializeJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
   title: "产品经理与运营作品集",
   description: "用三个代表项目和证据审计展示产品经理、运营与 AI 策略实践，明确事实、个人贡献和协作边界。",
   pathname: "/",
-  keywords: ["产品经理作品集", "运营作品集", "证据驱动作品集"],
+  keywords: DEFAULT_KEYWORDS,
 });
 
 export default function Home() {

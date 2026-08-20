@@ -58,7 +58,7 @@ export const metadata: Metadata = {
         url: SHARE_IMAGE_URL,
         width: SHARE_IMAGE_WIDTH,
         height: SHARE_IMAGE_HEIGHT,
-        alt: "证据驱动作品集首页：三个项目及其可核验结果摘要",
+        alt: "Agent 驱动的产品经理与运营作品集：首页、三个案例、证据快览与思考星图",
       },
     ],
   },
