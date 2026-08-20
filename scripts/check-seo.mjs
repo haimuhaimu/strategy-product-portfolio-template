@@ -3,6 +3,7 @@ import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { getSiteUrl } from "../src/lib/github-pages.mjs";
+import { TEMPLATE_IDS } from "../src/lib/templates.mjs";
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const outDir = path.join(projectRoot, "out");
@@ -124,6 +125,12 @@ const pages = [
   { label: "首页", file: "index.html", pathname: "/" },
   { label: "Start", file: "start/index.html", pathname: "/start/" },
   { label: "Templates", file: "templates/index.html", pathname: "/templates/" },
+  ...TEMPLATE_IDS.map((id) => ({
+    label: `模板 ${id}`,
+    file: `templates/${id}/index.html`,
+    pathname: `/templates/${id}/`,
+    template: true,
+  })),
   { label: "Profile", file: "profile/index.html", pathname: "/profile/" },
   { label: "Thinking", file: "thinking/index.html", pathname: "/thinking/" },
   ...portfolio.featuredProjectSlugs.map((slug) => ({
@@ -150,6 +157,10 @@ const checked = pages.map((page) => {
     assert.match(html, /href="[^"]*#projects"/u, "首页项目 CTA 必须是可抓取链接。");
   } else if (page.file === "profile/index.html") {
     assert.match(JSON.stringify(parseJsonLd(html, page.label)), /"ProfilePage"/u);
+  } else if (page.template) {
+    for (const phrase of ["适合人群", "不适合人群", "发布前证据准备清单", "常见误用", "如何让自己的 Agent 帮忙", "字段映射", "data/projects.json"]) {
+      assert.ok(html.includes(phrase), `${page.label} 缺少详情内容：${phrase}。`);
+    }
   } else if (page.project) {
     const projectJson = JSON.stringify(parseJsonLd(html, page.label));
     assert.match(projectJson, /"CreativeWork"|"Article"/u);
@@ -159,6 +170,11 @@ const checked = pages.map((page) => {
   }
   return { ...page, ...result };
 });
+
+const templatePages = checked.filter((page) => page.template);
+assert.equal(new Set(templatePages.map((page) => page.canonical)).size, templatePages.length, "模板 canonical 必须唯一。");
+assert.equal(new Set(templatePages.map((page) => page.description)).size, templatePages.length, "模板 description 必须唯一。");
+assert.equal(new Set(templatePages.map((page) => page.title)).size, templatePages.length, "模板 title 必须唯一。");
 
 const projectPages = checked.filter((page) => page.project);
 assert.equal(new Set(projectPages.map((page) => page.canonical)).size, projectPages.length, "项目 canonical 必须唯一。");

@@ -128,6 +128,11 @@ test("simulated GitHub Pages build prefixes HTML assets and SEO URLs", () => {
   const home = readProjectFile("out/index.html");
   const profile = readProjectFile("out/profile/index.html");
   const start = readProjectFile("out/start/index.html");
+  const templates = readProjectFile("out/templates/index.html");
+  const templateDetails = ["atlas", "growth", "systems", "ai-workflow"].map((id) => ({
+    id,
+    html: readProjectFile(`out/templates/${id}/index.html`),
+  }));
   const config = readProjectFile("out/config/index.html");
   const launchpad = readProjectFile("out/launchpad/index.html");
   const robots = readProjectFile("out/robots.txt");
@@ -140,6 +145,13 @@ test("simulated GitHub Pages build prefixes HTML assets and SEO URLs", () => {
   assert.match(home, new RegExp(`href="${escapedBasePath}/start/index\\.html"`, "u"));
   assert.match(start, new RegExp(`href="${escapedBasePath}/launchpad/index\\.html"`, "u"));
   assert.match(start, /skills\/portfolio-story-builder\/SKILL\.md/u);
+  for (const { id, html } of templateDetails) {
+    assert.match(templates, new RegExp(`href="${escapedBasePath}/templates/${id}/index\\.html"`, "u"));
+    assert.match(html, new RegExp(`<link rel="canonical" href="${escapedSiteUrl}/templates/${id}/"`, "u"));
+    assert.match(html, new RegExp(`href="${escapedBasePath}/templates/index\\.html"`, "u"));
+    assert.match(html, /data\/projects\.json/u);
+    assert.match(sitemap, new RegExp(`${escapedSiteUrl}/templates/${id}/`, "u"));
+  }
   assert.match(
     home,
     new RegExp(`href="${escapedBasePath}/projects/search-quality-ai-answer/index\\.html"`, "u"),

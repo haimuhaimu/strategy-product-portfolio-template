@@ -57,12 +57,14 @@ https://github.com/haimuhaimu/strategy-product-portfolio-template/blob/main/skil
 
 | 展示结构 | 优先突出 | 更适合的材料 |
 | --- | --- | --- |
-| Atlas | 个人判断、代表项目与证据图谱 | 综合型产品或运营经历 |
-| Growth | 指标、实验与增长闭环 | 增长、转化、留存材料较强 |
-| Systems | 系统机制、资产与协作边界 | 平台、策略、治理、跨团队项目 |
-| AI Workflow | 人机工作流、评估、护栏与回滚 | AI、Agent、自动化项目 |
+| [Atlas](https://haimuhaimu.github.io/strategy-product-portfolio-template/templates/atlas/) | 个人判断、代表项目与证据图谱 | 综合型产品或运营经历，三个项目能共同支撑一条判断主线 |
+| [Growth](https://haimuhaimu.github.io/strategy-product-portfolio-template/templates/growth/) | 指标、实验与增长闭环 | 增长、转化、留存材料较强，并且有基线、对照、时间窗或护栏 |
+| [Systems](https://haimuhaimu.github.io/strategy-product-portfolio-template/templates/systems/) | 系统机制、资产与协作边界 | 平台、策略、治理、跨团队项目，能拿出采用事实或机制资产 |
+| [AI Workflow](https://haimuhaimu.github.io/strategy-product-portfolio-template/templates/ai-workflow/) | 人机工作流、评估、护栏与回滚 | AI、Agent、自动化项目，能说清任务边界、评估和人工接管 |
 
-[模板库](https://haimuhaimu.github.io/strategy-product-portfolio-template/templates/)会解释每种结构适合什么内容；[作品集检查与下载](https://haimuhaimu.github.io/strategy-product-portfolio-template/launchpad/)会根据已提供的真实内容给出排序、加分理由和缺口。手动选择展示结构不能绕过隐私或内容关联检查。
+选择时不要先看模板名字，先看现有材料：跨项目判断与证据回链完整，选 Atlas；指标口径、实验和护栏完整，选 Growth；规则、系统边界、采用与协作契约更强，选 Systems；任务、人机分工、评估、降级和回滚更强，选 AI Workflow。材料暂时支撑不了某套结构时，先补证据，不要把目标岗位想看到的效果写成已经发生的事实。
+
+[模板库](https://haimuhaimu.github.io/strategy-product-portfolio-template/templates/)保留四种结构的快速比较；四个详情页会进一步解释适合与不适合人群、招聘官阅读路径、证据清单、常见误用、Agent 补材料方法和 `projects.json` 字段映射。[作品集检查与下载](https://haimuhaimu.github.io/strategy-product-portfolio-template/launchpad/)会根据已提供的真实内容给出排序、加分理由和缺口。手动选择展示结构不能绕过隐私或内容关联检查。
 
 ## 隐私与边界
 
