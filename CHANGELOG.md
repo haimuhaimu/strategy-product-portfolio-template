@@ -4,21 +4,21 @@
 
 ## 2026-08-19 — v0.6.0
 
-新增公开可索引的 `/pilot/` 首批目标人群页，明确 3–8 年经验、转型 AI / 策略产品或产品运营、材料多但不会筛选 / 证明 / 脱敏的人群，并把单轮成功 gate 收敛为真实材料导入、Release Pack 生成与公开上线。首页、Start、README、sitemap 与 SEO 检查同步增加克制入口；Launchpad 继续 noindex。
+默认入口改为 Agent-first：主标题统一为“用你自己的 Agent，把经历变成可发布的作品集”，起步页只保留“用自己的 Agent”和“已有 projects.json”两个选择，并提供可复制、可手动复制的通用提示词。
 
-新增默认关闭、明确 opt-in、7 天 TTL 的纯前端匿名 PMF 日志，仅允许枚举、布尔、计数、模板 ID 与时间戳，支持 enable / disable / clear / export。Start 与 Launchpad 覆盖 persona、路径、真实/示例导入、审计、Release Pack、公开平台、投递与面试反馈事件；示例不计真实导入，不收集或存储 URL。
+起步流程简化为“把材料交给 Agent → 回答少量关键问题 → 获得并发布作品集”。原有本地检查、模板匹配、隐私与内容关联阻断、5 个发布文件和静态部署能力继续保留；页面用语改为普通用户可理解的“作品集检查与下载”“发布文件”“文件结构”和“需要处理 / 可以继续 / 检查通过”。
 
-Release Pack 增加安全的第六文件 `PMF_PILOT_LOG.json`，未启用时只输出 disabled 状态，隐私与引用阻断仍优先。新增独立 PMF Pilot Issue Form、版本与安全测试；未引入依赖、第三方统计或 Showcase schema 变更。
+README、SEO、站点地图和测试同步调整；`/start/` 与模板库保持可索引，作品集检查页和高级配置页继续不进入搜索索引。未新增依赖，数据文件版本保持 v2。
 
 ## 2026-08-19 — v0.5.0
 
 新增可扩展模板注册表与纯函数匹配器。Atlas 保持原首页和项目页；Growth、Systems、AI Workflow 分别以指标实验闭环、系统机制资产边界、人机工作流评估护栏回滚组织首页和项目页，不是仅替换色彩。全局 `data-template` 提供四组主题 token，在密度、字号、圆角/边框、色彩与背景装置上形成差异。
 
-`projects.json` 根级新增可选 `template.active`，schemaVersion 继续为 `2`。旧数据默认 Atlas，normalize 保留未知字段；配置器和 Launchpad Release Pack 均支持写回选择。Launchpad 增加四模板 0–100 可解释评分、理由、缺口与手动选择，隐私和引用阻断保持优先。新增可索引 `/templates/` 模板库并加入 sitemap，同时覆盖静态导出、canonical 与 basePath 测试。
+`projects.json` 根级新增可选 `template.active`，schemaVersion 继续为 `2`。旧数据默认 Atlas，normalize 保留未知字段；配置器和本地检查工具均支持写回选择。检查页增加四模板 0–100 可解释评分、理由、缺口与手动选择，隐私和引用阻断保持优先。新增可索引 `/templates/` 模板库并加入 sitemap，同时覆盖静态导出、canonical 与 basePath 测试。
 
 ## 2026-08-19 — v0.4.0
 
-新增 `/start/` 三路径起步页与 `/launchpad/` 本地发布工作台。Launchpad 可上传或粘贴 v2 `projects.json`，在浏览器内完成 schema-lite、normalize、引用、隐私与证据检查，并以 BLOCK / WARN / PASS 和唯一下一步呈现结论；隐私或断链阻断时禁止生成包含 5 个独立文件的 Release Pack。同步增加首次成功护栏、低干扰作者入口、SEO/robots/sitemap 约束与发布安全测试。
+新增 `/start/` 起步页与 `/launchpad/` 本地检查工具。用户可上传或粘贴 v2 `projects.json`，在浏览器内完成文件结构、内容关联、隐私与证据检查，并获得明确结论和唯一下一步；隐私或断链问题会阻止生成 5 个发布文件。同步增加首次成功护栏、低干扰作者入口、SEO/robots/sitemap 约束与发布安全测试。
 
 ## 2026-08-10 — v0.3.0
 

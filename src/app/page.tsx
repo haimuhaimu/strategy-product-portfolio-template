@@ -40,11 +40,8 @@ export default function Home() {
       <ClosingCTA contact={getContact()} />
       <aside className="border-t border-[#14110e]/15 bg-[#f8f8f3] px-4 py-5 sm:px-8" aria-label="作品集作者入口">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 text-sm text-[#6e5743]">
-          <p><strong className="text-[#14110e]">你也在整理作品集？</strong> 从材料、JSON 或示例中任选一条路径开始。</p>
-          <div className="flex flex-wrap gap-4">
-            <StaticPageLink href="/pilot/" className="font-semibold text-[#c92a20] underline decoration-[#c92a20]/30 underline-offset-4">查看 v0.6 PMF Pilot</StaticPageLink>
-            <StaticPageLink href="/start/" className="font-semibold text-[#80654d] underline decoration-[#80654d]/30 underline-offset-4 hover:text-[#c92a20]">进入作者工作台 →</StaticPageLink>
-          </div>
+          <p><strong className="text-[#14110e]">用你自己的 Agent，把经历变成可发布的作品集。</strong> 有材料就交给 Agent，已有文件就直接检查。</p>
+          <StaticPageLink href="/start/" className="font-semibold text-[#c92a20] underline decoration-[#c92a20]/30 underline-offset-4">开始制作我的作品集 →</StaticPageLink>
         </div>
       </aside>
       </main>

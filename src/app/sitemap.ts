@@ -17,11 +17,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     {
-      url: getAbsoluteUrl("/pilot/"),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    {
       url: getAbsoluteUrl("/templates/"),
       changeFrequency: "monthly",
       priority: 0.8,

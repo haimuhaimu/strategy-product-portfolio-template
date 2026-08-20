@@ -110,7 +110,7 @@ test("四模板按真实信号排序并给出加分理由与缺口", () => {
   }
 });
 
-test("Launchpad Release Pack 使用手动选择，其他四文件不变且隐私阻断仍生效", () => {
+test("发布文件使用手动展示选择，其他四文件不变且隐私问题仍会阻止生成", () => {
   const assessment = assessPortfolioData(clone());
   const atlasPack = createReleasePack(assessment, { selectedTemplate: "atlas" });
   const aiPack = createReleasePack(assessment, { selectedTemplate: "ai-workflow" });
@@ -124,7 +124,7 @@ test("Launchpad Release Pack 使用手动选择，其他四文件不变且隐私
   unsafe.projects[0].summary += " private.owner@example.com";
   const blocked = assessPortfolioData(unsafe);
   assert.equal(blocked.canGenerateRelease, false);
-  assert.throws(() => createReleasePack(blocked, { selectedTemplate: "growth" }), /Release Pack 已阻断/u);
+  assert.throws(() => createReleasePack(blocked, { selectedTemplate: "growth" }), /发布文件暂不能生成/u);
 });
 
 test("模板库、首页和项目页包含四模板渲染入口", () => {

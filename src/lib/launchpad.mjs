@@ -2,7 +2,6 @@ import { portfolioDataToConfigDraft } from "./config-draft.mjs";
 import { createPortfolioExport } from "./config-export.mjs";
 import { auditPortfolioDraft, createSafeDiagnosticSummary, validatePortfolioReferences } from "./evidence-audit.mjs";
 import { normalizePortfolioData } from "./normalize.mjs";
-import { sanitizePmfPilotExport } from "./pmf-pilot.mjs";
 import { applyTemplateSelection, matchPortfolioTemplates, resolveTemplateId } from "./templates.mjs";
 
 export const RELEASE_FILE_NAMES = [
@@ -11,7 +10,6 @@ export const RELEASE_FILE_NAMES = [
   "RELEASE_CHECKLIST.md",
   "SHARE_COPY.md",
   "SHOWCASE_ENTRY.json",
-  "PMF_PILOT_LOG.json",
 ];
 
 const TEMPLATE_MARKERS = [
@@ -90,21 +88,21 @@ function detectTemplateState(input) {
 
 function featuredGuard(input) {
   const count = Array.isArray(input?.featuredProjectSlugs) ? input.featuredProjectSlugs.length : 0;
-  if (count === 3) return { pass: true, count, message: "已精选 3 个 featured 项目。" };
+  if (count === 3) return { pass: true, count, message: "已精选 3 个代表项目。" };
   if (count < 3) {
-    return { pass: false, count, message: `当前只有 ${count} 个 featured 项目；请从全部经历中补选至 3 个。` };
+    return { pass: false, count, message: `当前只有 ${count} 个代表项目；请从全部经历中补选至 3 个。` };
   }
-  return { pass: false, count, message: `当前有 ${count} 个 featured 项目；请按岗位相关性与证据强度精选为 3 个。` };
+  return { pass: false, count, message: `当前有 ${count} 个代表项目；请按岗位相关性与证据强度精选为 3 个。` };
 }
 
 function createNextStep({ schema, audit, references, template, featured }) {
-  if (!schema.valid) return `先修复 schema-lite 的 ${schema.errors.length} 个结构问题，再重新导入。`;
+  if (!schema.valid) return `先修复文件结构中的 ${schema.errors.length} 个问题，再重新导入。`;
   if (audit.privacyRisks.length) return "先删除或脱敏隐私命中项，并确认公开授权，再重新审计。";
   if (!references.valid) return `先修复 ${references.findings.length} 处项目或星图断链，再重新审计。`;
   if (!featured.pass) return featured.message;
   if (template.detected) return "先替换模板占位内容；不要把“待补充”或示例身份带入发布包。";
   if (audit.level === "弱证据") return "先按首条高价值追问补充结果口径、方法或贡献边界。";
-  return "检查公开授权后，生成并逐项下载 Release Pack。";
+  return "确认内容可以公开后，生成并逐项下载发布文件。";
 }
 
 export function assessPortfolioData(input) {
@@ -158,8 +156,8 @@ export function createSafeReleaseSummary(assessment) {
     `角色方向：${role}`,
     `精选项目：${assessment.featured.count} 个`,
     `平均证据分：${assessment.audit.totalScore}/5（${assessment.audit.level}）`,
-    `引用校验：${assessment.references.valid ? "通过" : "阻断"}`,
-    `隐私扫描：${assessment.audit.privacyRisks.length ? "阻断" : "未命中常见敏感模式"}`,
+    `内容关联：${assessment.references.valid ? "通过" : "需要处理"}`,
+    `隐私检查：${assessment.audit.privacyRisks.length ? "需要处理" : "未命中常见敏感模式"}`,
     "说明：自动扫描不替代本人对披露权限和事实准确性的最终确认。",
   ].join("\n");
 }
@@ -188,7 +186,7 @@ function createAuditExport(assessment) {
 
 export function createReleasePack(assessment, options = {}) {
   if (!assessment?.canGenerateRelease) {
-    throw new Error("Release Pack 已阻断：请先修复结构、隐私或引用问题。");
+    throw new Error("发布文件暂不能生成：请先修复结构、隐私或内容关联问题。");
   }
   const selectedTemplate = resolveTemplateId(options.selectedTemplate ?? assessment.normalizedData.template?.active);
   const releaseData = applyTemplateSelection(assessment.normalizedData, selectedTemplate);
@@ -206,7 +204,7 @@ export function createReleasePack(assessment, options = {}) {
     "- [ ] 已人工确认组织保密规则、事实口径与公开授权",
     "- [ ] 部署后填写公开 URL，并再次运行站点测试与 SEO 检查",
     "",
-    "> 自动检查仅提供发布护栏，不代表第三方事实核验或披露授权。",
+    "> 自动检查只能帮助发现发布问题，不代表第三方事实核验或披露授权。",
   ].join("\n");
   const shareCopy = [
     "# SHARE COPY",
@@ -239,7 +237,6 @@ export function createReleasePack(assessment, options = {}) {
       takedownAvailable: "待确认后改为 confirmed",
     },
   };
-  const pmfPilotLog = sanitizePmfPilotExport(options.pmfPilotLog);
 
   return {
     "projects.json": `${JSON.stringify(releaseData, null, 2)}\n`,
@@ -247,6 +244,5 @@ export function createReleasePack(assessment, options = {}) {
     "RELEASE_CHECKLIST.md": `${checklist}\n`,
     "SHARE_COPY.md": `${shareCopy}\n`,
     "SHOWCASE_ENTRY.json": `${JSON.stringify(showcaseEntry, null, 2)}\n`,
-    "PMF_PILOT_LOG.json": `${JSON.stringify(pmfPilotLog, null, 2)}\n`,
   };
 }
