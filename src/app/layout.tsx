@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { BackToTopButton } from "@/components/BackToTopButton";
 import { Header } from "@/components/Header";
+import { MotionRevealObserver } from "@/components/MotionRevealObserver";
 import { PortfolioCompanion } from "@/components/PortfolioCompanion";
 import { UnderstandingProgressWidget } from "@/components/UnderstandingProgressWidget";
 import { getActiveTemplate, getFeatureFlags, getProfile } from "@/lib/projects";
@@ -91,6 +92,7 @@ export default function RootLayout({
   return (
     <html lang="zh-CN" data-scroll-behavior="smooth" data-template={activeTemplate}>
       <body>
+        <MotionRevealObserver />
         <div className="reading-progress" aria-hidden="true" />
         <Header profile={profile} features={features} />
         {children}
