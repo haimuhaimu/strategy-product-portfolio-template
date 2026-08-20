@@ -5,7 +5,7 @@ import type { RoadmapStage, StarMap } from "@/types/project";
 
 export function SignatureAtlasSection({ roadmap, starMap }: { roadmap: RoadmapStage[]; starMap: StarMap }) {
   return (
-    <section className="signature-atlas mx-auto max-w-7xl px-4 py-12 sm:px-8 sm:py-16" aria-labelledby="signature-atlas-title">
+    <section className="signature-atlas mx-auto max-w-7xl px-4 py-12 sm:px-8 sm:py-16" aria-labelledby="signature-atlas-title" data-motion-section>
       <div className="atlas-register" aria-hidden="true"><span>36°N</span><span>FIELD 02</span><span>116°E</span></div>
       <div className="grid gap-8 border-y border-[#242320]/25 py-8 lg:grid-cols-[0.72fr_1.28fr] lg:items-end">
         <div>

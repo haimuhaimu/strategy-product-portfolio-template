@@ -14,7 +14,7 @@ type DetailSectionProps = {
 
 function DetailSection({ eyebrow, title, items }: DetailSectionProps) {
   return (
-    <section className="template-detail-section">
+    <section className="template-detail-section" data-motion-section>
       <p className="template-kicker">{eyebrow}</p>
       <h2 className="mt-2 text-2xl font-semibold">{title}</h2>
       {items.length ? <ul className="mt-5 space-y-3">{items.map((item) => <li key={item}>{item}</li>)}</ul> : <p className="mt-4 text-sm text-[var(--template-muted)]">待补充：当前数据没有这一结构所需的事实。</p>}
@@ -35,7 +35,7 @@ function GrowthProject({ project }: { project: Project }) {
   const results = project.caseStudy.evaluation.length ? project.caseStudy.evaluation : project.results;
   return (
     <>
-      <header className="template-detail-hero growth-detail-hero">
+      <header className="template-detail-hero growth-detail-hero" data-motion-hero="growth">
         <p className="template-kicker">GROWTH CASE / {project.domain}</p><MetricGrid project={project} />
         <h1>{project.title}</h1><p>{project.summary}</p>
       </header>
@@ -54,7 +54,7 @@ function SystemsProject({ project }: { project: Project }) {
   const mechanisms = project.caseStudy.productMethod.length ? project.caseStudy.productMethod : project.actions;
   return (
     <>
-      <header className="template-detail-hero systems-detail-hero">
+      <header className="template-detail-hero systems-detail-hero" data-motion-hero="systems">
         <div className="template-domain-label">SYSTEM DOMAIN / {project.domain}</div><h1>{project.title}</h1><p>{project.summary}</p>
         <div className="mt-6 grid gap-3 sm:grid-cols-3"><div className="template-panel"><span>范围</span><strong>{project.roleContribution?.scope || project.company}</strong></div><div className="template-panel"><span>关键判断</span><strong>{project.roleContribution?.judgment || project.caseStudy.question}</strong></div><div className="template-panel"><span>协作边界</span><strong>{project.roleContribution?.boundary || "待补充"}</strong></div></div>
       </header>
@@ -74,9 +74,16 @@ function AiWorkflowProject({ project }: { project: Project }) {
   const evaluation = project.caseStudy.evaluation.length ? project.caseStudy.evaluation : project.results;
   return (
     <>
-      <header className="template-detail-hero ai-detail-hero">
+      <header className="template-detail-hero ai-detail-hero" data-motion-hero="ai-workflow">
         <p className="template-kicker">AI WORKFLOW CASE / HUMAN-IN-THE-LOOP</p><h1>{project.title}</h1><p>{project.summary}</p>
-        <div className="template-console mt-7"><span>TASK</span><strong>{project.caseStudy.question}</strong><i>↓</i><span>HUMAN × AI</span><strong>{project.roleContribution?.judgment || project.actions[0] || "人机边界待补充"}</strong><i>↓</i><span>EVALUATE / ROLLBACK</span><strong>{evaluation[0] || "评估与回滚待补充"}</strong></div>
+        <ol className="template-console workflow-flow mt-7" aria-label="项目人机工作流">
+          <li className="workflow-node"><span>HUMAN / TASK</span><strong>{project.caseStudy.question}</strong><i className="workflow-link" aria-hidden="true">→</i></li>
+          <li className="workflow-node"><span>AGENT</span><strong>{workflow[0] || project.caseStudy.productMethod[0] || "Agent 环节待补充"}</strong><i className="workflow-link" aria-hidden="true">→</i></li>
+          <li className="workflow-node"><span>TOOLS</span><strong>{project.caseStudy.algorithmAndData[0] || "工具环节待补充"}</strong><i className="workflow-link" aria-hidden="true">→</i></li>
+          <li className="workflow-node"><span>RESULT</span><strong>{evaluation[0] || project.results[0] || "候选结果待补充"}</strong><i className="workflow-link" aria-hidden="true">→</i></li>
+          <li className="workflow-node"><span>HUMAN REVIEW</span><strong>{project.roleContribution?.judgment || project.roleContribution?.boundary || "人工复核边界待补充"}</strong><i className="workflow-link" aria-hidden="true">→</i></li>
+          <li className="workflow-node"><span>EVALUATE / ROLLBACK</span><strong>{project.detailContent?.review[0] || project.caseStudy.artifact[0] || "评估与回滚待补充"}</strong></li>
+        </ol>
       </header>
       <div className="template-detail-grid ai-detail-grid">
         <DetailSection eyebrow="01 / TASK & BOUNDARY" title="任务与人机责任边界" items={[project.background, project.roleContribution?.boundary].filter((item): item is string => Boolean(item))} />
@@ -91,7 +98,7 @@ function AiWorkflowProject({ project }: { project: Project }) {
 
 export function TemplateProjectDetail({ template, project }: TemplateProjectDetailProps) {
   return (
-    <main className="template-page template-project-detail mx-auto max-w-7xl px-4 py-8 sm:px-8 sm:py-12">
+    <main className="template-page template-project-detail mx-auto max-w-7xl px-4 py-8 sm:px-8 sm:py-12" data-motion-template={template}>
       <StaticPageLink href="/#projects" className="template-back-link">← 返回项目目录</StaticPageLink>
       {template === "growth" ? <GrowthProject project={project} /> : template === "systems" ? <SystemsProject project={project} /> : <AiWorkflowProject project={project} />}
     </main>

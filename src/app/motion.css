@@ -1,0 +1,350 @@
+/* v0.7 motion layer: content is visible by default; timelines only enhance capable browsers. */
+.reading-progress {
+  position: fixed;
+  z-index: 60;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--template-accent, #d84b28);
+  opacity: 0;
+  pointer-events: none;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+
+:where(a, button, textarea, input, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--template-accent, #1437d6);
+  outline-offset: 3px;
+}
+
+.motion-card,
+.feedback-button,
+.template-project-card,
+.star-map-list-item {
+  transition: transform 180ms ease, opacity 180ms ease, border-color 180ms ease;
+}
+
+.motion-card:active,
+.feedback-button:active,
+.template-project-card:active,
+.star-map-list-item:active {
+  transform: translateY(1px) scale(0.99);
+}
+
+/* Atlas: an archive sheet unfolds while a coordinate scan crosses it. */
+.atlas-archive-card {
+  position: relative;
+  overflow: hidden;
+  transform-origin: 50% 0;
+  animation: atlas-archive-unfold 680ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.atlas-archive-card::after {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(20, 55, 214, 0.12);
+  content: "";
+  pointer-events: none;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  animation: atlas-coordinate-rule 720ms 160ms ease-out both;
+}
+
+.atlas-archive-scan {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+  left: 8%;
+  width: 1px;
+  background: rgba(20, 55, 214, 0.42);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(0);
+  animation: atlas-archive-scan 1.8s 500ms ease-in-out 1;
+}
+
+@keyframes atlas-archive-unfold {
+  from { transform: perspective(900px) rotateX(-4deg) translateY(-10px); }
+  to { transform: perspective(900px) rotateX(0) translateY(0); }
+}
+
+@keyframes atlas-coordinate-rule {
+  to { transform: scaleX(1); }
+}
+
+@keyframes atlas-archive-scan {
+  0% { opacity: 0; transform: translateX(0); }
+  12%, 84% { opacity: 0.7; }
+  100% { opacity: 0; transform: translateX(70vw); }
+}
+
+.star-edges line.is-active {
+  stroke-dasharray: 8 5;
+  stroke-dashoffset: 0;
+  animation: atlas-active-link 1.1s linear infinite;
+}
+
+@keyframes atlas-active-link {
+  to { stroke-dashoffset: -26; }
+}
+
+/* Growth: metric cards enter in cadence and the real cards are tied by a loop trace. */
+.growth-metric-stage {
+  position: relative;
+}
+
+.growth-loop-path {
+  position: absolute;
+  inset: -1.5rem -1rem;
+  width: calc(100% + 2rem);
+  height: calc(100% + 3rem);
+  overflow: visible;
+  pointer-events: none;
+}
+
+.growth-loop-path path {
+  fill: none;
+  stroke: var(--template-accent);
+  stroke-width: 2;
+  stroke-dasharray: 14 10;
+  opacity: 0.28;
+  vector-effect: non-scaling-stroke;
+  animation: growth-loop-trace 2.8s linear infinite;
+}
+
+.growth-metric-card {
+  position: relative;
+  animation: growth-card-cadence 520ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: calc(var(--motion-order, 0) * 90ms);
+}
+
+.growth-loop-track .template-panel {
+  position: relative;
+}
+
+.growth-loop-track .template-panel:not(:last-child)::after {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  right: -1.05rem;
+  width: 1rem;
+  border-top: 1px dashed var(--template-accent);
+  content: "";
+  opacity: 0.6;
+}
+
+@keyframes growth-loop-trace {
+  to { stroke-dashoffset: -48; }
+}
+
+@keyframes growth-card-cadence {
+  from { transform: translateY(12px) scale(0.98); }
+  to { transform: translateY(0) scale(1); }
+}
+
+/* Systems: domains establish first, then their mechanism connectors resolve. */
+.systems-domain-map {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem 1.4rem;
+}
+
+.systems-domain-map::before {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  left: 0;
+  border-top: 1px solid var(--template-line);
+  content: "";
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  animation: systems-connect 780ms 360ms ease-out both;
+}
+
+.systems-domain-node {
+  position: relative;
+  z-index: 1;
+  animation: systems-module-build 480ms ease-out both;
+  animation-delay: calc(var(--motion-order, 0) * 100ms);
+}
+
+.systems-mechanism-node {
+  position: relative;
+}
+
+.systems-mechanism-node::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 1.8rem;
+  border-left: 1px solid var(--template-accent);
+  content: "";
+  opacity: 0.28;
+  transform: scaleY(0);
+  transform-origin: 50% 0;
+}
+
+.systems-mechanism-list .systems-mechanism-node::before {
+  animation: systems-connect-y 620ms ease-out both;
+}
+
+@keyframes systems-module-build {
+  from { transform: scale(0.92) translateY(8px); }
+  to { transform: scale(1) translateY(0); }
+}
+
+@keyframes systems-connect {
+  to { transform: scaleX(1); }
+}
+
+@keyframes systems-connect-y {
+  to { transform: scaleY(1); }
+}
+
+/* AI Workflow: one pulse travels human → agent → tools → result → human review. */
+.workflow-flow {
+  display: grid;
+  gap: 0.75rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.workflow-node {
+  position: relative;
+  display: grid;
+  gap: 0.28rem;
+  border: 1px solid var(--template-line);
+  padding: 0.75rem 0.9rem;
+  transform: translateX(0);
+  animation: workflow-step-pulse 4.5s ease-in-out infinite;
+}
+
+.workflow-node:nth-child(2) { animation-delay: 0.45s; }
+.workflow-node:nth-child(3) { animation-delay: 0.9s; }
+.workflow-node:nth-child(4) { animation-delay: 1.35s; }
+.workflow-node:nth-child(5) { animation-delay: 1.8s; }
+.workflow-node:nth-child(6) { animation-delay: 2.25s; }
+
+.workflow-node:last-child {
+  border-color: color-mix(in srgb, var(--template-accent) 75%, white);
+}
+
+.workflow-link {
+  position: absolute;
+  right: 0.9rem;
+  bottom: -1rem;
+  z-index: 2;
+  color: var(--template-accent);
+  font-style: normal;
+  transform: rotate(90deg);
+  animation: workflow-link-scan 1.5s ease-in-out infinite;
+}
+
+@keyframes workflow-step-pulse {
+  0%, 18%, 100% { transform: translateX(0); opacity: 1; }
+  8% { transform: translateX(5px); opacity: 0.76; }
+}
+
+@keyframes workflow-link-scan {
+  50% { transform: rotate(90deg) translateX(4px); opacity: 0.45; }
+}
+
+/* Scroll-driven progressive enhancement. Unsupported browsers keep full opacity. */
+@supports (animation-timeline: scroll()) {
+  .reading-progress {
+    opacity: 1;
+    animation: reading-progress linear both;
+    animation-timeline: scroll(root block);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  [data-motion-section],
+  main > section:not(:first-child) {
+    animation: section-reveal linear both;
+    animation-timeline: view(block);
+    animation-range: entry 8% cover 28%;
+  }
+}
+
+@keyframes reading-progress {
+  to { transform: scaleX(1); }
+}
+
+@keyframes section-reveal {
+  from { opacity: 0.35; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .motion-card:hover,
+  .template-project-card:hover {
+    border-color: var(--template-accent, #c92a20);
+    transform: translateY(-4px);
+  }
+
+  .feedback-button:hover,
+  .star-map-list-item:hover {
+    transform: translateY(-1px);
+  }
+
+  .star-nodes g:hover .star-core {
+    fill: currentColor;
+  }
+}
+
+@media (max-width: 767px) {
+  .atlas-archive-card,
+  .growth-metric-card,
+  .systems-domain-node {
+    animation-duration: 320ms;
+  }
+
+  .growth-loop-path,
+  .systems-domain-map::before,
+  .growth-loop-track .template-panel::after {
+    display: none;
+  }
+
+  .workflow-node {
+    animation-duration: 6s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  .reading-progress,
+  .atlas-archive-card,
+  .atlas-archive-card::after,
+  .atlas-archive-scan,
+  .star-edges line.is-active,
+  .growth-loop-path path,
+  .growth-metric-card,
+  .systems-domain-map::before,
+  .systems-domain-node,
+  .systems-mechanism-node::before,
+  .workflow-node,
+  .workflow-link,
+  [data-motion-section],
+  main > section:not(:first-child) {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .reading-progress {
+    display: none;
+  }
+
+  [data-motion-section],
+  main > section:not(:first-child) {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

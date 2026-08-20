@@ -69,6 +69,9 @@ export function ThinkingStarMap({ map, compact = false }: ThinkingStarMapProps) 
                   aria-label={`${node.kind === "project" ? "项目" : "能力"}：${node.label}`}
                   aria-pressed={selected}
                   onClick={() => setActiveId(node.id)}
+                  onPointerEnter={(event) => {
+                    if (event.pointerType === "mouse") setActiveId(node.id);
+                  }}
                   onFocus={() => setActiveId(node.id)}
                   onKeyDown={(event) => {
                     if (event.key === "ArrowRight" || event.key === "ArrowDown") { event.preventDefault(); moveFocus(index + 1); }
@@ -104,7 +107,7 @@ export function ThinkingStarMap({ map, compact = false }: ThinkingStarMapProps) 
           />
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-3" aria-label="星图节点列表">
             {map.nodes.map((node) => (
-              <button key={node.id} type="button" onClick={() => setActiveId(node.id)} className={`star-map-list-item ${node.id === activeId ? "is-active" : ""}`}>
+              <button key={node.id} type="button" onClick={() => setActiveId(node.id)} onFocus={() => setActiveId(node.id)} onPointerEnter={(event) => { if (event.pointerType === "mouse") setActiveId(node.id); }} className={`star-map-list-item ${node.id === activeId ? "is-active" : ""}`} aria-pressed={node.id === activeId}>
                 <span className="size-2 rounded-full" style={{ background: palette[node.kind] }} />{node.label}
               </button>
             ))}

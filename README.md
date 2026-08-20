@@ -66,6 +66,16 @@ https://github.com/haimuhaimu/strategy-product-portfolio-template/blob/main/skil
 
 [模板库](https://haimuhaimu.github.io/strategy-product-portfolio-template/templates/)保留四种结构的快速比较；四个详情页会进一步解释适合与不适合人群、招聘官阅读路径、证据清单、常见误用、Agent 补材料方法和 `projects.json` 字段映射。[作品集检查与下载](https://haimuhaimu.github.io/strategy-product-portfolio-template/launchpad/)会根据已提供的真实内容给出排序、加分理由和缺口。手动选择展示结构不能绕过隐私或内容关联检查。
 
+## 动效原则与降级
+
+v0.7.0 的动效只帮助读者理解信息关系，不承担内容呈现：Atlas 用档案展开与坐标扫描表达“证据可追溯”，Growth 用指标卡节奏和闭环轨迹表达“实验—复盘”，Systems 用系统域建立与连线表达“机制—边界”，AI Workflow 用“人 → Agent → 工具 → 结果 → 人工复核”的脉冲流表达人工接管、评估与回滚。页面不滚动数字，也不会为动效生成指标、状态或项目事实。
+
+- 首屏正文服务端直接输出并保持可读；关闭 JavaScript 后内容仍完整可见。
+- 章节显现与顶部阅读进度使用 CSS scroll/view timeline 渐进增强；不支持相关能力的浏览器直接显示完整内容。
+- 自动动画只使用 `transform`、`opacity` 与 SVG `stroke` 等低成本属性，避免改变布局尺寸；移动端会减少装饰轨迹和缩短入场。
+- `prefers-reduced-motion: reduce` 会关闭自动动效、滚动显现、阅读进度动画与平滑滚动，不影响导航、星图点击或键盘操作。
+- hover 反馈只对 fine pointer 启用；触屏使用点击，键盘保留 `focus-visible` 与星图方向键浏览。复制、下载结果通过既有状态和 `aria-live` 反馈。
+
 ## 隐私与边界
 
 Agent 只能依据用户材料组织内容。证据不足处应明确标记“待补充”，不得编造指标、客户、职责、结果或个人贡献。默认删除内部链接、用户明细、密钥、项目代号和未经确认可披露的精确业务数据。

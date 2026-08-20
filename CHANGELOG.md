@@ -2,6 +2,14 @@
 
 本文件记录面向使用者的重要变化。完整提交历史与技术细节请查看 GitHub Commits 和 Pull Requests。
 
+## 2026-08-20 — v0.7.0
+
+四种展示结构获得各自的首屏叙事动效：Atlas 是档案展开与坐标扫描，Growth 是真实指标卡节奏与增长闭环轨迹，Systems 是系统域、机制模块与连线建立，AI Workflow 是人、Agent、工具、结果到人工复核的步骤脉冲。AI 首页和项目页继续只重排现有事实，并明确人工接管、评估与回滚，不滚动数字、不生成虚假状态。
+
+全站新增纯 CSS 顶部阅读进度与章节显现，使用 scroll/view timeline 渐进增强；不支持时内容默认完整可见。思考星图支持 fine pointer 悬停、键盘聚焦和点击联动，活动连线增加描边轨迹，触屏不依赖 hover。卡片、按钮、复制与下载反馈统一补齐 focus、active 与 `aria-live` 状态。
+
+新增动画仅使用 transform、opacity 与 SVG stroke 等低成本属性，移动端减弱装饰；`prefers-reduced-motion` 会关闭自动动效与 smooth scroll。未引入依赖，未修改 `data/projects.json`，静态导出、basePath 与 SEO 约束保持不变。
+
 ## 2026-08-20 — v0.6.2
 
 四种展示结构新增独立静态详情页。每页从适合与不适合人群、招聘官阅读路径、页面结构、发布前证据清单、典型项目、常见误用、Agent 补材料方法、选择信号和 `projects.json` 字段映射解释模板，不再把完整说明挤在快速比较列表里。

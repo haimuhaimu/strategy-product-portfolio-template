@@ -31,7 +31,7 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(siteJsonLd) }}
       />
       {activeTemplate === "atlas" ? (
-      <main className="home-page">
+      <main className="home-page" data-motion-template="atlas">
       <div className="mx-auto max-w-7xl px-4 sm:px-8"><HeroOverview profile={profile} home={home} /></div>
       <FeaturedProjectShowcase projects={featuredProjects} />
       <EvidenceSnapshot projects={featuredProjects} />
