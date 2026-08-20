@@ -36,10 +36,11 @@ function includesAny(text, words) {
 
 function scoreProject(project, index) {
   const source = project && typeof project === "object" ? project : {};
-  const resultText = textOf([source.result, source.results, source.metrics]);
-  const methodText = textOf([source.method, source.actions, source.caseStudy]);
-  const artifactText = textOf([source.artifact, source.caseStudy?.artifact]);
-  const contributionText = textOf([source.contribution, source.roleContribution]);
+  const diagnosticText = textOf(source.diagnosticText);
+  const resultText = textOf([source.result, source.results, source.metrics, diagnosticText]);
+  const methodText = textOf([source.method, source.actions, source.caseStudy, diagnosticText]);
+  const artifactText = textOf([source.artifact, source.caseStudy?.artifact, diagnosticText]);
+  const contributionText = textOf([source.contribution, source.roleContribution, diagnosticText]);
   const rubric = {
     resultEvidence: RESULT_PATTERN.test(resultText) && !PLACEHOLDER_PATTERN.test(resultText),
     scopeAndAttribution: SCOPE_WORDS.filter((word) => resultText.includes(word)).length >= 2,

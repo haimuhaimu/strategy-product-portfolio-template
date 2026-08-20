@@ -8,7 +8,7 @@
 | --- | --- | --- |
 | 产品经理、AI / 策略 / 增长产品、产品运营、策略 / 增长运营 | 3 个代表案例 + 可检查的数据文件 + 可部署网站 | 不只换皮：Agent 帮你选项目、补证据、查隐私，再匹配叙事结构 |
 
-[**在线 Demo →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/) · [**用 Agent 开始制作 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/start/) · [**检查并下载作品集 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/launchpad/) · [**比较四种模板 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/templates/)
+[**先诊断一段经历 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/#instant-diagnostic) · [**用 Agent 开始制作 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/start/) · [**检查并下载作品集 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/launchpad/) · [**比较四种模板 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/templates/)
 
 ![产品经理与运营作品集模板：三个案例、证据快览与思考星图](public/images/portfolio-preview.png)
 
@@ -23,7 +23,13 @@
 
 核心闭环是：`材料盘点 → 单问题追问 → 三案例精选 → 证据与隐私检查 → 模板匹配 → GitHub Pages 发布`。整个过程不要求上传材料到服务端，也不会为填满页面而编造指标、职责或结果。[查看 portfolio-story-builder Agent 工作说明 →](skills/portfolio-story-builder/)
 
-## 两种开始方式
+## 先体验：诊断一段项目经历
+
+打开[在线 Demo 的即时诊断](https://haimuhaimu.github.io/strategy-product-portfolio-template/#instant-diagnostic)，粘贴一段项目经历，即可在浏览器本地检查结果证据、口径、方法、资产和贡献边界。原文不会上传，输出只包含覆盖情况、常见隐私风险数量和最优先的补证据问题。
+
+这一步不需要简历、账号或 `projects.json`。它只判断文字中的证据结构，不替代事实核验，也不会自动编造缺失结果。
+
+## 两种完整制作方式
 
 ### A. 用自己的 Agent（推荐）
 
