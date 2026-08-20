@@ -37,7 +37,7 @@ test("高级入口由 feature flags 控制且思考星图由首页独立进入",
   const header = read("src/components/Header.tsx");
   assert.match(header, /features\.profile/u);
   assert.match(header, /features\.thinking/u);
-  assert.match(header, /作者入口/u);
+  assert.match(header, /用 Agent 制作/u);
   assert.match(read("src/app/layout.tsx"), /features\.advancedModels/u);
 });
 

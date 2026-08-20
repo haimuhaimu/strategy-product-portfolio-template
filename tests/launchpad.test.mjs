@@ -28,10 +28,10 @@ function weakPortfolio() {
   };
 }
 
-test("Launchpad 输出 block / warn / pass，并给出唯一下一步", () => {
+test("本地检查输出三种人话状态，并给出唯一下一步", () => {
   const passing = assessPortfolioData(clone());
   assert.equal(passing.status, "pass");
-  assert.match(passing.nextStep, /Release Pack/u);
+  assert.match(passing.nextStep, /发布文件/u);
 
   const warning = assessPortfolioData(weakPortfolio());
   assert.equal(warning.status, "warn");
@@ -42,7 +42,7 @@ test("Launchpad 输出 block / warn / pass，并给出唯一下一步", () => {
   invalid.schemaVersion = 1;
   const blocked = assessPortfolioData(invalid);
   assert.equal(blocked.status, "block");
-  assert.match(blocked.nextStep, /schema-lite/u);
+  assert.match(blocked.nextStep, /文件结构/u);
 });
 
 test("非三个 featured 项目与模板态均显示可操作警告", () => {
@@ -58,7 +58,7 @@ test("非三个 featured 项目与模板态均显示可操作警告", () => {
   assert.ok(assessment.warnings.some((item) => item.code === "template"));
 });
 
-test("隐私命中阻断 Release Pack 且安全摘要不含敏感原文", () => {
+test("隐私命中阻止生成发布文件且安全摘要不含敏感原文", () => {
   const data = clone();
   const secret = "private.owner@example.com";
   data.projects[0].summary = `${data.projects[0].summary} ${secret}`;
@@ -67,11 +67,11 @@ test("隐私命中阻断 Release Pack 且安全摘要不含敏感原文", () => 
   assert.equal(assessment.status, "block");
   assert.equal(assessment.canGenerateRelease, false);
   assert.ok(assessment.audit.privacyRisks.length > 0);
-  assert.throws(() => createReleasePack(assessment), /Release Pack 已阻断/u);
+  assert.throws(() => createReleasePack(assessment), /发布文件暂不能生成/u);
   assert.doesNotMatch(createSafeReleaseSummary(assessment), /private\.owner/u);
 });
 
-test("引用断链阻断 Release Pack", () => {
+test("内容关联问题阻止生成发布文件", () => {
   const data = clone();
   data.featuredProjectSlugs[0] = "missing-project";
   const assessment = assessPortfolioData(data);
@@ -79,10 +79,10 @@ test("引用断链阻断 Release Pack", () => {
   assert.equal(assessment.status, "block");
   assert.equal(assessment.references.valid, false);
   assert.equal(assessment.canGenerateRelease, false);
-  assert.throws(() => createReleasePack(assessment), /Release Pack 已阻断/u);
+  assert.throws(() => createReleasePack(assessment), /发布文件暂不能生成/u);
 });
 
-test("Release Pack 文件齐全，分享文件不复制项目原文", () => {
+test("五个发布文件齐全，分享文件不复制项目原文", () => {
   const data = clone();
   const uniqueProjectPhrase = "仅用于测试的项目叙事原文-7f9c";
   data.projects[0].summary = uniqueProjectPhrase;
@@ -97,67 +97,25 @@ test("Release Pack 文件齐全，分享文件不复制项目原文", () => {
   assert.match(releasePack["SHARE_COPY.md"], /不含项目原文/u);
   assert.doesNotMatch(releasePack["SHARE_COPY.md"], new RegExp(uniqueProjectPhrase, "u"));
   assert.doesNotMatch(releasePack["SHOWCASE_ENTRY.json"], new RegExp(uniqueProjectPhrase, "u"));
-  const pilotLog = JSON.parse(releasePack["PMF_PILOT_LOG.json"]);
-  assert.equal(pilotLog.status, "disabled");
-  assert.deepEqual(pilotLog.events, []);
 });
 
-test("Release Pack 第六文件只保留安全枚举，非法自由文本降级为 disabled", () => {
-  const assessment = assessPortfolioData(clone());
-  const timestamp = "2026-08-19T00:00:00.000Z";
-  const expiresAt = "2026-08-26T00:00:00.000Z";
-  const safePack = createReleasePack(assessment, {
-    pmfPilotLog: {
-      status: "enabled",
-      enabled: true,
-      startedAt: timestamp,
-      expiresAt,
-      events: [
-        { event: "import_result", value: "real_success", timestamp },
-        { event: "release_pack_generated", value: true, templateId: "atlas", timestamp },
-      ],
-    },
-  });
-  const safeLog = JSON.parse(safePack["PMF_PILOT_LOG.json"]);
-  assert.equal(safeLog.status, "enabled");
-  assert.equal(safeLog.eventCount, 2);
-  assert.doesNotMatch(safePack["PMF_PILOT_LOG.json"], /projects|summary|publicUrl/u);
-
-  const secret = "https://internal.example.com/resume";
-  const unsafePack = createReleasePack(assessment, {
-    pmfPilotLog: {
-      status: "enabled",
-      enabled: true,
-      startedAt: timestamp,
-      expiresAt,
-      events: [{ event: "applied", value: true, note: secret, timestamp }],
-    },
-  });
-  assert.equal(JSON.parse(unsafePack["PMF_PILOT_LOG.json"]).status, "disabled");
-  assert.doesNotMatch(unsafePack["PMF_PILOT_LOG.json"], /internal\.example/u);
-});
-
-test("start / launchpad 页面入口与 SEO 源码约束存在", () => {
+test("start / 作品集检查页的入口与 SEO 源码约束存在", () => {
   const read = (file) => readFileSync(path.join(root, file), "utf8");
   const start = read("src/app/start/page.tsx");
   const launchpad = read("src/app/launchpad/page.tsx");
-  const pilot = read("src/app/pilot/page.tsx");
   const header = read("src/components/Header.tsx");
   const home = read("src/app/page.tsx");
   const sitemap = read("src/app/sitemap.ts");
   const robots = read("src/app/robots.ts");
   const workbench = read("src/components/launchpad/LaunchpadWorkbench.tsx");
 
-  assert.match(start, /Skill-first|Portfolio Story Builder/u);
+  assert.match(start, /AgentPromptCard|用自己的 Agent/u);
   assert.match(start, /\/launchpad\//u);
-  assert.match(start, /\/config\//u);
+  assert.doesNotMatch(start, /href="\/config\/"/u);
   assert.match(launchpad, /index: false/u);
-  assert.doesNotMatch(pilot, /index: false/u);
-  assert.match(pilot, /pathname: "\/pilot\/"/u);
   assert.match(header, /href="\/start\/"/u);
-  assert.match(home, /进入作者工作台/u);
+  assert.match(home, /用你自己的 Agent，把经历变成可发布的作品集/u);
   assert.match(sitemap, /getAbsoluteUrl\("\/start\/"\)/u);
-  assert.match(sitemap, /getAbsoluteUrl\("\/pilot\/"\)/u);
   assert.doesNotMatch(sitemap, /getAbsoluteUrl\("\/launchpad\/"\)/u);
   assert.match(robots, /launchpad\//u);
   assert.doesNotMatch(workbench, /\bfetch\s*\(/u);

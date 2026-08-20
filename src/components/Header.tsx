@@ -18,7 +18,7 @@ export function Header({ profile, features }: { profile: Profile; features: Feat
           <StaticPageLink href="/#projects" className="hidden transition hover:text-[#c92a20] sm:block">项目</StaticPageLink>
           {features.profile ? <StaticPageLink href="/profile/" className="hidden transition hover:text-[#c92a20] md:block">关于</StaticPageLink> : null}
           {features.thinking ? <StaticPageLink href="/thinking/" className="hidden transition hover:text-[#c92a20] md:block">思考</StaticPageLink> : null}
-          <StaticPageLink href="/start/" className="hidden text-xs font-semibold text-[#80654d] transition hover:text-[#c92a20] sm:block">作者入口</StaticPageLink>
+          <StaticPageLink href="/start/" className="hidden text-xs font-semibold text-[#80654d] transition hover:text-[#c92a20] sm:block">用 Agent 制作</StaticPageLink>
           <StaticPageLink href="/#contact" className="transition hover:text-[#c92a20]">联系</StaticPageLink>
         </nav>
       </div>
