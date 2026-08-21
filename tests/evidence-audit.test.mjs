@@ -5,7 +5,7 @@ import { auditPortfolioDraft, createSafeDiagnosticSummary } from "../src/lib/evi
 
 const strongProject = {
   title: "召回策略",
-  result: "30 天周期内，沉默用户回访率从基线 8% 提升到 12%，团队看板可查验。",
+  result: "30 天周期内，沉默用户回访率相比基线明显提升（具体数据已脱敏），团队看板可查验。",
   method: "抽取样本做对照实验，并按漏斗复盘数据。",
   artifact: "交付策略规则、复盘看板和可复用 SOP。",
   contribution: "我负责分层判断与规则设计；上线和业务结果属于团队，长期留存尚未验证。",

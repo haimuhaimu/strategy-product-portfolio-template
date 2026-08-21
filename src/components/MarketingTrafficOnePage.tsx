@@ -2,7 +2,7 @@ const problemCards = [
   {
     title: "核心矛盾",
     items: [
-      "优质作者商单少、流量少、收入低",
+      "优质作者品牌合作内容少、流量少、收入低",
       "作者长期留存和投稿意愿被削弱",
       "商业内容供给结构容易失衡",
     ],
@@ -10,7 +10,7 @@ const problemCards = [
   {
     title: "分歧来源",
     items: [
-      "担心影响大盘分发效率",
+      "担心影响整体分发效率",
       "担心流量倾斜造成生态失衡",
       "本质是缺少因果证据",
     ],
@@ -18,7 +18,7 @@ const problemCards = [
   {
     title: "验证目标",
     items: [
-      "证明给优质作者更多商单流量是否成立",
+      "证明给优质作者更多品牌合作内容流量是否成立",
       "同时观察作者收入和用户体验",
       "为长期机制提供实验依据",
     ],
@@ -38,7 +38,7 @@ const valueSystem = [
 
 const experimentCards = [
   {
-    title: "商单场景",
+    title: "品牌合作内容场景",
     body: "优质作者池 → 随机分组 → 流量倾斜验证 → 对比作者收入、用户体验护栏、投稿供给变化",
   },
   {
@@ -58,7 +58,7 @@ const resultCards = [
       { label: "已验证场景", value: "2 类" },
       { label: "用户体验", value: "设置护栏" },
     ],
-    note: "商单与交易内容分别验证，不用未经确认的比例替代结论。",
+    note: "品牌合作内容与交易内容分别验证，不用未经确认的比例替代结论。",
   },
   {
     title: "机制承接",
@@ -72,12 +72,12 @@ const resultCards = [
 
 const mechanismCards = [
   {
-    title: "优质商单评级体系",
-    body: "沉淀作者与商单内容的评级标准。",
+    title: "优质品牌合作内容评级体系",
+    body: "沉淀作者与品牌合作内容的评级标准。",
   },
   {
     title: "分层流量倾斜策略",
-    body: "按作者价值和商单质量分配推荐增量。",
+    body: "按作者价值和品牌合作内容质量分配推荐增量。",
   },
   {
     title: "优质内容加权曝光",
@@ -92,7 +92,7 @@ const mechanismCards = [
 const impactCards = [
   {
     title: "对作者",
-    items: ["按价值口径进入候选池", "获得可验证的商单与流量机会", "反馈进入后续分层"],
+    items: ["按价值口径进入候选池", "获得可验证的品牌合作内容与流量机会", "反馈进入后续分层"],
   },
   {
     title: "对平台",
@@ -143,7 +143,7 @@ export function MarketingTrafficOnePage() {
     <section className="mt-6 rounded-[8px] border border-[#8b3a28]/18 bg-white p-5 shadow-sm sm:p-6">
       <div className="border-b border-[#8b3a28]/18 pb-5">
         <p className="text-sm font-semibold text-[#c92a20]">
-          优质营销项目 · One Page
+          高质量商业内容项目 · One Page
         </p>
         <h2 className="mt-2 text-2xl font-semibold leading-tight tracking-normal text-[#14110e]">
           用实验证明“给优质作者更多流量”是对的
@@ -203,7 +203,7 @@ export function MarketingTrafficOnePage() {
                 设计分组实验验证
               </h4>
               <p className="mt-2 text-sm leading-6 text-[#4b3829]">
-                在商单、交易内容两个核心场景并行验证：通过分组实验验证流量倾斜。
+                在品牌合作内容、交易内容两个核心场景并行验证：通过分组实验验证流量倾斜。
               </p>
             </div>
           </div>

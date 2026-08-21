@@ -7,39 +7,114 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const publicSources = [
+  ".env.example",
   "README.md",
+  "CHANGELOG.md",
+  "CONTRIBUTING.md",
+  "SECURITY.md",
+  "ROADMAP.md",
   "package.json",
   "package-lock.json",
   "data",
-  "showcase",
   "docs",
+  "examples",
+  "presets",
+  "schema",
+  "showcase",
   "src",
   "scripts",
+  "skills",
+  "tests",
+  "public",
 ];
 
+const textExtensions = new Set([
+  ".cjs",
+  ".css",
+  ".html",
+  ".js",
+  ".json",
+  ".jsonl",
+  ".md",
+  ".mjs",
+  ".py",
+  ".svg",
+  ".ts",
+  ".tsx",
+  ".txt",
+  ".yaml",
+  ".yml",
+]);
+
+const scanExcludedFiles = new Set([
+  // 测试定义本身必须声明禁用词，不能反向把规则源码判成公开内容命中。
+  "tests/public-template.test.mjs",
+]);
+
+const allowedTechnicalFixtures = new Map([
+  // 审计器必须保留一个虚构百分比来验证“数值结果”识别；该文件不会进入网站构建产物。
+  ["skills/portfolio-story-builder/scripts/test_audit_portfolio.py", new Set(["exact-business-percentage"])],
+]);
+
+const allowedFrontmatterLines = new Map([
+  // 项目作者署名允许公开；仅豁免此文件 frontmatter 中完全一致的这一行。
+  [
+    "skills/portfolio-story-builder/SKILL.md",
+    new Map([["private-account", "author: chenquan.66"]]),
+  ],
+]);
+
 const forbiddenPatterns = [
-  /陈全/u,
-  /Chen Quan/iu,
-  /chenquan/iu,
-  /17600571711/u,
-  /453431035@qq\.com/iu,
-  /chenquan\.club/iu,
-  /字节跳动/u,
-  /抖音/u,
-  /快手/u,
-  /今日头条/u,
-  /西瓜/u,
-  /\/Users\/bytedance/u,
-  /\+7\.2%/u,
-  /\+30%/u,
-  /\+50%/u,
-  /\+500万/u,
-  /1700万/u,
-  /300万/u,
-  /5亿/u,
-  /10亿/u,
-  /10%\+/u,
+  { id: "private-name-zh", pattern: /陈全/u },
+  { id: "private-name-en", pattern: /Chen Quan/iu },
+  { id: "private-account", pattern: /chenquan/iu },
+  { id: "private-phone", pattern: /17600571711/u },
+  { id: "private-email", pattern: /453431035@qq\.com/iu },
+  { id: "private-domain", pattern: /chenquan\.club/iu },
+  { id: "company-name", pattern: /字节跳动/u },
+  { id: "product-name-douyin", pattern: /抖音/u },
+  { id: "product-name-kuaishou", pattern: /快手/u },
+  { id: "product-name-toutiao", pattern: /今日头条/u },
+  { id: "product-name-xigua", pattern: /西瓜/u },
+  { id: "private-home-path", pattern: /\/Users\/bytedance/u },
+  { id: "legacy-percentage-7-2", pattern: /\+7\.2%/u },
+  { id: "legacy-percentage-30", pattern: /\+30%/u },
+  { id: "legacy-percentage-50", pattern: /\+50%/u },
+  { id: "legacy-scale-500w", pattern: /\+500万/u },
+  { id: "legacy-scale-1700w", pattern: /1700万/u },
+  { id: "legacy-scale-300w", pattern: /300万/u },
+  { id: "legacy-scale-5y", pattern: /5亿/u },
+  { id: "legacy-scale-10y", pattern: /10亿/u },
+  { id: "legacy-percentage-10-plus", pattern: /10%\+/u },
+  { id: "business-jargon", pattern: /优质营销|精选会员|商单|软单|投流|主\s*feed|主端|主站/iu },
+  { id: "identifiable-author-scale", pattern: /全量业务作者|全量作者|全量覆盖|几十万(?:量级)?/u },
+  { id: "identifiable-volume", pattern: /百万级(?:增量|规模)?|千万级(?:增量|规模)?|(?:万|亿|数亿|十亿)级(?:增量|规模)?/u },
+  { id: "identifiable-ratio-or-rank", pattern: /双位数(?:比例|百分比)?|行业第(?:一|1)/u },
+  {
+    id: "exact-business-percentage",
+    pattern: /(?:增长|提升|下降|降低|转化率|激活率|完成率|召回率|留存率|占比|比例|命中率|准确率|渗透率|执行效率)[^。\n]{0,24}[+-]?\d+(?:\.\d+)?%|[+-]?\d+(?:\.\d+)?%[^。\n]{0,24}(?:增长|提升|下降|降低|转化率|激活率|完成率|召回率|留存率|占比|比例|命中率|准确率|渗透率|执行效率)/u,
+  },
 ];
+
+function contentWithoutAllowedFrontmatterLine(relativePath, ruleId, content) {
+  const allowedLine = allowedFrontmatterLines.get(relativePath)?.get(ruleId);
+  if (!allowedLine) return content;
+
+  const lines = content.split("\n");
+  if (lines[0] !== "---") return content;
+
+  const frontmatterEnd = lines.indexOf("---", 1);
+  if (frontmatterEnd === -1) return content;
+
+  const matchingLines = lines
+    .slice(1, frontmatterEnd)
+    .map((line, index) => ({ index: index + 1, line }))
+    .filter(({ line }) => line === allowedLine);
+  if (matchingLines.length !== 1) return content;
+
+  lines[matchingLines[0].index] = "";
+  return lines.join("\n");
+}
 
 function versionIsAtLeast(actual, minimum) {
   const actualParts = actual.split(".").map(Number);
@@ -60,33 +135,75 @@ test("version comparison treats omitted segments as zero", () => {
   assert.equal(versionIsAtLeast("1.2", "1.2.0"), true);
 });
 
+test("frontmatter allowlist is limited to the exact author line and file", () => {
+  const skillPath = "skills/portfolio-story-builder/SKILL.md";
+  const authorLine = "author: chenquan.66";
+  const frontmatter = `---\nname: portfolio-story-builder\n${authorLine}\n---\n`;
+
+  assert.doesNotMatch(
+    contentWithoutAllowedFrontmatterLine(skillPath, "private-account", frontmatter),
+    /chenquan/iu,
+  );
+  assert.match(
+    contentWithoutAllowedFrontmatterLine("README.md", "private-account", frontmatter),
+    /chenquan/iu,
+  );
+  assert.match(
+    contentWithoutAllowedFrontmatterLine(
+      skillPath,
+      "private-account",
+      `---\nname: portfolio-story-builder\n---\n${authorLine}\n`,
+    ),
+    /chenquan/iu,
+  );
+  assert.match(
+    contentWithoutAllowedFrontmatterLine(
+      skillPath,
+      "private-account",
+      `---\nname: portfolio-story-builder\n${authorLine} extra\n---\n`,
+    ),
+    /chenquan/iu,
+  );
+});
+
+const ignoredDirectories = new Set([".git", ".next", "node_modules", "out", "__pycache__"]);
+
+function isScannableTextFile(filePath) {
+  const relativePath = path.relative(root, filePath).split(path.sep).join("/");
+  return !scanExcludedFiles.has(relativePath) && (
+    path.basename(filePath) === ".env.example" || textExtensions.has(path.extname(filePath))
+  );
+}
+
 function collectTextFiles(target) {
   const absolutePath = path.join(root, target);
   if (!existsSync(absolutePath)) return [];
 
   if (statSync(absolutePath).isFile()) {
-    return [absolutePath];
+    return isScannableTextFile(absolutePath) ? [absolutePath] : [];
   }
 
   return readdirSync(absolutePath, { withFileTypes: true }).flatMap((entry) => {
+    if (entry.isDirectory() && ignoredDirectories.has(entry.name)) return [];
     const child = path.join(absolutePath, entry.name);
     if (entry.isDirectory()) {
       return collectTextFiles(path.relative(root, child));
     }
-    return [child];
+    return isScannableTextFile(child) ? [child] : [];
   });
 }
 
-test("public template contains no private identity or exact business data", () => {
+test("public template contains no private identity, business jargon or identifiable business data", () => {
   const violations = [];
 
   for (const filePath of publicSources.flatMap(collectTextFiles)) {
+    const relativePath = path.relative(root, filePath).split(path.sep).join("/");
+    const allowedRules = allowedTechnicalFixtures.get(relativePath) ?? new Set();
     const content = readFileSync(filePath, "utf8");
-    for (const pattern of forbiddenPatterns) {
-      if (pattern.test(content)) {
-        violations.push(
-          `${path.relative(root, filePath)} matches ${pattern.toString()}`,
-        );
+    for (const { id, pattern } of forbiddenPatterns) {
+      const scannableContent = contentWithoutAllowedFrontmatterLine(relativePath, id, content);
+      if (!allowedRules.has(id) && pattern.test(scannableContent)) {
+        violations.push(`${relativePath} matches ${id} (${pattern.toString()})`);
       }
     }
   }

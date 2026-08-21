@@ -17,7 +17,7 @@ import { diagnoseExperienceText, MIN_EXPERIENCE_LENGTH } from "@/lib/instant-dia
 
 type EvidenceReport = ReturnType<typeof auditPortfolioDraft>;
 
-const SAMPLE_EXPERIENCE = "我负责新作者成长策略，先按活跃阶段拆分样本并分析转化漏斗，再与产品、算法团队共同上线分层触达规则。上线后观察 30 天，新作者关键行为完成率从基线 18% 提升到 24%。我负责问题定义、规则设计和复盘看板，研发与上线结果属于团队；长期留存仍待验证。";
+const SAMPLE_EXPERIENCE = "我负责新作者成长策略，先按活跃阶段拆分样本并分析转化漏斗，再与产品、算法团队共同上线分层触达规则。上线后观察 30 天，新作者关键行为完成率相比基线明显提升（具体数据已脱敏）。我负责问题定义、规则设计和复盘看板，研发与上线结果属于团队；长期留存仍待验证。";
 
 export function InstantEvidenceDiagnostic() {
   const [experience, setExperience] = useState("");

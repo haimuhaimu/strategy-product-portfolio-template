@@ -110,7 +110,7 @@ export function getProjectSeoKeywords(project: Project) {
   if (/策略|评估|流量|搜索|分发/i.test(projectText)) {
     keywords.push("策略产品经理");
   }
-  if (/运营|作者|内容|商单|会员/i.test(projectText)) {
+  if (/运营|作者|内容|品牌合作|内容付费/i.test(projectText)) {
     keywords.push("运营作品集");
   } else {
     keywords.push("产品经理作品集");

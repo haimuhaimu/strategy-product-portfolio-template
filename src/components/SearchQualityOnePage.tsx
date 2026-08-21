@@ -68,12 +68,12 @@ const flowSteps = [
 
 const outcomes = [
   {
-    value: "行业第一",
-    label: "多端视频搜索体验",
+    value: "行业领先",
+    label: "多端视频搜索体验（具体排名已脱敏）",
   },
   {
-    value: "双位数比例",
-    label: "问答式结果覆盖用户搜索需求",
+    value: "可观比例",
+    label: "问答式结果覆盖用户搜索需求（具体数据已脱敏）",
   },
   {
     value: "达到目标水平",
