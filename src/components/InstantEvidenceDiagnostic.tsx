@@ -1,8 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StaticPageLink } from "@/components/StaticPageLink";
 import { auditPortfolioDraft } from "@/lib/evidence-audit.mjs";
+import {
+  createEvidenceShareCardSvg,
+  SHARE_CARD_HEIGHT,
+  SHARE_CARD_WIDTH,
+} from "@/lib/evidence-share-card.mjs";
 import { diagnoseExperienceText, MIN_EXPERIENCE_LENGTH } from "@/lib/instant-diagnostic.mjs";
 
 type EvidenceReport = ReturnType<typeof auditPortfolioDraft>;
@@ -23,6 +28,22 @@ export function InstantEvidenceDiagnostic() {
   const [safeSummary, setSafeSummary] = useState("");
   const [message, setMessage] = useState("等待粘贴项目经历");
   const [copyStatus, setCopyStatus] = useState("复制诊断摘要");
+  const [downloadStatus, setDownloadStatus] = useState("可下载不含原文的 PNG 分享卡");
+
+  useEffect(() => {
+    function loadSharedExample(event: Event) {
+      const text = (event as CustomEvent<{ text?: unknown }>).detail?.text;
+      if (typeof text !== "string") return;
+      setExperience(text);
+      setReport(null);
+      setSafeSummary("");
+      setMessage("已载入脱敏示例，点击按钮查看诊断结果。");
+      setDownloadStatus("可下载不含原文的 PNG 分享卡");
+    }
+
+    window.addEventListener("portfolio:load-diagnostic-example", loadSharedExample);
+    return () => window.removeEventListener("portfolio:load-diagnostic-example", loadSharedExample);
+  }, []);
 
   function runDiagnostic() {
     const diagnosis = diagnoseExperienceText(experience);
@@ -37,6 +58,7 @@ export function InstantEvidenceDiagnostic() {
     setSafeSummary(diagnosis.safeSummary);
     setMessage("已在当前浏览器完成诊断，原文不会上传。");
     setCopyStatus("复制诊断摘要");
+    setDownloadStatus("可下载不含原文的 PNG 分享卡");
   }
 
   async function copySummary() {
@@ -49,11 +71,52 @@ export function InstantEvidenceDiagnostic() {
     }
   }
 
+  async function downloadShareCard() {
+    if (!report) return;
+    setDownloadStatus("正在本地生成 PNG…");
+
+    const svg = createEvidenceShareCardSvg(report);
+    const svgUrl = URL.createObjectURL(new Blob([svg], { type: "image/svg+xml;charset=utf-8" }));
+    try {
+      const image = new Image();
+      image.decoding = "async";
+      await new Promise<void>((resolve, reject) => {
+        image.onload = () => resolve();
+        image.onerror = () => reject(new Error("SVG image failed to load"));
+        image.src = svgUrl;
+      });
+
+      const canvas = document.createElement("canvas");
+      canvas.width = SHARE_CARD_WIDTH;
+      canvas.height = SHARE_CARD_HEIGHT;
+      const context = canvas.getContext("2d");
+      if (!context) throw new Error("Canvas unavailable");
+      context.drawImage(image, 0, 0, SHARE_CARD_WIDTH, SHARE_CARD_HEIGHT);
+      const png = await new Promise<Blob>((resolve, reject) => {
+        canvas.toBlob((blob) => blob ? resolve(blob) : reject(new Error("PNG conversion failed")), "image/png");
+      });
+      const downloadUrl = URL.createObjectURL(png);
+      const link = document.createElement("a");
+      link.href = downloadUrl;
+      link.download = "portfolio-evidence-check.png";
+      document.body.append(link);
+      link.click();
+      link.remove();
+      window.setTimeout(() => URL.revokeObjectURL(downloadUrl), 0);
+      setDownloadStatus("分享卡已下载，不含原文");
+    } catch {
+      setDownloadStatus("生成失败，请换用支持 Canvas 的现代浏览器");
+    } finally {
+      URL.revokeObjectURL(svgUrl);
+    }
+  }
+
   function loadExample() {
     setExperience(SAMPLE_EXPERIENCE);
     setReport(null);
     setSafeSummary("");
     setMessage("已载入脱敏示例，点击按钮查看诊断结果。");
+    setDownloadStatus("可下载不含原文的 PNG 分享卡");
   }
 
   return (
@@ -101,7 +164,11 @@ export function InstantEvidenceDiagnostic() {
                 <span className="pb-2 text-[#d8c7b6]">/ 5 · {report.level}</span>
               </div>
               <p className="mt-4 text-sm leading-6 text-[#d8c7b6]">分数只表示这段文字是否覆盖关键证据，不代表项目质量或结果真实性。</p>
-              <button type="button" onClick={() => void copySummary()} className="mt-5 border border-white/30 px-4 py-2.5 text-sm font-semibold text-white transition hover:border-[#f3a08a] hover:text-[#f3a08a]">{copyStatus}</button>
+              <div className="mt-5 grid gap-3">
+                <button type="button" onClick={() => void downloadShareCard()} className="feedback-button bg-[#f3a08a] px-4 py-3 text-sm font-semibold text-[#14110e] transition hover:bg-white" aria-describedby="share-card-feedback">下载安全分享卡</button>
+                <button type="button" onClick={() => void copySummary()} className="feedback-button border border-white/30 px-4 py-2.5 text-sm font-semibold text-white transition hover:border-[#f3a08a] hover:text-[#f3a08a]">{copyStatus}</button>
+              </div>
+              <p id="share-card-feedback" role="status" aria-live="polite" className="mt-3 text-xs leading-5 text-[#d8c7b6]">{downloadStatus}</p>
             </div>
 
             <div className="border border-white/20 bg-[#fffaf0] p-5 text-[#14110e] sm:p-6">

@@ -146,6 +146,12 @@ test("simulated GitHub Pages build prefixes HTML assets and SEO URLs", () => {
   assert.match(home, /id="instant-diagnostic"/u);
   assert.match(home, /立即诊断证据/u);
   assert.match(home, /内容只进入当前页面内存/u);
+  assert.match(home, /id="before-after-examples"/u);
+  assert.match(home, /匿名教学示例/u);
+  assert.match(home, /载入这段脱敏示例并诊断/u);
+  assert.match(home, /id="early-user-recruitment"/u);
+  assert.match(home, /首批 20 位产品经理 \/ 运营用户/u);
+  assert.match(home, /不上传经历，不替用户编造结果/u);
   assert.match(start, new RegExp(`href="${escapedBasePath}/launchpad/index\\.html"`, "u"));
   assert.match(start, /skills\/portfolio-story-builder\/SKILL\.md/u);
   for (const { id, html } of templateDetails) {
