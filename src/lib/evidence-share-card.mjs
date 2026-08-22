@@ -1,28 +1,12 @@
+import {
+  createSafeDiagnosticShareModel,
+  normalizeSafePriorityQuestion,
+  SHARE_DIMENSIONS,
+} from "./diagnostic-share.mjs";
+
 export const SHARE_CARD_WIDTH = 1200;
 export const SHARE_CARD_HEIGHT = 1500;
 export const SHARE_CARD_PRODUCT_NAME = "Strategy Product Portfolio";
-export const SHARE_CARD_EXPERIENCE_URL = "https://haimuhaimu.github.io/strategy-product-portfolio-template/#instant-diagnostic";
-
-const DIMENSIONS = [
-  ["resultEvidence", "结果证据"],
-  ["scopeAndAttribution", "口径完整"],
-  ["methodEvidence", "方法证据"],
-  ["artifactEvidence", "资产证据"],
-  ["contributionBoundary", "贡献边界"],
-];
-
-const SAFE_PRIORITY_QUESTIONS = new Set([
-  "先确认隐私红线：能否删除或脱敏已命中的标识，并确认公开授权？",
-  "最能证明效果的一项结果是什么？请给出可查验的数值、采用或交付事实。",
-  "这项结果的对象、范围、时间窗、基线或对照是什么？请至少补两项。",
-  "你用什么具体方法验证判断？例如样本、漏斗、实验、访谈、日志或评估标准。",
-  "项目沉淀了什么可复用交付物？例如规则、原型、SOP、看板或评估集。",
-  "哪项判断或动作由你完成，哪些结果属于团队，哪些仍未验证？",
-  "哪些空泛表述可以改成具体对象、动作和证据，而不是只写负责、赋能或闭环？",
-  "五维证据已覆盖，下一步确认公开边界并放入完整作品集。",
-]);
-
-const SAFE_QUESTION_FALLBACK = "请回到诊断页，根据当前缺口补充一项可核对证据。";
 
 export function escapeSvgText(value) {
   return String(value)
@@ -33,44 +17,31 @@ export function escapeSvgText(value) {
     .replaceAll("'", "&apos;");
 }
 
-function normalizeScore(value) {
-  const score = Number(value);
-  if (!Number.isFinite(score)) return 0;
-  return Math.round(Math.min(5, Math.max(0, score)) * 10) / 10;
+function normalizeExperienceUrl(experienceUrl) {
+  try {
+    const url = new URL(String(experienceUrl));
+    if (!new Set(["http:", "https:"]).has(url.protocol)) throw new TypeError("Invalid protocol");
+    return url.toString();
+  } catch {
+    return "";
+  }
 }
 
-function scoreLevel(score) {
-  if (score >= 4) return "强证据";
-  if (score >= 3) return "可用";
-  return "弱证据";
-}
-
-function coverageOf(report, key) {
-  const value = Number(report?.dimensionScores?.[key]?.value);
-  if (!Number.isFinite(value)) return 0;
-  return Math.round(Math.min(1, Math.max(0, value)) * 100);
-}
-
-function safePriorityQuestion(report) {
-  const question = report?.questions?.[0];
-  return SAFE_PRIORITY_QUESTIONS.has(question) ? question : SAFE_QUESTION_FALLBACK;
-}
-
-export function createEvidenceShareCardModel(report) {
-  const score = normalizeScore(report?.totalScore);
+export function createEvidenceShareCardModel(report, experienceUrl) {
+  const safeModel = createSafeDiagnosticShareModel(report);
   return {
     productName: SHARE_CARD_PRODUCT_NAME,
-    experienceUrl: SHARE_CARD_EXPERIENCE_URL,
-    score,
+    experienceUrl: normalizeExperienceUrl(experienceUrl),
+    score: safeModel.totalScore,
     maxScore: 5,
-    level: scoreLevel(score),
-    dimensions: DIMENSIONS.map(([key, label]) => ({
+    level: safeModel.level,
+    dimensions: SHARE_DIMENSIONS.map(([key, label]) => ({
       key,
       label,
-      coverage: coverageOf(report, key),
+      coverage: safeModel.dimensions[key],
     })),
-    privacyRiskCount: Array.isArray(report?.privacyRisks) ? report.privacyRisks.length : 0,
-    priorityQuestion: safePriorityQuestion(report),
+    privacyRiskCount: safeModel.privacyRiskCount,
+    priorityQuestion: normalizeSafePriorityQuestion(safeModel.priorityQuestion),
     privacyStatement: "完全本地运行 · 不上传经历 · 分享卡不含原文",
   };
 }
@@ -84,8 +55,8 @@ function splitQuestion(question, maxCharacters = 23) {
   return lines.slice(0, 3);
 }
 
-export function createEvidenceShareCardSvg(report) {
-  const card = createEvidenceShareCardModel(report);
+export function createEvidenceShareCardSvg(report, experienceUrl) {
+  const card = createEvidenceShareCardModel(report, experienceUrl);
   const questionLines = splitQuestion(card.priorityQuestion);
   const dimensionCards = card.dimensions.map((dimension, index) => {
     const x = 72 + index * 211;

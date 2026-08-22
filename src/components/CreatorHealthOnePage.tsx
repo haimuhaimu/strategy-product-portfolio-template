@@ -19,8 +19,8 @@ const monetizationTypes = [
     body: "付费内容 / 会员 / 课程",
   },
   {
-    title: "广告商单型",
-    body: "品牌合作 / 软单内容",
+    title: "品牌合作型",
+    body: "品牌合作 / 品牌合作内容",
   },
   {
     title: "交易转化型",

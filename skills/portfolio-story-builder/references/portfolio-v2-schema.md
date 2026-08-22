@@ -77,7 +77,7 @@ strict 必填 string：`name`、`role`、`headline`、`summary`。其中 `name` 
 `metric` 的最小元素结构：
 
 ```json
-{ "label": "激活率", "value": "+18%" }
+{ "label": "激活率", "value": "明显提升（具体数据已脱敏）" }
 ```
 
 `label` 与 `value` 都是必填非空 string。可增加说明字段，但不能用裸字符串替代 metric 对象。

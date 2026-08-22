@@ -7,12 +7,13 @@ import {
   createEvidenceShareCardModel,
   createEvidenceShareCardSvg,
   escapeSvgText,
-  SHARE_CARD_EXPERIENCE_URL,
   SHARE_CARD_PRODUCT_NAME,
 } from "../src/lib/evidence-share-card.mjs";
+import { createDiagnosticExperienceUrl } from "../src/lib/diagnostic-share.mjs";
 
 const root = path.resolve(import.meta.dirname, "..");
 const read = (file) => readFileSync(path.join(root, file), "utf8");
+const dynamicExperienceUrl = createDiagnosticExperienceUrl("https://fork.example", "/my-portfolio");
 
 function reportWithPrivateText(marker) {
   return {
@@ -36,8 +37,8 @@ test("分享卡纯函数只输出安全字段且不泄露诊断原文", () => {
   const marker = "private.person@example.com";
   const report = reportWithPrivateText(marker);
   const before = structuredClone(report);
-  const model = createEvidenceShareCardModel(report);
-  const svg = createEvidenceShareCardSvg(report);
+  const model = createEvidenceShareCardModel(report, dynamicExperienceUrl);
+  const svg = createEvidenceShareCardSvg(report, dynamicExperienceUrl);
 
   assert.deepEqual(report, before);
   assert.doesNotMatch(JSON.stringify(model), new RegExp(marker.replaceAll(".", "\\."), "u"));
@@ -54,11 +55,11 @@ test("SVG 文本正确转义 XML 特殊字符", () => {
   );
 });
 
-test("分享卡安全字段完整且五维顺序稳定", () => {
-  const model = createEvidenceShareCardModel(reportWithPrivateText("secret-marker"));
+test("分享卡安全字段完整、五维顺序稳定且体验 URL 动态传入", () => {
+  const model = createEvidenceShareCardModel(reportWithPrivateText("secret-marker"), dynamicExperienceUrl);
 
   assert.equal(model.productName, SHARE_CARD_PRODUCT_NAME);
-  assert.equal(model.experienceUrl, SHARE_CARD_EXPERIENCE_URL);
+  assert.equal(model.experienceUrl, "https://fork.example/my-portfolio/#instant-diagnostic");
   assert.equal(model.score, 4);
   assert.equal(model.maxScore, 5);
   assert.equal(model.privacyRiskCount, 1);
@@ -71,11 +72,14 @@ test("分享卡安全字段完整且五维顺序稳定", () => {
   ]);
   assert.match(model.privacyStatement, /完全本地运行/u);
   assert.match(model.privacyStatement, /不含原文/u);
+  assert.match(createEvidenceShareCardSvg(reportWithPrivateText("secret"), dynamicExperienceUrl), /https:\/\/fork\.example\/my-portfolio\/#instant-diagnostic/u);
 });
 
 test("分享卡和冷启动交互不使用 fetch 或服务端接口", () => {
   const sources = [
     "src/lib/evidence-share-card.mjs",
+    "src/lib/diagnostic-share.mjs",
+    "src/components/diagnostic/useDiagnosticShare.ts",
     "src/components/InstantEvidenceDiagnostic.tsx",
     "src/components/ColdStartGrowthSections.tsx",
   ].map(read).join("\n");

@@ -26,7 +26,7 @@ test("单段经历被映射为审计器可读的最小项目", () => {
 test("完整经历返回五维结果与不含原文的安全摘要", () => {
   const privateMarker = "private.person@example.com";
   const result = diagnoseExperienceText(
-    `我负责新作者增长策略，抽取样本做对照实验，并按漏斗复盘数据。30 天周期内，完成率从基线 18% 提升到 24%，交付策略规则、复盘看板和 SOP。我负责规则设计，业务结果属于团队，长期留存尚未验证。联系信息 ${privateMarker}`,
+    `我负责新作者增长策略，抽取样本做对照实验，并按漏斗复盘数据。30 天周期内，完成率相比基线明显提升（具体数据已脱敏），交付策略规则、复盘看板和 SOP。我负责规则设计，业务结果属于团队，长期留存尚未验证。联系信息 ${privateMarker}`,
   );
 
   assert.equal(result.ok, true);
