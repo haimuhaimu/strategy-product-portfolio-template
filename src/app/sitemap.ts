@@ -18,6 +18,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     {
+      url: getAbsoluteUrl("/showcase/"),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
       url: getAbsoluteUrl("/templates/"),
       changeFrequency: "monthly",
       priority: 0.8,

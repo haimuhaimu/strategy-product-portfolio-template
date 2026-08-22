@@ -52,6 +52,12 @@ export default function Home() {
       ) : (
         <TemplateHome template={activeTemplate} data={getPortfolioData()} projects={featuredProjects} />
       )}
+      <aside className="border-t border-[#14110e]/15 bg-[#f4dfbd] px-4 py-5 sm:px-8" aria-label="社区作品集案例入口">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 text-sm text-[#6e5743]">
+          <p><strong className="text-[#14110e]">看看公开作品如何呈现证据与贡献边界。</strong> 当前维护者自测与社区投稿会被明确区分。</p>
+          <StaticPageLink href="/showcase/" className="font-semibold text-[#c92a20] underline decoration-[#c92a20]/30 underline-offset-4">查看社区案例 →</StaticPageLink>
+        </div>
+      </aside>
     </>
   );
 }

@@ -124,6 +124,7 @@ const siteUrl = getSiteUrl(process.env);
 const pages = [
   { label: "首页", file: "index.html", pathname: "/" },
   { label: "Start", file: "start/index.html", pathname: "/start/" },
+  { label: "Showcase", file: "showcase/index.html", pathname: "/showcase/", showcase: true },
   { label: "Templates", file: "templates/index.html", pathname: "/templates/" },
   ...TEMPLATE_IDS.map((id) => ({
     label: `模板 ${id}`,
@@ -161,6 +162,14 @@ const checked = pages.map((page) => {
     assert.match(html, /href="[^"]*#projects"/u, "首页项目 CTA 必须是可抓取链接。");
   } else if (page.file === "profile/index.html") {
     assert.match(JSON.stringify(parseJsonLd(html, page.label)), /"ProfilePage"/u);
+  } else if (page.showcase) {
+    const showcaseJson = JSON.stringify(parseJsonLd(html, page.label));
+    assert.match(showcaseJson, /"ItemList"/u);
+    assert.match(showcaseJson, /"BreadcrumbList"/u);
+    assert.doesNotMatch(showcaseJson, /"author"\s*:/iu);
+    assert.match(html, /维护者自测/u);
+    assert.match(html, /不是第三方用户案例/u);
+    assert.match(html, /GitHub Issue 会公开显示你的 GitHub 账号/u);
   } else if (page.template) {
     for (const phrase of ["适合人群", "不适合人群", "发布前证据准备清单", "常见误用", "如何让自己的 Agent 帮忙", "字段映射", "data/projects.json"]) {
       assert.ok(html.includes(phrase), `${page.label} 缺少详情内容：${phrase}。`);

@@ -4,9 +4,9 @@ Showcase 只展示已公开、已获授权的真实作品。为了降低多人�
 
 ## 提交步骤
 
-1. 先通过 [Showcase Issue](https://github.com/haimuhaimu/strategy-product-portfolio-template/issues/new?template=showcase.yml) 提交公开作品与披露确认。
+1. 先通过 [Showcase Issue](https://github.com/haimuhaimu/strategy-product-portfolio-template/issues/new?template=showcase.yml) 提交公开作品与披露确认。GitHub Issue 会公开显示你的 GitHub 账号和填写内容，不是匿名渠道。
 2. 复制现有条目的结构，新建 `showcase/entries/<slug>.json`；文件名必须与 `slug` 一致。
-3. 只填写无需登录的 HTTPS 公开 URL、角色标签、公开亮点、审计摘要与披露确认。
+3. 只填写无需登录的 HTTPS 公开 URL、角色标签、恰好 3 个公开亮点、审计摘要与披露确认。
 4. 运行 `npm run test:showcase` 和 `npm run test:public`。
 5. 提交一个仅包含本人条目的 PR，并在 PR 中链接对应 Issue。
 
