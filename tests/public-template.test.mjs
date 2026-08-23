@@ -64,6 +64,10 @@ const allowedFrontmatterLines = new Map([
   ],
 ]);
 
+function normalizeLineEndings(content) {
+  return content.replace(/\r\n?/gu, "\n");
+}
+
 const forbiddenPatterns = [
   { id: "private-name-zh", pattern: /陈全/u },
   { id: "private-name-en", pattern: /Chen Quan/iu },
@@ -97,14 +101,15 @@ const forbiddenPatterns = [
 ];
 
 function contentWithoutAllowedFrontmatterLine(relativePath, ruleId, content) {
+  const normalizedContent = normalizeLineEndings(content);
   const allowedLine = allowedFrontmatterLines.get(relativePath)?.get(ruleId);
-  if (!allowedLine) return content;
+  if (!allowedLine) return normalizedContent;
 
-  const lines = content.split("\n");
-  if (lines[0] !== "---") return content;
+  const lines = normalizedContent.split("\n");
+  if (lines[0] !== "---") return normalizedContent;
 
   const frontmatterEnd = lines.indexOf("---", 1);
-  if (frontmatterEnd === -1) return content;
+  if (frontmatterEnd === -1) return normalizedContent;
 
   const matchingLines = lines
     .slice(1, frontmatterEnd)
@@ -142,6 +147,14 @@ test("frontmatter allowlist is limited to the exact author line and file", () =>
 
   assert.doesNotMatch(
     contentWithoutAllowedFrontmatterLine(skillPath, "private-account", frontmatter),
+    /chenquan/iu,
+  );
+  assert.doesNotMatch(
+    contentWithoutAllowedFrontmatterLine(
+      skillPath,
+      "private-account",
+      frontmatter.replace(/\n/gu, "\r\n"),
+    ),
     /chenquan/iu,
   );
   assert.match(
@@ -199,7 +212,7 @@ test("public template contains no private identity, business jargon or identifia
   for (const filePath of publicSources.flatMap(collectTextFiles)) {
     const relativePath = path.relative(root, filePath).split(path.sep).join("/");
     const allowedRules = allowedTechnicalFixtures.get(relativePath) ?? new Set();
-    const content = readFileSync(filePath, "utf8");
+    const content = normalizeLineEndings(readFileSync(filePath, "utf8"));
     for (const { id, pattern } of forbiddenPatterns) {
       const scannableContent = contentWithoutAllowedFrontmatterLine(relativePath, id, content);
       if (!allowedRules.has(id) && pattern.test(scannableContent)) {
@@ -212,7 +225,9 @@ test("public template contains no private identity, business jargon or identifia
 });
 
 test("private documents are not part of the public template", () => {
-  const gitignore = readFileSync(path.join(root, ".gitignore"), "utf8");
+  const gitignore = normalizeLineEndings(
+    readFileSync(path.join(root, ".gitignore"), "utf8"),
+  );
   const trackedPrivateFiles = execFileSync(
     "git",
     ["ls-files", "--", "public/files"],
@@ -227,7 +242,9 @@ test("private documents are not part of the public template", () => {
 });
 
 test("README documents the stable portfolio generation and delivery contract", () => {
-  const readme = readFileSync(path.join(root, "README.md"), "utf8");
+  const readme = normalizeLineEndings(
+    readFileSync(path.join(root, "README.md"), "utf8"),
+  );
 
   assert.match(readme, /\[.*portfolio-story-builder.*\]\(skills\/portfolio-story-builder\/\)/u);
   assert.match(readme, /data\/projects\.json/u);
