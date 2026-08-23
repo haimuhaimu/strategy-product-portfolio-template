@@ -1,6 +1,6 @@
 {
   "name": "strategy-product-portfolio-template",
-  "version": "0.9.5",
+  "version": "0.9.6",
   "private": true,
   "description": "Agent-first product manager and operations portfolio template with evidence review, privacy checks, four narrative layouts, and GitHub Pages deployment.",
   "keywords": [
@@ -32,6 +32,7 @@
     "test": "node --test tests/*.test.mjs",
     "test:init": "node --test tests/init-portfolio.test.mjs",
     "test:showcase": "node --test tests/showcase.test.mjs tests/showcase-helper.test.mjs tests/showcase-detail.test.mjs",
+    "test:showcase-pr": "node --test tests/verify-showcase-only-pr.test.mjs",
     "test:portable-scripts": "node --test tests/next-with-wasm.test.mjs",
     "test:pages": "node --test tests/github-pages.test.mjs",
     "test:portfolio-v2": "node --test tests/portfolio-v2.test.mjs",
