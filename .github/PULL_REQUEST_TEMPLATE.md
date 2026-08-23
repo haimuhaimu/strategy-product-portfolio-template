@@ -2,7 +2,7 @@
 
 ## 变更目的
 
-<!-- 说明这个 PR 解决的具体用户问题，并关联 Issue，例如 Closes #123。 -->
+<!-- 说明这个 PR 解决的具体用户问题，并关联 Issue，例如 Closes #123。Showcase 投稿必须保留该关联。 -->
 
 ## 变更范围
 
@@ -15,6 +15,7 @@
 - [ ] 角色 preset
 - [ ] 个人模型组件 / 数据结构
 - [ ] 主题 / 样式
+- [ ] Showcase 投稿（只新增一个 `showcase/entries/<slug>.json`）
 - [ ] Bugfix
 - [ ] 文档 / 社区基础设施
 - [ ] 其他
@@ -35,6 +36,8 @@
 - [ ] `npm run test:personal-model`
 - [ ] `npm run test:calibration`
 - [ ] `npm run test:public`
+- [ ] `npm run test:showcase`
+- [ ] `npm run test:showcase-pr`
 - [ ] `npm run lint`
 - [ ] `npm run build`
 - [ ] `npm run check:seo`（在 build 之后）

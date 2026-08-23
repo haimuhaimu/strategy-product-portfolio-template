@@ -2,6 +2,12 @@
 
 本文件记录面向使用者的重要变化。完整提交历史与技术细节请查看 GitHub Commits 和 Pull Requests。
 
+## 2026-08-24 — v0.9.6
+
+Showcase 投稿新增纯 Node PR 护栏：只有触及 `showcase/entries` 时才限制 PR 必须恰好新增一个合法的 `<slug>.json`，禁止修改、删除、重命名既有条目或夹带其他文件，并复用站点构建期的条目校验规则检查 JSON 与文件名。
+
+护栏还要求 PR 描述通过 closing 关键词或当前仓库 Issue 完整 URL 关联 Issue；失败时一次汇总可直接照做的中文修正提示。CI 使用完整 Git 历史在 Windows 与 Linux 上执行护栏及 Showcase 测试，并补充纯函数与临时 Git 仓库端到端覆盖；版本同步升级至 0.9.6。
+
 ## 2026-08-23 — v0.9.5
 
 Showcase 详情页新增“下载 PNG 分享卡”。卡片沿用 SVG → Canvas → PNG 的纯浏览器本地生成方式，只使用 Showcase schema 已公开白名单中的 slug、kind、角色标签、3 条亮点和审计摘要，以及移除 query / fragment 的当前详情 URL 与硬编码仓库、投稿入口；不读取额外字段，不包含外部图片、fetch、API、埋点或新增依赖。
