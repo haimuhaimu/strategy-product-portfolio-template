@@ -191,13 +191,22 @@ test("Showcase 页面纯静态读取，并保留诚实标记、CTA 与隐私下�
   assert.match(issue, /授权撤回/u);
 });
 
-test("README、Header 与首页提供 basePath 兼容的 Showcase 入口", () => {
+test("README、Header 与首页提供 basePath 兼容的 Showcase 和 GitHub 回流入口", () => {
   const readme = read("README.md");
   const header = read("src/components/Header.tsx");
   const home = read("src/app/page.tsx");
   const sitemap = read("src/app/sitemap.ts");
-  assert.match(readme.split("## 为什么不是普通 Portfolio Template")[0], /查看社区案例/u);
+  const readmeHero = readme.split("## 为什么不是普通 Portfolio Template")[0];
+  assert.match(readmeHero, /查看社区案例/u);
+  assert.match(readmeHero, /给项目一个 GitHub Star/u);
+  assert.match(readmeHero, /查看贡献指南/u);
+  assert.match(readmeHero, /提交你的 Showcase/u);
   assert.match(header, /<StaticPageLink href="\/showcase\/"/u);
+  assert.match(header, /GitHub Star/u);
+  assert.match(header, />贡献<\/a>/u);
+  assert.equal([...header.matchAll(/target="_blank"/gu)].length, 2);
+  assert.equal([...header.matchAll(/rel="noopener noreferrer"/gu)].length, 2);
+  assert.doesNotMatch(header, /GitHub Star[\s\S]{0,200}hidden/u);
   assert.match(home, /<StaticPageLink href="\/showcase\/"/u);
   assert.match(sitemap, /loadShowcaseEntries/u);
   assert.ok(sitemap.includes("`/showcase/${entry.slug}/`"));

@@ -75,7 +75,7 @@ export default function ShowcasePage() {
           </nav>
           <div className="mt-7 grid gap-8 lg:grid-cols-[1.25fr_0.75fr] lg:items-end">
             <div>
-              <p className="font-mono text-xs font-bold tracking-[0.18em] text-[#c92a20]">COMMUNITY SHOWCASE / v0.9.4</p>
+              <p className="font-mono text-xs font-bold tracking-[0.18em] text-[#c92a20]">COMMUNITY SHOWCASE / v0.9.5</p>
               <h1 className="mt-4 max-w-4xl font-serif text-4xl font-semibold leading-tight sm:text-6xl">社区作品集案例墙</h1>
               <p className="mt-6 max-w-3xl text-base leading-8 text-[#5b4635]">这里只展示已公开、已授权且完成敏感材料检查的作品集。审计分数表示材料结构覆盖，不代表平台背书、第三方事实核验或作品效果排名。</p>
             </div>

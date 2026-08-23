@@ -174,7 +174,7 @@ export default async function ShowcaseDetailPage({ params }: ShowcaseDetailPageP
         <div className="mx-auto flex max-w-5xl flex-wrap items-start gap-4">
           <a href={entry.publicUrl} target="_blank" rel="noopener noreferrer" className="inline-flex bg-[#14110e] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#c92a20] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1437d6] motion-reduce:transition-none">访问公开作品 ↗</a>
           <StaticPageLink href="/launchpad/showcase/" className="inline-flex bg-[#c92a20] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#a91f17] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1437d6] motion-reduce:transition-none">我也要投稿 →</StaticPageLink>
-          <ShowcaseShareButton />
+          <ShowcaseShareButton entry={entry} />
         </div>
       </section>
     </main>

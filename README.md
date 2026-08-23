@@ -10,6 +10,8 @@
 
 [**先诊断一段经历 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/#instant-diagnostic) · [**查看社区案例 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/showcase/) · [**本地准备 Showcase 投稿 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/launchpad/showcase/) · [**用 Agent 开始制作 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/start/) · [**检查并下载作品集 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/launchpad/) · [**比较四种模板 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/templates/)
 
+⭐ [**给项目一个 GitHub Star**](https://github.com/haimuhaimu/strategy-product-portfolio-template) · 🤝 [**查看贡献指南**](https://github.com/haimuhaimu/strategy-product-portfolio-template/blob/main/CONTRIBUTING.md) · 🖼️ [**提交你的 Showcase**](https://github.com/haimuhaimu/strategy-product-portfolio-template/issues/new?template=showcase.yml)
+
 ![产品经理与运营作品集模板：三个案例、证据快览与思考星图](public/images/portfolio-preview.png)
 
 [![CI](https://github.com/haimuhaimu/strategy-product-portfolio-template/actions/workflows/portable-build.yml/badge.svg)](https://github.com/haimuhaimu/strategy-product-portfolio-template/actions/workflows/portable-build.yml)
@@ -157,7 +159,7 @@ out/                             npm run build 生成的静态网站
 
 ## Showcase 与贡献
 
-Showcase 使用“一位贡献者一个 JSON”的方式，避免多人修改同一清单。v0.9.4 会为每个通过 Loader 校验的条目生成可分享的静态详情页；列表与搜索结构化数据指向站内详情，原始 `publicUrl` 继续作为“访问公开作品”入口。详情页只展示白名单字段，并支持系统分享或安全复制当前站内 URL：
+Showcase 使用“一位贡献者一个 JSON”的方式，避免多人修改同一清单。v0.9.5 会为每个通过 Loader 校验的条目生成可分享的静态详情页；列表与搜索结构化数据指向站内详情，原始 `publicUrl` 继续作为“访问公开作品”入口。详情页只展示白名单字段，并支持系统分享、安全复制当前站内 URL，以及纯本地生成不含外部图片的 PNG 分享卡：
 
 - 流程与字段说明：[`showcase/README.md`](showcase/README.md)
 - 公开字段约束：[`showcase/schema.json`](showcase/schema.json)
