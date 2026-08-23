@@ -98,8 +98,13 @@ test("Showcase schema 禁止额外字段并声明全部必填字段", () => {
   assert.equal(schema.additionalProperties, false);
   assert.deepEqual(new Set(schema.required), allowedRootFields);
   assert.deepEqual(new Set(Object.keys(schema.properties)), allowedRootFields);
+  assert.equal(schema.properties.slug.maxLength, 80);
+  assert.equal(schema.properties.publicUrl.maxLength, 2048);
+  assert.equal(schema.properties.roleTags.maxItems, 8);
+  assert.equal(schema.properties.roleTags.items.maxLength, 40);
   assert.equal(schema.properties.publicHighlights.minItems, 3);
   assert.equal(schema.properties.publicHighlights.maxItems, 3);
+  assert.equal(schema.properties.publicHighlights.items.maxLength, 160);
   assert.equal(schema.properties.auditSummary.additionalProperties, false);
   assert.equal(schema.properties.disclosure.additionalProperties, false);
 });

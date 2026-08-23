@@ -136,6 +136,7 @@ test("simulated GitHub Pages build prefixes HTML assets and SEO URLs", () => {
   }));
   const config = readProjectFile("out/config/index.html");
   const launchpad = readProjectFile("out/launchpad/index.html");
+  const showcaseHelper = readProjectFile("out/launchpad/showcase/index.html");
   const robots = readProjectFile("out/robots.txt");
   const sitemap = readProjectFile("out/sitemap.xml");
   const escapedSiteUrl = escapeRegExp(expectedSiteUrl);
@@ -162,6 +163,7 @@ test("simulated GitHub Pages build prefixes HTML assets and SEO URLs", () => {
   assert.match(showcase, /维护者自测/u);
   assert.match(showcase, /不是第三方用户案例/u);
   assert.match(showcase, /GitHub Issue 会公开显示你的 GitHub 账号/u);
+  assert.match(showcase, new RegExp(`href="${escapedBasePath}/launchpad/showcase/index\\.html"`, "u"));
   assert.match(showcase, new RegExp(`href="${escapedBasePath}/index\\.html"`, "u"));
   assert.match(start, /skills\/portfolio-story-builder\/SKILL\.md/u);
   for (const { id, html } of templateDetails) {
@@ -226,6 +228,11 @@ test("simulated GitHub Pages build prefixes HTML assets and SEO URLs", () => {
   assert.match(start, new RegExp(`<link rel="canonical" href="${escapedSiteUrl}/start/"`, "u"));
   assert.match(launchpad, new RegExp(`<link rel="canonical" href="${escapedSiteUrl}/launchpad/"`, "u"));
   assert.match(launchpad, /content="noindex, nofollow"/u);
+  assert.match(launchpad, new RegExp(`href="${escapedBasePath}/launchpad/showcase/index\\.html"`, "u"));
+  assert.match(showcaseHelper, new RegExp(`<link rel="canonical" href="${escapedSiteUrl}/launchpad/showcase/"`, "u"));
+  assert.match(showcaseHelper, /content="noindex, nofollow"/u);
+  assert.match(showcaseHelper, new RegExp(`href="${escapedBasePath}/launchpad/index\\.html"`, "u"));
+  assert.match(showcaseHelper, /GitHub Issue 不是真正匿名/u);
   assert.match(profile, new RegExp(`<link rel="canonical" href="${escapedSiteUrl}/profile/"`, "u"));
   assert.match(robots, new RegExp(`Allow: ${escapedBasePath || ""}/`, "u"));
   assert.match(robots, new RegExp(`Sitemap: ${escapedSiteUrl}/sitemap\\.xml`, "u"));
@@ -233,6 +240,7 @@ test("simulated GitHub Pages build prefixes HTML assets and SEO URLs", () => {
   assert.match(sitemap, new RegExp(`${escapedSiteUrl}/start/`, "u"));
   assert.match(sitemap, new RegExp(`${escapedSiteUrl}/showcase/`, "u"));
   assert.doesNotMatch(sitemap, /\/launchpad\//u);
+  assert.doesNotMatch(sitemap, /\/launchpad\/showcase\//u);
   assert.match(sitemap, new RegExp(`${escapedSiteUrl}/projects/search-quality-ai-answer/`, "u"));
   if (expectedBasePath) {
     assert.doesNotMatch(home, /(?:href|src)="\/(?:_next|images)\//u);

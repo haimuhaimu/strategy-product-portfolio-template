@@ -8,7 +8,7 @@
 | --- | --- | --- |
 | 产品经理、AI / 策略 / 增长产品、产品运营、策略 / 增长运营 | 3 个代表案例 + 可检查的数据文件 + 可部署网站 | 不只换皮：Agent 帮你选项目、补证据、查隐私，再匹配叙事结构 |
 
-[**先诊断一段经历 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/#instant-diagnostic) · [**查看社区案例 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/showcase/) · [**用 Agent 开始制作 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/start/) · [**检查并下载作品集 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/launchpad/) · [**比较四种模板 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/templates/)
+[**先诊断一段经历 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/#instant-diagnostic) · [**查看社区案例 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/showcase/) · [**本地准备 Showcase 投稿 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/launchpad/showcase/) · [**用 Agent 开始制作 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/start/) · [**检查并下载作品集 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/launchpad/) · [**比较四种模板 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/templates/)
 
 ![产品经理与运营作品集模板：三个案例、证据快览与思考星图](public/images/portfolio-preview.png)
 
@@ -162,7 +162,8 @@ Showcase 使用“一位贡献者一个 JSON”的方式，避免多人修改同
 - 流程与字段说明：[`showcase/README.md`](showcase/README.md)
 - 公开字段约束：[`showcase/schema.json`](showcase/schema.json)
 - 维护者自测：[`showcase/entries/maintainer-ai-pm.json`](showcase/entries/maintainer-ai-pm.json)
-- 提交入口：[Showcase Issue](https://github.com/haimuhaimu/strategy-product-portfolio-template/issues/new?template=showcase.yml)
+- 本地投稿助手：[`/launchpad/showcase/`](https://haimuhaimu.github.io/strategy-product-portfolio-template/launchpad/showcase/)（解析、校验、下载与 Issue 摘要均在浏览器本地完成）
+- 提交入口：[Showcase Issue](https://github.com/haimuhaimu/strategy-product-portfolio-template/issues/new?template=showcase.yml)（会公开显示 GitHub 账号，不是真正匿名）
 
 详细能力边界见 [`skills/README.md`](skills/README.md)，版本变化见 [`CHANGELOG.md`](CHANGELOG.md)，贡献流程见 [`CONTRIBUTING.md`](CONTRIBUTING.md)。
 
