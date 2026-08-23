@@ -48,7 +48,7 @@ function createShowcaseJsonLd(entries: ReturnType<typeof loadShowcaseEntries>) {
           "@type": "ListItem",
           position: index + 1,
           name: `${entry.roleTags[0]}作品集`,
-          url: entry.publicUrl,
+          url: getAbsoluteUrl(`/showcase/${entry.slug}/`),
         })),
       },
     ],
@@ -75,7 +75,7 @@ export default function ShowcasePage() {
           </nav>
           <div className="mt-7 grid gap-8 lg:grid-cols-[1.25fr_0.75fr] lg:items-end">
             <div>
-              <p className="font-mono text-xs font-bold tracking-[0.18em] text-[#c92a20]">COMMUNITY SHOWCASE / v0.9.3</p>
+              <p className="font-mono text-xs font-bold tracking-[0.18em] text-[#c92a20]">COMMUNITY SHOWCASE / v0.9.4</p>
               <h1 className="mt-4 max-w-4xl font-serif text-4xl font-semibold leading-tight sm:text-6xl">社区作品集案例墙</h1>
               <p className="mt-6 max-w-3xl text-base leading-8 text-[#5b4635]">这里只展示已公开、已授权且完成敏感材料检查的作品集。审计分数表示材料结构覆盖，不代表平台背书、第三方事实核验或作品效果排名。</p>
             </div>
@@ -112,7 +112,10 @@ export default function ShowcasePage() {
                   <div className="flex items-baseline justify-between gap-4"><h4 className="font-mono text-xs font-bold text-[#80654d]">STRICT AUDIT / 五维状态</h4><p className="text-2xl font-semibold">{entry.auditSummary.score}<span className="text-sm font-normal text-[#80654d]"> / {entry.auditSummary.maxScore}</span></p></div>
                   <ul className="mt-4 grid gap-2 sm:grid-cols-2">{dimensionEntries.map(([dimension, label]) => { const passed = entry.auditSummary.dimensions[dimension]; return <li key={dimension} className="flex items-center justify-between gap-3 border border-[#14110e]/10 px-3 py-2 text-xs"><span>{label}</span><span className={passed ? "font-bold text-[#166534]" : "font-bold text-[#9a3412]"}>{passed ? "已覆盖" : "待补强"}</span></li>; })}</ul>
                 </div>
-                <a href={entry.publicUrl} target="_blank" rel="noopener noreferrer" className="mt-7 inline-flex bg-[#14110e] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#c92a20] motion-reduce:transition-none">访问公开作品 ↗</a>
+                <div className="mt-7 flex flex-wrap gap-3">
+                  <StaticPageLink href={`/showcase/${entry.slug}/`} className="inline-flex bg-[#c92a20] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#a91f17] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1437d6] motion-reduce:transition-none">查看案例详情 →</StaticPageLink>
+                  <a href={entry.publicUrl} target="_blank" rel="noopener noreferrer" className="inline-flex bg-[#14110e] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#c92a20] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1437d6] motion-reduce:transition-none">访问公开作品 ↗</a>
+                </div>
               </article>
             );
           })}

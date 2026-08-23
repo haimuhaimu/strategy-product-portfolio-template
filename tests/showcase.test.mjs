@@ -183,6 +183,8 @@ test("Showcase 页面纯静态读取，并保留诚实标记、CTA 与隐私下�
   }
   assert.match(page, /issues\/new\?template=showcase\.yml/u);
   assert.match(page, /rel="noopener noreferrer"/u);
+  assert.ok(page.includes("href={`/showcase/${entry.slug}/`}"));
+  assert.ok(page.includes("getAbsoluteUrl(`/showcase/${entry.slug}/`)"));
   assert.match(page, /"ItemList"/u);
   assert.match(page, /"BreadcrumbList"/u);
   assert.match(issue, /Issue 和作品站点都是公开内容/u);
@@ -193,7 +195,10 @@ test("README、Header 与首页提供 basePath 兼容的 Showcase 入口", () =>
   const readme = read("README.md");
   const header = read("src/components/Header.tsx");
   const home = read("src/app/page.tsx");
+  const sitemap = read("src/app/sitemap.ts");
   assert.match(readme.split("## 为什么不是普通 Portfolio Template")[0], /查看社区案例/u);
   assert.match(header, /<StaticPageLink href="\/showcase\/"/u);
   assert.match(home, /<StaticPageLink href="\/showcase\/"/u);
+  assert.match(sitemap, /loadShowcaseEntries/u);
+  assert.ok(sitemap.includes("`/showcase/${entry.slug}/`"));
 });
