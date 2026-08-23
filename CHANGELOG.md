@@ -2,6 +2,14 @@
 
 本文件记录面向使用者的重要变化。完整提交历史与技术细节请查看 GitHub Commits 和 Pull Requests。
 
+## 2026-08-23 — v0.9.5
+
+Showcase 详情页新增“下载 PNG 分享卡”。卡片沿用 SVG → Canvas → PNG 的纯浏览器本地生成方式，只使用 Showcase schema 已公开白名单中的 slug、kind、角色标签、3 条亮点和审计摘要，以及移除 query / fragment 的当前详情 URL 与硬编码仓库、投稿入口；不读取额外字段，不包含外部图片、fetch、API、埋点或新增依赖。
+
+全站 Header 增加在移动端同样可用的 GitHub Star 与贡献入口，外链统一使用新窗口安全属性；README 首屏补齐 Star、贡献指南和 Showcase 投稿入口。分享卡按钮提供生成中、成功与失败的无障碍状态反馈，并保留详情链接的系统分享 / 安全复制能力。
+
+补充分享卡白名单、文本转义、安全详情 URL、无外部资源、详情按钮，以及 Header / README 回流链接测试；package 与 package-lock 同步升级至 0.9.5。
+
 ## 2026-08-23 — v0.9.4
 
 Showcase 新增 `/showcase/[slug]/` 可分享静态详情页。路由参数完全来自现有 Loader，关闭动态参数并对未知 slug 返回 404；详情页只展示公开白名单中的 kind、角色标签、恰好 3 条亮点、严格审计五维状态与四项披露确认，不新增身份、公司、联系方式、截图或业务数据。

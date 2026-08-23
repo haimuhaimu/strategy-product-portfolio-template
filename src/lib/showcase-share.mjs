@@ -1,7 +1,11 @@
-function getSafeCurrentPageUrl(currentHref) {
+export function getSafeCurrentPageUrl(currentHref, expectedSlug = "") {
   const url = new URL(String(currentHref));
-  if (!new Set(["http:", "https:"]).has(url.protocol)) {
+  if (!new Set(["http:", "https:"]).has(url.protocol) || url.username || url.password) {
     throw new TypeError("Invalid Showcase page URL");
+  }
+  if (expectedSlug) {
+    const expectedSuffix = `/showcase/${expectedSlug}/`;
+    if (!url.pathname.endsWith(expectedSuffix)) throw new TypeError("Unexpected Showcase detail URL");
   }
   url.search = "";
   url.hash = "";
