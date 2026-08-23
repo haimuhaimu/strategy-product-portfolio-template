@@ -2,6 +2,14 @@
 
 本文件记录面向使用者的重要变化。完整提交历史与技术细节请查看 GitHub Commits 和 Pull Requests。
 
+## 2026-08-23 — v0.9.3
+
+新增 noindex/nofollow 的 `/launchpad/showcase/` 本地投稿助手：可上传或粘贴 Launchpad 生成的 `SHOWCASE_ENTRY.json`，也可空白填写；草稿解析会丢弃非公开字段并规范化文本。页面只在浏览器内处理数据，不发起网络请求、不嵌入第三方页面，也不保存原始内容。
+
+投稿助手复用 Showcase Loader 的同一套严格校验：公共 HTTPS 地址不得包含凭据、查询、片段、端口、IP、localhost 或内网域；slug、角色标签和恰好 3 条公开亮点按 schema 限长。只有全部字段合规且四项披露均确认后，才可下载 `showcase/entries/<slug>.json` 对应文件，并复制仅含最终公开白名单字段的 Issue 摘要。页面明确说明 GitHub Issue 会公开账号、不是真正匿名，并列出不收集内容。
+
+Showcase 案例墙、主 Launchpad、README 与 Showcase 指南新增投稿助手入口；工具页不进入 sitemap，并继续由 robots 的 `/launchpad/` 规则覆盖。同步补齐草稿规范化、URL/字段边界、披露门槛、Loader 兼容、摘要防泄漏、纯本地运行、静态导出、basePath、noindex 与入口回归测试，版本更新为 0.9.3。
+
 ## 2026-08-22 — v0.9.2
 
 新增可索引的 `/showcase/` 社区案例墙。页面在构建期从 `showcase/entries/*.json` 读取并严格校验公开白名单字段，社区投稿优先、同类按 slug 稳定排序；非法字段、危险链接、损坏 JSON、审计分数不一致或披露确认不完整都会让构建安全失败。当前唯一条目明确标记为“维护者自测”，不表述为第三方案例或用户口碑。

@@ -75,7 +75,7 @@ export default function ShowcasePage() {
           </nav>
           <div className="mt-7 grid gap-8 lg:grid-cols-[1.25fr_0.75fr] lg:items-end">
             <div>
-              <p className="font-mono text-xs font-bold tracking-[0.18em] text-[#c92a20]">COMMUNITY SHOWCASE / v0.9.2</p>
+              <p className="font-mono text-xs font-bold tracking-[0.18em] text-[#c92a20]">COMMUNITY SHOWCASE / v0.9.3</p>
               <h1 className="mt-4 max-w-4xl font-serif text-4xl font-semibold leading-tight sm:text-6xl">社区作品集案例墙</h1>
               <p className="mt-6 max-w-3xl text-base leading-8 text-[#5b4635]">这里只展示已公开、已授权且完成敏感材料检查的作品集。审计分数表示材料结构覆盖，不代表平台背书、第三方事实核验或作品效果排名。</p>
             </div>
@@ -121,7 +121,7 @@ export default function ShowcasePage() {
 
       <section className="border-t border-[#14110e]/15 bg-[#14110e] px-4 py-14 text-[#f8f8f3] sm:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr]">
-          <div><p className="font-mono text-xs font-bold text-[#d3b992]">SUBMIT YOUR PORTFOLIO</p><h2 className="mt-3 text-3xl font-semibold sm:text-4xl">提交你的作品集</h2><p className="mt-4 max-w-xl text-sm leading-7 text-[#d3b992]">请使用现有 GitHub Showcase Issue 模板提交。GitHub Issue 会公开显示你的 GitHub 账号和填写内容，不是匿名渠道；如不接受公开，请不要提交。</p><a href={ISSUE_URL} target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex bg-[#c92a20] px-6 py-3 font-semibold text-white transition hover:bg-[#e13b30] motion-reduce:transition-none">打开公开提交 Issue ↗</a></div>
+          <div><p className="font-mono text-xs font-bold text-[#d3b992]">SUBMIT YOUR PORTFOLIO</p><h2 className="mt-3 text-3xl font-semibold sm:text-4xl">提交你的作品集</h2><p className="mt-4 max-w-xl text-sm leading-7 text-[#d3b992]">先用本地投稿助手整理公开字段并完成披露确认，再前往 GitHub Issue。GitHub Issue 会公开显示你的 GitHub 账号和填写内容，不是匿名渠道；如不接受公开，请不要提交。</p><div className="mt-6 flex flex-wrap gap-3"><StaticPageLink href="/launchpad/showcase/" className="inline-flex bg-[#c92a20] px-6 py-3 font-semibold text-white transition hover:bg-[#e13b30] motion-reduce:transition-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">打开本地投稿助手 →</StaticPageLink><a href={ISSUE_URL} target="_blank" rel="noopener noreferrer" className="inline-flex border border-white/30 px-6 py-3 font-semibold text-white transition hover:border-white motion-reduce:transition-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">直接查看公开 Issue ↗</a></div></div>
           <div className="grid gap-5 sm:grid-cols-2">
             <div className="border border-white/20 p-5"><h3 className="font-semibold">提交前隐私检查</h3><ul className="mt-4 space-y-3 text-sm leading-6 text-[#d3b992]">{privacyChecks.map((item) => <li key={item}>— {item}</li>)}</ul></div>
             <div className="border border-white/20 p-5"><h3 className="font-semibold">更新与下架机制</h3><p className="mt-4 text-sm leading-7 text-[#d3b992]">链接失效、公开权限变化或授权撤回时，请在原 Showcase Issue 中提出更新或下架请求；维护者核验后会移除对应条目。紧急安全问题请按仓库 SECURITY 指引处理。</p><a href="https://github.com/haimuhaimu/strategy-product-portfolio-template/blob/main/showcase/README.md" target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex text-sm font-semibold text-white underline decoration-white/35 underline-offset-4">查看完整提交规则 ↗</a></div>

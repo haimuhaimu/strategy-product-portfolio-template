@@ -153,6 +153,7 @@ export function LaunchpadWorkbench() {
         <aside className="border-l-2 border-[#c92a20] bg-[#fffaf0] p-5 text-sm leading-6 text-[#5b4635]">
           <strong className="block text-[#14110e]">隐私承诺</strong>
           文件只进入当前页面内存；刷新即清空。下载的分享文案只含计数、状态和建议，不复制项目原文或命中的敏感值。
+          <StaticPageLink href="/launchpad/showcase/" className="mt-3 inline-flex font-semibold text-[#c92a20] underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1437d6]">已有 SHOWCASE_ENTRY.json？打开本地投稿助手 →</StaticPageLink>
         </aside>
       </div>
 

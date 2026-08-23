@@ -194,7 +194,7 @@ assert.equal(new Set(projectPages.map((page) => page.canonical)).size, projectPa
 assert.equal(new Set(projectPages.map((page) => page.description)).size, projectPages.length, "项目 description 必须唯一。");
 assert.equal(new Set(projectPages.map((page) => page.title)).size, projectPages.length, "项目 title 必须唯一。");
 
-for (const [label, file] of [["Config", "config/index.html"], ["Launchpad", "launchpad/index.html"], ["404", "404.html"]]) {
+for (const [label, file] of [["Config", "config/index.html"], ["Launchpad", "launchpad/index.html"], ["Showcase Helper", "launchpad/showcase/index.html"], ["404", "404.html"]]) {
   const html = readExportedFile(file);
   const robotDirectives = [...html.matchAll(/<meta[^>]*name="robots"[^>]*content="([^"]+)"[^>]*>/giu)]
     .map((match) => match[1])
@@ -221,4 +221,4 @@ const baiduMeta = metaContent(home, "name", "baidu-site-verification");
 if (baiduVerification) assert.equal(baiduMeta, baiduVerification, "Baidu verification token 错误。");
 else assert.equal(baiduMeta, null, "未配置时不应输出 Baidu verification token。");
 
-console.log(`SEO 导出检查通过：${checked.length} 个可索引页、Config、404、robots、sitemap 与分享图。`);
+console.log(`SEO 导出检查通过：${checked.length} 个可索引页、Config、Launchpad、Showcase Helper、404、robots、sitemap 与分享图。`);
