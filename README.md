@@ -8,7 +8,7 @@
 | --- | --- | --- |
 | 产品经理、AI / 策略 / 增长产品、产品运营、策略 / 增长运营 | 3 个代表案例 + 可检查的数据文件 + 可部署网站 | 不只换皮：Agent 帮你选项目、补证据、查隐私，再匹配叙事结构 |
 
-[**先诊断一段经历 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/#instant-diagnostic) · [**用 Agent 开始制作 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/start/) · [**检查并下载作品集 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/launchpad/) · [**比较四种模板 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/templates/)
+[**先诊断一段经历 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/#instant-diagnostic) · [**查看社区案例 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/showcase/) · [**用 Agent 开始制作 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/start/) · [**检查并下载作品集 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/launchpad/) · [**比较四种模板 →**](https://haimuhaimu.github.io/strategy-product-portfolio-template/templates/)
 
 ![产品经理与运营作品集模板：三个案例、证据快览与思考星图](public/images/portfolio-preview.png)
 
