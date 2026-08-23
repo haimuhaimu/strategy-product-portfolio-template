@@ -2,6 +2,14 @@
 
 本文件记录面向使用者的重要变化。完整提交历史与技术细节请查看 GitHub Commits 和 Pull Requests。
 
+## 2026-08-23 — v0.9.4
+
+Showcase 新增 `/showcase/[slug]/` 可分享静态详情页。路由参数完全来自现有 Loader，关闭动态参数并对未知 slug 返回 404；详情页只展示公开白名单中的 kind、角色标签、恰好 3 条亮点、严格审计五维状态与四项披露确认，不新增身份、公司、联系方式、截图或业务数据。
+
+案例墙卡片与 ItemList JSON-LD 改为指向站内详情，外部 `publicUrl` 继续作为“访问公开作品”入口。每个详情页提供公开作品外链、本地投稿助手入口，以及优先 Web Share API、失败或不支持时仅复制当前详情 URL 的无障碍分享按钮。
+
+每个详情页生成唯一 title、description、canonical、Open Graph、Twitter 与 BreadcrumbList + CreativeWork JSON-LD（`sameAs` 指向公开作品），并进入 sitemap。SEO 导出检查和测试覆盖全部 Showcase 条目、404、白名单、内外链、分享降级、防泄漏、无 fetch/iframe、GitHub Pages basePath 与静态导出，版本同步为 0.9.4。
+
 ## 2026-08-23 — v0.9.3
 
 新增 noindex/nofollow 的 `/launchpad/showcase/` 本地投稿助手：可上传或粘贴 Launchpad 生成的 `SHOWCASE_ENTRY.json`，也可空白填写；草稿解析会丢弃非公开字段并规范化文本。页面只在浏览器内处理数据，不发起网络请求、不嵌入第三方页面，也不保存原始内容。

@@ -157,10 +157,11 @@ out/                             npm run build 生成的静态网站
 
 ## Showcase 与贡献
 
-Showcase 使用“一位贡献者一个 JSON”的方式，避免多人修改同一清单：
+Showcase 使用“一位贡献者一个 JSON”的方式，避免多人修改同一清单。v0.9.4 会为每个通过 Loader 校验的条目生成可分享的静态详情页；列表与搜索结构化数据指向站内详情，原始 `publicUrl` 继续作为“访问公开作品”入口。详情页只展示白名单字段，并支持系统分享或安全复制当前站内 URL：
 
 - 流程与字段说明：[`showcase/README.md`](showcase/README.md)
 - 公开字段约束：[`showcase/schema.json`](showcase/schema.json)
+- 独立详情页：`/showcase/<slug>/`（静态生成、可索引、含 canonical 与分享元数据）
 - 维护者自测：[`showcase/entries/maintainer-ai-pm.json`](showcase/entries/maintainer-ai-pm.json)
 - 本地投稿助手：[`/launchpad/showcase/`](https://haimuhaimu.github.io/strategy-product-portfolio-template/launchpad/showcase/)（解析、校验、下载与 Issue 摘要均在浏览器本地完成）
 - 提交入口：[Showcase Issue](https://github.com/haimuhaimu/strategy-product-portfolio-template/issues/new?template=showcase.yml)（会公开显示 GitHub 账号，不是真正匿名）

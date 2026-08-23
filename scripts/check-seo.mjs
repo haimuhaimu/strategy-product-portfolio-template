@@ -3,6 +3,7 @@ import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { getSiteUrl } from "../src/lib/github-pages.mjs";
+import { loadShowcaseEntries } from "../src/lib/showcase.mjs";
 import { TEMPLATE_IDS } from "../src/lib/templates.mjs";
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -116,15 +117,31 @@ function assertIndexPage({ html, label, expectedCanonical, siteUrl }) {
   assert.equal((html.match(/<h1\b/giu) || []).length, 1, `${label} 必须且只能有一个 H1。`);
   assertImageMarkup(html, label);
 
-  return { title, description, canonical };
+  return {
+    title,
+    description,
+    canonical,
+    ogTitle: metaContent(html, "property", "og:title"),
+    ogDescription: metaContent(html, "property", "og:description"),
+    twitterTitle: metaContent(html, "name", "twitter:title"),
+    twitterDescription: metaContent(html, "name", "twitter:description"),
+  };
 }
 
 const portfolio = JSON.parse(readFileSync(path.join(projectRoot, "data/projects.json"), "utf8"));
+const showcaseEntries = loadShowcaseEntries();
 const siteUrl = getSiteUrl(process.env);
 const pages = [
   { label: "首页", file: "index.html", pathname: "/" },
   { label: "Start", file: "start/index.html", pathname: "/start/" },
   { label: "Showcase", file: "showcase/index.html", pathname: "/showcase/", showcase: true },
+  ...showcaseEntries.map((entry) => ({
+    label: `Showcase ${entry.slug}`,
+    file: `showcase/${entry.slug}/index.html`,
+    pathname: `/showcase/${entry.slug}/`,
+    showcaseDetail: true,
+    publicUrl: entry.publicUrl,
+  })),
   { label: "Templates", file: "templates/index.html", pathname: "/templates/" },
   ...TEMPLATE_IDS.map((id) => ({
     label: `模板 ${id}`,
@@ -170,6 +187,17 @@ const checked = pages.map((page) => {
     assert.match(html, /维护者自测/u);
     assert.match(html, /不是第三方用户案例/u);
     assert.match(html, /GitHub Issue 会公开显示你的 GitHub 账号/u);
+    for (const entry of showcaseEntries) {
+      assert.ok(showcaseJson.includes(`"url":"${siteUrl}/showcase/${entry.slug}/"`), `Showcase ItemList 缺少站内详情：${entry.slug}。`);
+    }
+  } else if (page.showcaseDetail) {
+    const detailJson = JSON.stringify(parseJsonLd(html, page.label));
+    assert.match(detailJson, /"BreadcrumbList"/u);
+    assert.match(detailJson, /"CreativeWork"/u);
+    assert.ok(detailJson.includes(`"sameAs":"${page.publicUrl}"`), `${page.label} sameAs 错误。`);
+    assert.match(html, /分享这个案例/u);
+    assert.match(html, /我也要投稿/u);
+    assert.match(html, new RegExp(`href="${escapeRegExp(page.publicUrl)}"[^>]*rel="noopener noreferrer"`, "u"));
   } else if (page.template) {
     for (const phrase of ["适合人群", "不适合人群", "发布前证据准备清单", "常见误用", "如何让自己的 Agent 帮忙", "字段映射", "data/projects.json"]) {
       assert.ok(html.includes(phrase), `${page.label} 缺少详情内容：${phrase}。`);
@@ -183,6 +211,15 @@ const checked = pages.map((page) => {
   }
   return { ...page, ...result };
 });
+
+const showcaseDetailPages = checked.filter((page) => page.showcaseDetail);
+assert.equal(new Set(showcaseDetailPages.map((page) => page.canonical)).size, showcaseDetailPages.length, "Showcase 详情 canonical 必须唯一。");
+assert.equal(new Set(showcaseDetailPages.map((page) => page.description)).size, showcaseDetailPages.length, "Showcase 详情 description 必须唯一。");
+assert.equal(new Set(showcaseDetailPages.map((page) => page.title)).size, showcaseDetailPages.length, "Showcase 详情 title 必须唯一。");
+assert.equal(new Set(showcaseDetailPages.map((page) => page.ogTitle)).size, showcaseDetailPages.length, "Showcase 详情 OG title 必须唯一。");
+assert.equal(new Set(showcaseDetailPages.map((page) => page.ogDescription)).size, showcaseDetailPages.length, "Showcase 详情 OG description 必须唯一。");
+assert.equal(new Set(showcaseDetailPages.map((page) => page.twitterTitle)).size, showcaseDetailPages.length, "Showcase 详情 Twitter title 必须唯一。");
+assert.equal(new Set(showcaseDetailPages.map((page) => page.twitterDescription)).size, showcaseDetailPages.length, "Showcase 详情 Twitter description 必须唯一。");
 
 const templatePages = checked.filter((page) => page.template);
 assert.equal(new Set(templatePages.map((page) => page.canonical)).size, templatePages.length, "模板 canonical 必须唯一。");
@@ -221,4 +258,4 @@ const baiduMeta = metaContent(home, "name", "baidu-site-verification");
 if (baiduVerification) assert.equal(baiduMeta, baiduVerification, "Baidu verification token 错误。");
 else assert.equal(baiduMeta, null, "未配置时不应输出 Baidu verification token。");
 
-console.log(`SEO 导出检查通过：${checked.length} 个可索引页、Config、Launchpad、Showcase Helper、404、robots、sitemap 与分享图。`);
+console.log(`SEO 导出检查通过：${checked.length} 个可索引页（含 ${showcaseDetailPages.length} 个 Showcase 详情页）、Config、Launchpad、Showcase Helper、404、robots、sitemap 与分享图。`);

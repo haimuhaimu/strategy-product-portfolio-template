@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getProjects } from "@/lib/projects";
 import { getAbsoluteUrl } from "@/lib/seo";
+import { loadShowcaseEntries } from "@/lib/showcase.mjs";
 import { TEMPLATE_IDS } from "@/lib/templates.mjs";
 
 export const dynamic = "force-static";
@@ -45,11 +46,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
+  const showcasePages: MetadataRoute.Sitemap = loadShowcaseEntries().map((entry) => ({
+    url: getAbsoluteUrl(`/showcase/${entry.slug}/`),
+    changeFrequency: "weekly",
+    priority: 0.7,
+  }));
+
   const projectPages: MetadataRoute.Sitemap = getProjects().map((project) => ({
     url: getAbsoluteUrl(`/projects/${project.slug}/`),
     changeFrequency: "monthly",
     priority: 0.8,
   }));
 
-  return [...staticPages, ...templatePages, ...projectPages];
+  return [...staticPages, ...showcasePages, ...templatePages, ...projectPages];
 }

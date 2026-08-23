@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import test from "node:test";
 
@@ -129,6 +129,8 @@ test("simulated GitHub Pages build prefixes HTML assets and SEO URLs", () => {
   const profile = readProjectFile("out/profile/index.html");
   const start = readProjectFile("out/start/index.html");
   const showcase = readProjectFile("out/showcase/index.html");
+  const showcaseDetail = readProjectFile("out/showcase/maintainer-ai-pm/index.html");
+  assert.equal(existsSync(path.join(projectRoot, "out/showcase/unknown-entry/index.html")), false);
   const templates = readProjectFile("out/templates/index.html");
   const templateDetails = ["atlas", "growth", "systems", "ai-workflow"].map((id) => ({
     id,
@@ -163,8 +165,17 @@ test("simulated GitHub Pages build prefixes HTML assets and SEO URLs", () => {
   assert.match(showcase, /维护者自测/u);
   assert.match(showcase, /不是第三方用户案例/u);
   assert.match(showcase, /GitHub Issue 会公开显示你的 GitHub 账号/u);
+  assert.match(showcase, new RegExp(`href="${escapedBasePath}/showcase/maintainer-ai-pm/index\\.html"`, "u"));
   assert.match(showcase, new RegExp(`href="${escapedBasePath}/launchpad/showcase/index\\.html"`, "u"));
   assert.match(showcase, new RegExp(`href="${escapedBasePath}/index\\.html"`, "u"));
+  assert.match(showcaseDetail, new RegExp(`<link rel="canonical" href="${escapedSiteUrl}/showcase/maintainer-ai-pm/"`, "u"));
+  assert.match(showcaseDetail, new RegExp(`href="${escapedBasePath}/showcase/index\\.html"`, "u"));
+  assert.match(showcaseDetail, new RegExp(`href="${escapedBasePath}/launchpad/showcase/index\\.html"`, "u"));
+  assert.match(showcaseDetail, /"@type":"CreativeWork"/u);
+  assert.match(showcaseDetail, /"@type":"BreadcrumbList"/u);
+  assert.match(showcaseDetail, /"sameAs":"https:\/\/haimuhaimu\.github\.io\/strategy-product-portfolio-template\/"/u);
+  assert.match(showcaseDetail, /分享这个案例/u);
+  assert.match(showcaseDetail, /rel="noopener noreferrer"/u);
   assert.match(start, /skills\/portfolio-story-builder\/SKILL\.md/u);
   for (const { id, html } of templateDetails) {
     assert.match(templates, new RegExp(`href="${escapedBasePath}/templates/${id}/index\\.html"`, "u"));
@@ -239,6 +250,7 @@ test("simulated GitHub Pages build prefixes HTML assets and SEO URLs", () => {
   assert.match(robots, new RegExp(`Disallow: ${escapedBasePath || ""}/launchpad/`, "u"));
   assert.match(sitemap, new RegExp(`${escapedSiteUrl}/start/`, "u"));
   assert.match(sitemap, new RegExp(`${escapedSiteUrl}/showcase/`, "u"));
+  assert.match(sitemap, new RegExp(`${escapedSiteUrl}/showcase/maintainer-ai-pm/`, "u"));
   assert.doesNotMatch(sitemap, /\/launchpad\//u);
   assert.doesNotMatch(sitemap, /\/launchpad\/showcase\//u);
   assert.match(sitemap, new RegExp(`${escapedSiteUrl}/projects/search-quality-ai-answer/`, "u"));
