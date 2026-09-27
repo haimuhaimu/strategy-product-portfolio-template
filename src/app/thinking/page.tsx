@@ -6,10 +6,10 @@ import { getRoadmap, getStarMap } from "@/lib/projects";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
-  title: "个人路线图与思考星图",
-  description: "从发现问题到 AI 协作，展示能力演进以及用户价值、评估、实验、机制与三个真实项目之间的关系。",
+  title: "证据驱动的产品思考路线图",
+  description: "把用户价值、评估、实验、机制与 AI 协作连接到三个项目证据，呈现策略产品经理的能力演进。",
   pathname: "/thinking/",
-  keywords: ["个人路线图", "思考星图", "产品经理认知模型", "AI 产品经理"],
+  keywords: ["策略产品经理", "证据驱动作品集"],
 });
 
 export default function ThinkingPage() {
@@ -17,7 +17,7 @@ export default function ThinkingPage() {
   const starMap = getStarMap();
 
   return (
-    <main className="thinking-atlas-page">
+    <main className="thinking-atlas-page" data-motion-template="atlas">
       <section className="mx-auto max-w-7xl px-4 pb-10 pt-7 sm:px-8 sm:pb-16">
         <StaticPageLink href="/" className="atlas-back-link">← INDEX.HTML / 返回首页</StaticPageLink>
         <div className="atlas-hero mt-6">
@@ -34,12 +34,12 @@ export default function ThinkingPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-8 sm:py-16" aria-labelledby="roadmap-title">
+      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-8 sm:py-16" aria-labelledby="roadmap-title" data-motion-section>
         <div className="atlas-section-heading"><p>PLATE A / EVOLUTION TRACE</p><h2 id="roadmap-title">个人路线图</h2><span>用方向键浏览节点</span></div>
         <div className="mt-8"><PersonalRoadmap stages={roadmap} /></div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-8 sm:py-16" aria-labelledby="star-map-title">
+      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-8 sm:py-16" aria-labelledby="star-map-title" data-motion-section>
         <div className="atlas-section-heading"><p>PLATE B / RELATIONSHIP FIELD</p><h2 id="star-map-title">思考星图</h2><span>聚焦节点以查看真实连接</span></div>
         <div className="mt-8"><ThinkingStarMap map={starMap} /></div>
       </section>

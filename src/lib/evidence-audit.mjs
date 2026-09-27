@@ -35,10 +35,12 @@ function includesAny(text, words) {
 }
 
 function scoreProject(project, index) {
-  const resultText = textOf([project.result, project.results, project.metrics]);
-  const methodText = textOf([project.method, project.actions, project.caseStudy]);
-  const artifactText = textOf([project.artifact, project.caseStudy?.artifact]);
-  const contributionText = textOf([project.contribution, project.roleContribution]);
+  const source = project && typeof project === "object" ? project : {};
+  const diagnosticText = textOf(source.diagnosticText);
+  const resultText = textOf([source.result, source.results, source.metrics, diagnosticText]);
+  const methodText = textOf([source.method, source.actions, source.caseStudy, diagnosticText]);
+  const artifactText = textOf([source.artifact, source.caseStudy?.artifact, diagnosticText]);
+  const contributionText = textOf([source.contribution, source.roleContribution, diagnosticText]);
   const rubric = {
     resultEvidence: RESULT_PATTERN.test(resultText) && !PLACEHOLDER_PATTERN.test(resultText),
     scopeAndAttribution: SCOPE_WORDS.filter((word) => resultText.includes(word)).length >= 2,
@@ -49,7 +51,7 @@ function scoreProject(project, index) {
 
   return {
     index,
-    title: typeof project.title === "string" && project.title.trim() ? project.title.trim() : `代表项目 ${index + 1}`,
+    title: typeof source.title === "string" && source.title.trim() ? source.title.trim() : `代表项目 ${index + 1}`,
     score: Object.values(rubric).filter(Boolean).length,
     maxScore: 5,
     rubric,

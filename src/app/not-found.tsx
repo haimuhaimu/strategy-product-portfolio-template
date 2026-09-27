@@ -1,8 +1,20 @@
+import type { Metadata } from "next";
 import { StaticPageLink } from "@/components/StaticPageLink";
+
+export const metadata: Metadata = {
+  title: "页面未找到",
+  description: "请求的作品集页面不存在。",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default function NotFound() {
   return (
-    <main className="mx-auto grid min-h-[calc(100vh-73px)] max-w-3xl place-items-center px-5 py-16 text-center sm:px-8">
+    <>
+      <meta name="robots" content="noindex,nofollow" />
+      <main className="mx-auto grid min-h-[calc(100vh-73px)] max-w-3xl place-items-center px-5 py-16 text-center sm:px-8">
       <section>
         <p className="text-sm font-semibold text-sky-700">404</p>
         <h1 className="mt-3 text-4xl font-semibold tracking-normal text-slate-950">
@@ -18,6 +30,7 @@ export default function NotFound() {
           返回首页
         </StaticPageLink>
       </section>
-    </main>
+      </main>
+    </>
   );
 }

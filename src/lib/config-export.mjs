@@ -1,3 +1,5 @@
+import { resolveTemplateId } from "./templates.mjs";
+
 const modeCopy = {
   product: {
     role: "产品经理",
@@ -53,6 +55,7 @@ export function createPortfolioExport(form) {
   return {
     schemaVersion: 2,
     rolePreset: mode,
+    template: { active: resolveTemplateId(form.template) },
     home: {
       introEyebrow: mode === "product" ? "产品经理作品集" : "运营作品集",
       introTitle: form.headline || modeCopy[mode].headline,

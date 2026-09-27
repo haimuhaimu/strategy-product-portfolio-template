@@ -89,10 +89,11 @@ npm run init -- --preset operations --dry-run
 ### Showcase
 
 1. 先阅读 [`showcase/README.md`](showcase/README.md) 并提交 [Showcase Issue](https://github.com/haimuhaimu/strategy-product-portfolio-template/issues/new?template=showcase.yml)。
-2. 一位贡献者只新增一个 `showcase/entries/<slug>.json`，文件名与 `slug` 一致；不要编辑共享清单或他人条目。
+2. 一位贡献者只新增一个 `showcase/entries/<slug>.json`，文件名与 `slug` 一致；这个 PR 不能修改、删除、重命名已有条目，也不能包含任何其他文件。
 3. 只提交公开 URL、角色标签、公开亮点、审计摘要和披露确认。不得加入邮箱、内部链接或原始敏感材料。
 4. 审计分必须来自实际输出；维护者自测必须标记 `maintainer/self-test`，不得描述成第三方客户案例。
-5. 运行 `npm run test:showcase` 与 `npm run test:public`，并在 PR 中链接对应 Issue。
+5. PR 描述必须写入 `Closes #123`、`Fixes #123` 或 `Resolves #123`（替换为对应 Issue 编号）；也可以粘贴当前仓库 Issue 的完整 URL。
+6. 运行 `npm run test:showcase`、`npm run test:showcase-pr` 与 `npm run test:public`。CI 会在 Windows 和 Linux 上自动检查投稿范围、JSON、文件名与 Issue 关联；失败时按中文提示修正即可。
 
 ### Bugfix
 
@@ -112,6 +113,7 @@ npm run test:personal-model
 npm run test:calibration
 npm run test:public
 npm run test:showcase
+npm run test:showcase-pr
 npm run lint
 npm run build
 npm run check:seo

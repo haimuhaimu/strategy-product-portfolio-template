@@ -1,3 +1,5 @@
+import { resolveTemplateId } from "./templates.mjs";
+
 const emptyOperatingSystem = {
   personModel: [],
   rewardFunction: [],
@@ -22,6 +24,7 @@ function normalizeProject(project, index) {
   const metrics = asArray(project?.metrics);
 
   return {
+    ...(project && typeof project === "object" ? project : {}),
     slug: project?.slug || `project-${index + 1}`,
     title,
     subtitle: project?.subtitle || summary,
@@ -34,6 +37,7 @@ function normalizeProject(project, index) {
     metrics,
     background: project?.background || summary,
     caseStudy: {
+      ...(project?.caseStudy && typeof project.caseStudy === "object" ? project.caseStudy : {}),
       question: project?.caseStudy?.question || project?.background || summary,
       productMethod: asArray(project?.caseStudy?.productMethod).length
         ? project.caseStudy.productMethod
@@ -66,7 +70,12 @@ export function normalizePortfolioData(input = {}) {
     ...input,
     schemaVersion: 2,
     rolePreset: input.rolePreset === "operations" ? "operations" : "product",
+    template: {
+      ...(input.template && typeof input.template === "object" ? input.template : {}),
+      active: resolveTemplateId(input.template?.active),
+    },
     profile: {
+      ...profile,
       name: profile.name || "你的名字",
       role: profile.role || "产品经理 / 运营",
       location: profile.location || "",
@@ -85,6 +94,7 @@ export function normalizePortfolioData(input = {}) {
       experiences: asArray(profile.experiences),
     },
     home: {
+      ...(input.home && typeof input.home === "object" ? input.home : {}),
       introEyebrow: input.home?.introEyebrow || "个人作品集",
       introTitle: input.home?.introTitle || profile.headline || "用项目与结果证明你的能力",
       featuredTitle: input.home?.featuredTitle || "三个代表项目",
@@ -93,6 +103,7 @@ export function normalizePortfolioData(input = {}) {
     },
     features: { ...defaultFeatures, ...(input.features || {}) },
     contact: {
+      ...(input.contact && typeof input.contact === "object" ? input.contact : {}),
       title: input.contact?.title || "期待与你交流",
       description: input.contact?.description || "如果这些项目与你正在解决的问题有关，欢迎通过邮件联系。",
       email: input.contact?.email || profile.email || "hello@example.com",
@@ -100,6 +111,7 @@ export function normalizePortfolioData(input = {}) {
     featuredProjectSlugs: featuredProjectSlugs.slice(0, 3),
     roadmap: asArray(input.roadmap),
     starMap: {
+      ...(input.starMap && typeof input.starMap === "object" ? input.starMap : {}),
       nodes: asArray(input.starMap?.nodes),
       edges: asArray(input.starMap?.edges),
     },

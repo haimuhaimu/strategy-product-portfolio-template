@@ -1,19 +1,23 @@
 import type { Metadata } from "next";
 import { BackToTopButton } from "@/components/BackToTopButton";
 import { Header } from "@/components/Header";
+import { MotionRevealObserver } from "@/components/MotionRevealObserver";
 import { PortfolioCompanion } from "@/components/PortfolioCompanion";
 import { UnderstandingProgressWidget } from "@/components/UnderstandingProgressWidget";
-import { getFeatureFlags, getProfile } from "@/lib/projects";
+import { getActiveTemplate, getFeatureFlags, getProfile } from "@/lib/projects";
 import {
-  createSiteJsonLd,
   DEFAULT_DESCRIPTION,
   DEFAULT_KEYWORDS,
+  DEFAULT_TITLE,
   getAbsoluteUrl,
-  serializeJsonLd,
+  SHARE_IMAGE_HEIGHT,
+  SHARE_IMAGE_URL,
+  SHARE_IMAGE_WIDTH,
   SITE_NAME,
   SITE_URL,
 } from "@/lib/seo";
 import "./globals.css";
+import "./motion.css";
 
 const googleVerification =
   process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim();
@@ -23,7 +27,7 @@ const baiduVerification =
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "产品经理与运营个人认知作品集模板",
+    default: DEFAULT_TITLE,
     template: `%s | ${SITE_NAME}`,
   },
   description: DEFAULT_DESCRIPTION,
@@ -46,14 +50,23 @@ export const metadata: Metadata = {
     type: "website",
     locale: "zh_CN",
     siteName: SITE_NAME,
-    title: "产品经理与运营个人认知作品集模板",
+    title: DEFAULT_TITLE,
     description: DEFAULT_DESCRIPTION,
     url: getAbsoluteUrl("/"),
+    images: [
+      {
+        url: SHARE_IMAGE_URL,
+        width: SHARE_IMAGE_WIDTH,
+        height: SHARE_IMAGE_HEIGHT,
+        alt: "Agent 驱动的产品经理与运营作品集：首页、三个案例、证据快览与思考星图",
+      },
+    ],
   },
   twitter: {
-    card: "summary",
-    title: "产品经理与运营个人认知作品集模板",
+    card: "summary_large_image",
+    title: DEFAULT_TITLE,
     description: DEFAULT_DESCRIPTION,
+    images: [SHARE_IMAGE_URL],
   },
   verification: googleVerification
     ? {
@@ -74,17 +87,13 @@ export default function RootLayout({
 }>) {
   const profile = getProfile();
   const features = getFeatureFlags();
-  const siteJsonLd = createSiteJsonLd();
+  const activeTemplate = getActiveTemplate();
 
   return (
-    <html lang="zh-CN" data-scroll-behavior="smooth">
+    <html lang="zh-CN" data-scroll-behavior="smooth" data-template={activeTemplate}>
       <body>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: serializeJsonLd(siteJsonLd),
-          }}
-        />
+        <MotionRevealObserver />
+        <div className="reading-progress" aria-hidden="true" />
         <Header profile={profile} features={features} />
         {children}
         {features.advancedModels ? <PortfolioCompanion /> : null}

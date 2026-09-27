@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import test from "node:test";
 
@@ -14,10 +14,12 @@ import {
 
 const projectRoot = path.resolve(import.meta.dirname, "..");
 const repository = process.env.GITHUB_REPOSITORY || "octocat/portfolio";
+const fakeBaiduVerification = "test-only-baidu-verification-token";
 const buildEnvironment = {
   ...process.env,
   GITHUB_ACTIONS: "true",
   GITHUB_REPOSITORY: repository,
+  NEXT_PUBLIC_BAIDU_SITE_VERIFICATION: fakeBaiduVerification,
 };
 const expectedBasePath = getGithubPagesBasePath(buildEnvironment);
 const expectedSiteUrl = getSiteUrl(buildEnvironment);
@@ -125,7 +127,18 @@ test("simulated GitHub Pages build prefixes HTML assets and SEO URLs", () => {
 
   const home = readProjectFile("out/index.html");
   const profile = readProjectFile("out/profile/index.html");
+  const start = readProjectFile("out/start/index.html");
+  const showcase = readProjectFile("out/showcase/index.html");
+  const showcaseDetail = readProjectFile("out/showcase/maintainer-ai-pm/index.html");
+  assert.equal(existsSync(path.join(projectRoot, "out/showcase/unknown-entry/index.html")), false);
+  const templates = readProjectFile("out/templates/index.html");
+  const templateDetails = ["atlas", "growth", "systems", "ai-workflow"].map((id) => ({
+    id,
+    html: readProjectFile(`out/templates/${id}/index.html`),
+  }));
   const config = readProjectFile("out/config/index.html");
+  const launchpad = readProjectFile("out/launchpad/index.html");
+  const showcaseHelper = readProjectFile("out/launchpad/showcase/index.html");
   const robots = readProjectFile("out/robots.txt");
   const sitemap = readProjectFile("out/sitemap.xml");
   const escapedSiteUrl = escapeRegExp(expectedSiteUrl);
@@ -133,19 +146,136 @@ test("simulated GitHub Pages build prefixes HTML assets and SEO URLs", () => {
 
   assert.match(home, new RegExp(`(?:href|src)="${escapedBasePath}/_next/`, "u"));
   assert.match(home, new RegExp(`src="${escapedBasePath}/images/avatar-placeholder\\.svg"`, "u"));
-  assert.match(home, new RegExp(`href="${escapedBasePath}/config/index\\.html"`, "u"));
+  assert.match(home, new RegExp(`href="${escapedBasePath}/start/index\\.html"`, "u"));
+  assert.match(home, new RegExp(`href="${escapedBasePath}/showcase/index\\.html"`, "u"));
+  assert.match(home, /id="instant-diagnostic"/u);
+  assert.match(home, /立即诊断证据/u);
+  assert.match(home, /内容只进入当前页面内存/u);
+  assert.match(home, /id="before-after-examples"/u);
+  assert.match(home, /匿名教学示例/u);
+  assert.match(home, /载入这段脱敏示例并诊断/u);
+  assert.match(home, /id="early-user-recruitment"/u);
+  assert.match(home, /首批 20 位产品经理 \/ 运营用户/u);
+  assert.match(home, /不上传经历，不替用户编造结果/u);
+  assert.match(start, new RegExp(`href="${escapedBasePath}/launchpad/index\\.html"`, "u"));
+  assert.match(showcase, new RegExp(`<link rel="canonical" href="${escapedSiteUrl}/showcase/"`, "u"));
+  assert.match(showcase, /content="index, follow"/u);
+  assert.match(showcase, /"@type":"ItemList"/u);
+  assert.match(showcase, /"@type":"BreadcrumbList"/u);
+  assert.match(showcase, /维护者自测/u);
+  assert.match(showcase, /不是第三方用户案例/u);
+  assert.match(showcase, /GitHub Issue 会公开显示你的 GitHub 账号/u);
+  assert.match(showcase, new RegExp(`href="${escapedBasePath}/showcase/maintainer-ai-pm/index\\.html"`, "u"));
+  assert.match(showcase, new RegExp(`href="${escapedBasePath}/launchpad/showcase/index\\.html"`, "u"));
+  assert.match(showcase, new RegExp(`href="${escapedBasePath}/index\\.html"`, "u"));
+  assert.match(showcaseDetail, new RegExp(`<link rel="canonical" href="${escapedSiteUrl}/showcase/maintainer-ai-pm/"`, "u"));
+  assert.match(showcaseDetail, new RegExp(`href="${escapedBasePath}/showcase/index\\.html"`, "u"));
+  assert.match(showcaseDetail, new RegExp(`href="${escapedBasePath}/launchpad/showcase/index\\.html"`, "u"));
+  assert.match(showcaseDetail, /"@type":"CreativeWork"/u);
+  assert.match(showcaseDetail, /"@type":"BreadcrumbList"/u);
+  assert.match(showcaseDetail, /"sameAs":"https:\/\/haimuhaimu\.github\.io\/strategy-product-portfolio-template\/"/u);
+  assert.match(showcaseDetail, /分享这个案例/u);
+  assert.match(showcaseDetail, /rel="noopener noreferrer"/u);
+  assert.match(start, /skills\/portfolio-story-builder\/SKILL\.md/u);
+  for (const { id, html } of templateDetails) {
+    assert.match(templates, new RegExp(`href="${escapedBasePath}/templates/${id}/index\\.html"`, "u"));
+    assert.match(html, new RegExp(`<link rel="canonical" href="${escapedSiteUrl}/templates/${id}/"`, "u"));
+    assert.match(html, new RegExp(`href="${escapedBasePath}/templates/index\\.html"`, "u"));
+    assert.match(html, /data\/projects\.json/u);
+    assert.match(sitemap, new RegExp(`${escapedSiteUrl}/templates/${id}/`, "u"));
+  }
   assert.match(
     home,
     new RegExp(`href="${escapedBasePath}/projects/search-quality-ai-answer/index\\.html"`, "u"),
   );
   assert.match(home, new RegExp(`<link rel="canonical" href="${escapedSiteUrl}/"`, "u"));
+  assert.match(
+    home,
+    new RegExp(
+      `<meta name="baidu-site-verification" content="${fakeBaiduVerification}"\\s*/?>`,
+      "u",
+    ),
+  );
+  assert.doesNotMatch(home, /content="wrong-baidu-verification-token"/u);
+  execFileSync(process.execPath, ["scripts/check-seo.mjs"], {
+    cwd: projectRoot,
+    env: buildEnvironment,
+    stdio: "inherit",
+  });
+  assert.throws(
+    () =>
+      execFileSync(process.execPath, ["scripts/check-seo.mjs"], {
+        cwd: projectRoot,
+        env: {
+          ...buildEnvironment,
+          NEXT_PUBLIC_BAIDU_SITE_VERIFICATION:
+            "wrong-baidu-verification-token",
+        },
+        stdio: "pipe",
+      }),
+    /Command failed/u,
+  );
+
+  const homePath = path.join(projectRoot, "out/index.html");
+  const assertMutatedSeoFails = (mutatedHome) => {
+    writeFileSync(homePath, mutatedHome);
+    assert.throws(
+      () => execFileSync(process.execPath, ["scripts/check-seo.mjs"], {
+        cwd: projectRoot,
+        env: buildEnvironment,
+        stdio: "pipe",
+      }),
+      /Command failed/u,
+    );
+    writeFileSync(homePath, home);
+  };
+  assertMutatedSeoFails(home.replace(/og-share\.png/u, "missing-share-image.png"));
+  assertMutatedSeoFails(home.replace(/content="https:[^"]+og-share\.png"/u, "content=\"/relative-share-image.png\""));
+  assertMutatedSeoFails(home.replace(/content="index, follow"/u, "content=\"noindex, nofollow\""));
+  assertMutatedSeoFails(home.replace(/content="summary_large_image"/u, "content=\"invalid-card\""));
+
   assert.match(config, new RegExp(`<link rel="canonical" href="${escapedSiteUrl}/config/"`, "u"));
   assert.match(config, new RegExp(`(?:href|src)="${escapedBasePath}/_next/`, "u"));
+  assert.match(start, new RegExp(`<link rel="canonical" href="${escapedSiteUrl}/start/"`, "u"));
+  assert.match(launchpad, new RegExp(`<link rel="canonical" href="${escapedSiteUrl}/launchpad/"`, "u"));
+  assert.match(launchpad, /content="noindex, nofollow"/u);
+  assert.match(launchpad, new RegExp(`href="${escapedBasePath}/launchpad/showcase/index\\.html"`, "u"));
+  assert.match(showcaseHelper, new RegExp(`<link rel="canonical" href="${escapedSiteUrl}/launchpad/showcase/"`, "u"));
+  assert.match(showcaseHelper, /content="noindex, nofollow"/u);
+  assert.match(showcaseHelper, new RegExp(`href="${escapedBasePath}/launchpad/index\\.html"`, "u"));
+  assert.match(showcaseHelper, /GitHub Issue 不是真正匿名/u);
   assert.match(profile, new RegExp(`<link rel="canonical" href="${escapedSiteUrl}/profile/"`, "u"));
   assert.match(robots, new RegExp(`Allow: ${escapedBasePath || ""}/`, "u"));
   assert.match(robots, new RegExp(`Sitemap: ${escapedSiteUrl}/sitemap\\.xml`, "u"));
+  assert.match(robots, new RegExp(`Disallow: ${escapedBasePath || ""}/launchpad/`, "u"));
+  assert.match(sitemap, new RegExp(`${escapedSiteUrl}/start/`, "u"));
+  assert.match(sitemap, new RegExp(`${escapedSiteUrl}/showcase/`, "u"));
+  assert.match(sitemap, new RegExp(`${escapedSiteUrl}/showcase/maintainer-ai-pm/`, "u"));
+  assert.doesNotMatch(sitemap, /\/launchpad\//u);
+  assert.doesNotMatch(sitemap, /\/launchpad\/showcase\//u);
   assert.match(sitemap, new RegExp(`${escapedSiteUrl}/projects/search-quality-ai-answer/`, "u"));
   if (expectedBasePath) {
     assert.doesNotMatch(home, /(?:href|src)="\/(?:_next|images)\//u);
   }
+
+  const unconfiguredEnvironment = {
+    ...buildEnvironment,
+    NEXT_PUBLIC_BAIDU_SITE_VERIFICATION: "",
+  };
+  execFileSync(
+    process.execPath,
+    ["scripts/next-with-wasm.mjs", "build", "--webpack"],
+    {
+      cwd: projectRoot,
+      env: unconfiguredEnvironment,
+      stdio: "inherit",
+    },
+  );
+  const unconfiguredHome = readProjectFile("out/index.html");
+  assert.doesNotMatch(unconfiguredHome, /name="baidu-site-verification"/u);
+  execFileSync(process.execPath, ["scripts/check-seo.mjs"], {
+    cwd: projectRoot,
+    env: unconfiguredEnvironment,
+    stdio: "inherit",
+  });
 });

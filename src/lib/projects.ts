@@ -1,13 +1,15 @@
 import portfolioData from "../../data/projects.json";
 import { normalizePortfolioData } from "./normalize.mjs";
+import { getActiveTemplateId } from "./templates.mjs";
 import type {
   CognitiveCalibrationLog, Influence, PersonalOperatingSystem, PortfolioData,
-  Project, RoadmapStage, StarMap, TrainingHistory,
+  Project, RoadmapStage, StarMap, TemplateId, TrainingHistory,
 } from "@/types/project";
 
 const data = normalizePortfolioData(portfolioData) as PortfolioData;
 
 export function getPortfolioData() { return data; }
+export function getActiveTemplate(): TemplateId { return getActiveTemplateId(data) as TemplateId; }
 export function getProfile() { return data.profile; }
 export function getHomeConfig() { return data.home; }
 export function getFeatureFlags() { return data.features; }

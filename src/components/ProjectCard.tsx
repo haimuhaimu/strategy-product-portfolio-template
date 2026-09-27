@@ -11,7 +11,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
   return (
     <StaticPageLink
       href={`/projects/${project.slug}/`}
-      className="group flex h-full flex-col border border-slate-300 bg-[#fbfaf7] p-5 transition hover:-translate-y-0.5 hover:border-slate-500 hover:bg-white"
+      className="motion-card group flex h-full flex-col border border-slate-300 bg-[#fbfaf7] p-5 transition"
     >
       <div className="flex items-start justify-between gap-4 border-b border-slate-200 pb-4">
         <div>
