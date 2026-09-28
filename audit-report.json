@@ -1,0 +1,48 @@
+{
+  "status": "pass",
+  "strict": true,
+  "summary": {
+    "errors": 0,
+    "warnings": 0,
+    "featuredFound": 3
+  },
+  "findings": [],
+  "evidenceScores": [
+    {
+      "slug": "search-quality-ai-answer",
+      "score": 4,
+      "maxScore": 5,
+      "rubric": {
+        "resultEvidence": true,
+        "scopeAndAttribution": true,
+        "methodEvidence": true,
+        "artifactEvidence": false,
+        "contributionBoundary": true
+      }
+    },
+    {
+      "slug": "marketing-commerce-traffic-system",
+      "score": 5,
+      "maxScore": 5,
+      "rubric": {
+        "resultEvidence": true,
+        "scopeAndAttribution": true,
+        "methodEvidence": true,
+        "artifactEvidence": true,
+        "contributionBoundary": true
+      }
+    },
+    {
+      "slug": "paid-content-evaluation-typing",
+      "score": 4,
+      "maxScore": 5,
+      "rubric": {
+        "resultEvidence": true,
+        "scopeAndAttribution": false,
+        "methodEvidence": true,
+        "artifactEvidence": true,
+        "contributionBoundary": true
+      }
+    }
+  ]
+}

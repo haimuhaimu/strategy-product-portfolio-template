@@ -58,6 +58,7 @@ pnpm-debug.log*
 *.pyc
 
 # private authoring utilities and local QA notes
+/review_comments/
 /design-qa.md
 /docs/aliyun-oss-deploy.md
 /docs/roadmap-figma-reconstruction.html

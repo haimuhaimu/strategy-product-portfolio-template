@@ -47,29 +47,29 @@ const miningSignals = [
 
 const aiWorkflow = [
   {
-    title: "AI 作者挖掘",
-    body: "基于内容资产、用户需求和历史表现，先生成潜力作者候选池。",
+    title: "已发生：AI 内容理解",
+    body: "理解作者内容并生成付费潜力候选，能力已服务大范围作者群。",
   },
   {
-    title: "人工校准边界",
-    body: "运营确认哪些作者真的适合付费解锁，避免模型只按热度筛人。",
+    title: "已发生：业务自助",
+    body: "产品和运营可自行完成过去通常依赖数据分析师或算法同学的工作。",
   },
   {
-    title: "自动化投流",
-    body: "把冷启验证、放大、观察和复盘拆成流程，减少重复手工跟进。",
+    title: "已发生：策略应用",
+    body: "自动化策略已在大范围作者群中实际应用；具体数据已脱敏。",
   },
   {
-    title: "复盘再迭代",
-    body: "回收付费转化、用户反馈和作者状态，决定继续放大还是收敛。",
+    title: "今天重做：策略治理",
+    body: "补齐版本、复核、回滚和效果归因；这是下一步设想，不是既有成果。",
   },
 ];
 
 const strategyOutputs = [
-  "付费潜力作者池",
-  "作者生命周期阶段",
-  "流量策略匹配表",
-  "投流自动化原型",
-  "经营复盘口径",
+  "大范围作者内容理解能力",
+  "付费潜力作者挖掘流程",
+  "产品运营自助策略能力",
+  "自动化策略应用链路",
+  "大规模覆盖（具体数据已脱敏）",
 ];
 
 export function MembershipBusinessOnePage() {
@@ -78,20 +78,20 @@ export function MembershipBusinessOnePage() {
       <div className="grid gap-4 border-b-2 border-[#14110e] pb-4 lg:grid-cols-[1.05fr_0.95fr] lg:items-stretch">
         <div className="border-2 border-[#14110e] bg-[#14110e] p-5 text-[#f4dfbd]">
           <p className="font-mono text-xs font-semibold uppercase text-[#e13024]">
-            精选会员内容付费 · One Page
+            内容付费 · One Page
           </p>
           <h2 className="mt-3 [font-family:var(--font-display)] text-2xl font-semibold leading-tight sm:text-2xl">
-            作者挖掘 × 流量策略 × AI 投流自动化
+            作者挖掘 × 流量策略 × AI 自动化流量分配
           </h2>
           <p className="mt-4 max-w-3xl text-base leading-7 text-[#f8ead0]">
-            这个项目不能包装成已经打穿的增长战役。更真实的说法是：我在一个仍在探索的内容付费业务里，尝试把“哪些作者值得被挖掘、如何验证、如何投流、如何复盘”做成更稳定的工作流。
+            已发生的变化是：过去通常需要 1 名数据分析师或 1 名算法同学写 SQL、制定策略；现在产品和运营可借助 AI 内容理解与自动化策略自行完成，服务大范围作者群，相关策略已经实际应用；具体数据已脱敏。
           </p>
         </div>
 
         <div className="grid border-2 border-[#8b3a28] bg-[#fff2d8]">
-          <BriefRow label="业务本质" text="用户付费解锁内容，不是泛会员运营。" />
-          <BriefRow label="我的重点" text="作者挖掘、流量策略，以及 AI 辅助的投流自动化。" />
-          <BriefRow label="结果边界" text="业务规模还在探索，现阶段更适合作为经营效率和工具化能力项目。" />
+          <BriefRow label="业务本质" text="识别可持续供给付费价值的作者，并匹配流量策略。" />
+          <BriefRow label="已发生" text="产品和运营自助完成；服务大范围作者群；策略已实际应用；具体数据已脱敏。" />
+          <BriefRow label="结果边界" text="具体转化、收入、留存与日期未获公开确认，因此不展示。" />
         </div>
       </div>
 
@@ -180,7 +180,7 @@ export function MembershipBusinessOnePage() {
             这个项目的正确讲法
           </p>
           <p className="mt-3 text-lg font-semibold leading-8">
-            我没有把精选会员讲成一个已经拿到硬结果的大业务，而是讲清楚我在探索期做了什么：先定义可付费作者，再匹配流量策略，最后把重复运营动作交给 AI 和自动化工具承接。
+            我把作者挖掘从逐次依赖专业同学的 SQL 和策略支持，转成产品、运营可自助使用的 AI 能力。大规模覆盖和策略实际应用是已发生事实，具体数据已脱敏；版本治理与效果归因是今天重做的下一步。
           </p>
         </section>
       </div>

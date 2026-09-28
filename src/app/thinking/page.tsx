@@ -1,59 +1,54 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { BehindTheWork } from "@/components/BehindTheWork";
-import { MethodologySection } from "@/components/MethodologySection";
-import { PersonalOperatingSystem } from "@/components/PersonalOperatingSystem";
-import { ThinkingVisualWall } from "@/components/ThinkingVisualWall";
-import { ValueOperatingSystem } from "@/components/ValueOperatingSystem";
-import { FieldNotesSection } from "@/components/ProfileSections";
-import { getProfile } from "@/lib/projects";
+import { PersonalRoadmap } from "@/components/PersonalRoadmap";
+import { StaticPageLink } from "@/components/StaticPageLink";
+import { ThinkingStarMap } from "@/components/ThinkingStarMap";
+import { getRoadmap, getStarMap } from "@/lib/projects";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
-  title: "产品思考模板 | AI 工作流、Agent 与推荐搜索",
-  description:
-    "用于展示 AI 工作流、Agent 产品设计、推荐搜索、内容生态与长期产品判断的思考页面模板。",
+  title: "证据驱动的产品思考路线图",
+  description: "把用户价值、评估、实验、机制与 AI 协作连接到三个项目证据，呈现策略产品经理的能力演进。",
   pathname: "/thinking/",
-  keywords: [
-    "AI 工作流",
-    "Agent 产品设计",
-    "Agent 产品经理",
-    "推荐搜索 AI",
-    "AI 产品思考",
-  ],
+  keywords: ["策略产品经理", "证据驱动作品集"],
 });
 
 export default function ThinkingPage() {
-  const profile = getProfile();
+  const roadmap = getRoadmap();
+  const starMap = getStarMap();
 
   return (
-    <main>
-      <section className="mx-auto max-w-[1680px] px-4 py-6 sm:px-8 lg:py-8">
-        <Link
-          href="/"
-          className="inline-flex rounded-[6px] border border-[#14110e]/45 bg-[#fff8eb] px-4 py-2 font-mono text-sm font-semibold uppercase text-[#c92a20] shadow-[0_10px_24px_rgba(20,17,14,0.08)] transition hover:-translate-y-0.5 hover:border-[#8b3a28]"
-        >
-          ← 返回首页
-        </Link>
-        <div className="mt-5 rounded-[8px] border border-[#14110e]/25 bg-[#fff8eb] p-5 shadow-[0_20px_58px_rgba(20,17,14,0.12)] sm:p-7">
-          <p className="font-mono text-xs font-semibold uppercase text-[#c92a20]">
-            Thinking
-          </p>
-          <h1 className="mt-3 max-w-4xl [font-family:var(--font-display)] text-[2.05rem] font-semibold leading-[1.14] tracking-normal text-[#14110e] sm:text-5xl xl:text-[3.1rem]">
-            判断系统、场外观察和长期笔记。
-          </h1>
-          <p className="mt-4 max-w-3xl text-[0.98rem] leading-7 text-[#3a2e24] sm:text-base sm:leading-8">
-            首页只放结论。这里可以展示更完整的思考来源：怎么判断价值，怎么避免系统看错，以及个人兴趣如何影响产品判断。
-          </p>
+    <main className="thinking-atlas-page" data-motion-template="atlas">
+      <section className="mx-auto max-w-7xl px-4 pb-10 pt-7 sm:px-8 sm:pb-16">
+        <StaticPageLink href="/" className="atlas-back-link">← INDEX.HTML / 返回首页</StaticPageLink>
+        <div className="atlas-hero mt-6">
+          <div className="atlas-register" aria-hidden="true"><span>ARCHIVE 02</span><span>COGNITIVE CARTOGRAPHY</span><span>LIVE TRACE</span></div>
+          <div className="grid gap-8 px-5 py-9 sm:px-8 sm:py-12 lg:grid-cols-[1fr_0.7fr] lg:items-end">
+            <div>
+              <p className="atlas-kicker text-[#1437d6]">FUTURE ARCHAEOLOGY / 思考不是宣言，是遗迹之间的关系</p>
+              <h1 className="mt-5 max-w-4xl text-5xl font-semibold leading-[1.02] text-[#242320] sm:text-7xl">个人路线图<br />与思考星图</h1>
+            </div>
+            <p className="border-l-2 border-[#d84b28] pl-5 text-sm leading-7 text-[#55534d]">
+              它把个人认知操作系统还原为可查证的关系，而不是一条虚构的职业时间线：只记录三个项目中已经出现的发现问题、定义口径、实验验证、机制化与 AI 协作。
+            </p>
+          </div>
         </div>
       </section>
 
-      <ThinkingVisualWall />
-      <ValueOperatingSystem />
-      <MethodologySection profile={profile} />
-      <BehindTheWork />
-      <PersonalOperatingSystem />
-      <FieldNotesSection profile={profile} />
+      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-8 sm:py-16" aria-labelledby="roadmap-title" data-motion-section>
+        <div className="atlas-section-heading"><p>PLATE A / EVOLUTION TRACE</p><h2 id="roadmap-title">个人路线图</h2><span>用方向键浏览节点</span></div>
+        <div className="mt-8"><PersonalRoadmap stages={roadmap} /></div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-8 sm:py-16" aria-labelledby="star-map-title" data-motion-section>
+        <div className="atlas-section-heading"><p>PLATE B / RELATIONSHIP FIELD</p><h2 id="star-map-title">思考星图</h2><span>聚焦节点以查看真实连接</span></div>
+        <div className="mt-8"><ThinkingStarMap map={starMap} /></div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 pb-20 sm:px-8">
+        <div className="border-t border-[#242320]/20 pt-6 font-mono text-xs leading-6 text-[#6b685f]">
+          读取说明：蓝色为能力节点，朱砂橙为项目节点；连线只表示作品集中可追溯的方法关系，不表示未经确认的因果或业绩归因。
+        </div>
+      </section>
     </main>
   );
 }

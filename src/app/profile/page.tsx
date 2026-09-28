@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { ClosingCTA } from "@/components/ClosingCTA";
+import { StaticPageLink } from "@/components/StaticPageLink";
 import { CredibilityProof } from "@/components/CredibilityProof";
 import {
   AboutSection,
@@ -8,35 +8,35 @@ import {
   CapabilitiesSection,
   ExperienceSection,
 } from "@/components/ProfileSections";
-import { getProfile } from "@/lib/projects";
-import { createPageMetadata } from "@/lib/seo";
+import { getContact, getProfile } from "@/lib/projects";
+import { createPageMetadata, createProfileJsonLd, serializeJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = createPageMetadata({
-  title: "个人介绍模板 | AI 策略产品经理经历与能力",
+  title: "产品与运营能力及经历",
   description:
-    "展示 AI 产品经理与策略产品经理经历、能力证明、数据实验和跨团队推进方式的个人介绍模板。",
+    "以脱敏证据展示产品与运营经历、AI 产品判断、跨团队推进方式及个人贡献边界。",
   pathname: "/profile/",
-  keywords: [
-    "产品经理个人介绍",
-    "产品经理工作经历",
-    "AI 策略产品经理",
-    "推荐搜索产品经理",
-    "内容生态产品经理",
-  ],
+  keywords: ["AI 产品经理", "策略产品经理"],
 });
 
 export default function ProfilePage() {
   const profile = getProfile();
+  const profileJsonLd = createProfileJsonLd();
 
   return (
-    <main>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(profileJsonLd) }}
+      />
+      <main>
       <section className="mx-auto max-w-[1680px] px-4 py-6 sm:px-8 lg:py-8">
-        <Link
+        <StaticPageLink
           href="/"
           className="inline-flex rounded-[6px] border border-[#14110e]/45 bg-[#fff8eb] px-4 py-2 font-mono text-sm font-semibold uppercase text-[#c92a20] shadow-[0_10px_24px_rgba(20,17,14,0.08)] transition hover:-translate-y-0.5 hover:border-[#8b3a28]"
         >
           ← 返回首页
-        </Link>
+        </StaticPageLink>
         <div className="mt-5 rounded-[8px] border border-[#14110e]/25 bg-[#fff8eb] p-5 shadow-[0_20px_58px_rgba(20,17,14,0.12)] sm:p-7">
           <p className="font-mono text-xs font-semibold uppercase text-[#c92a20]">
             Profile
@@ -55,7 +55,8 @@ export default function ProfilePage() {
       <CapabilitiesSection profile={profile} />
       <ExperienceSection profile={profile} />
       <ActionPrinciplesSection />
-      <ClosingCTA profile={profile} />
-    </main>
+      <ClosingCTA contact={getContact()} />
+      </main>
+    </>
   );
 }

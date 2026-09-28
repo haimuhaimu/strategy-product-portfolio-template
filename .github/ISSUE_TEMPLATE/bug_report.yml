@@ -1,0 +1,101 @@
+name: Bug 报告
+description: 报告可复现的初始化、页面、构建、部署或公开安全问题
+title: "[Bug] "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢反馈。请先移除姓名、私人邮箱、公司内部材料、精确业务指标、令牌和带敏感参数的 URL。安全漏洞或已泄露秘密不要通过公开 Issue 报告，请使用仓库 Security 页面提供的私密入口（若已启用）。
+  - type: dropdown
+    id: area
+    attributes:
+      label: 问题范围
+      options:
+        - 初始化器 / preset
+        - 首页或导航
+        - 个人页 / 个人模型
+        - 思考页 / 认知校准
+        - 项目详情页
+        - 主题或响应式样式
+        - 静态构建 / SEO
+        - GitHub Pages / 其他部署
+        - 隐私检查
+        - 其他
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: 问题概述
+      description: 用一两句话说明什么功能不可用，以及影响谁。
+      placeholder: 使用 operations preset 初始化后，……
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: 最小复现步骤
+      description: 请从干净检出或最小数据开始；命令请放在代码块中，并把真实个人内容替换为匿名值。
+      placeholder: |
+        1. 运行 `npm ci`
+        2. 运行 `npm run init -- --preset operations --dry-run`
+        3. 打开或观察……
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 预期结果
+      placeholder: 预期初始化预览显示……且不写入文件。
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: 实际结果
+      description: 可粘贴已脱敏的错误文本。不要粘贴 `.env.local`、访问令牌、Cookie 或内部 URL。
+      placeholder: 实际看到……
+    validations:
+      required: true
+  - type: input
+    id: node
+    attributes:
+      label: Node.js 与 npm 版本
+      description: 例如 `Node.js 20.19.0, npm 10.8.2`。
+      placeholder: Node.js 20.x, npm 10.x
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: 操作系统与浏览器
+      description: 浏览器仅在页面问题中需要；例如 `Windows 11 / Chrome 135`。
+      placeholder: macOS 15 / Safari 18，或 Ubuntu 24.04 / 不适用
+    validations:
+      required: true
+  - type: textarea
+    id: verification
+    attributes:
+      label: 已运行的检查
+      description: 列出相关命令和结果，例如专项测试、lint、build；无法运行也请说明。
+      placeholder: |
+        - `npm run test:init`：失败，错误为……
+        - `npm run build`：通过
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: 公开安全确认
+      options:
+        - label: 我已检查正文、日志、截图和链接，不含内部数据、个人敏感信息、密钥或未授权素材。
+          required: true
+        - label: 该问题不是需要私密处理的安全漏洞或秘密泄露。
+          required: true
+  - type: checkboxes
+    id: duplicate
+    attributes:
+      label: 提交前确认
+      options:
+        - label: 我已搜索现有 Issue，未找到相同的可复现问题。
+          required: true

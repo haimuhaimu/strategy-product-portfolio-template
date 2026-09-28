@@ -1,5 +1,5 @@
 import { createReadStream } from "node:fs";
-import { stat } from "node:fs/promises";
+import { realpath, stat } from "node:fs/promises";
 import { createServer } from "node:http";
 import path from "node:path";
 import { pipeline } from "node:stream/promises";
@@ -69,7 +69,8 @@ async function isFile(filePath) {
 }
 
 export async function resolveStaticFile(requestUrl, outDir = defaultOutDir) {
-  const root = path.resolve(outDir);
+  const root = await realpath(outDir).catch(() => null);
+  if (!root) return null;
   let pathname;
 
   try {
@@ -85,8 +86,10 @@ export async function resolveStaticFile(requestUrl, outDir = defaultOutDir) {
     : [directPath, path.join(directPath, "index.html")];
 
   for (const candidate of candidates) {
-    if (isInsideRoot(root, candidate) && (await isFile(candidate))) {
-      return candidate;
+    if (!isInsideRoot(root, candidate)) continue;
+    const resolved = await realpath(candidate).catch(() => null);
+    if (resolved && isInsideRoot(root, resolved) && (await isFile(resolved))) {
+      return resolved;
     }
   }
 
@@ -108,10 +111,9 @@ export function createStaticExportServer({ outDir = defaultOutDir } = {}) {
       }
 
       const requestedFile = await resolveStaticFile(request.url || "/", root);
-      const filePath = requestedFile || path.join(root, "404.html");
-      const hasCustomNotFound = !requestedFile && (await isFile(filePath));
+      const filePath = requestedFile || await resolveStaticFile("/404.html", root);
 
-      if (!requestedFile && !hasCustomNotFound) {
+      if (!filePath) {
         response.writeHead(404, { "Content-Type": "text/plain; charset=utf-8" });
         response.end("Not found");
         return;
@@ -148,7 +150,7 @@ export async function startStaticExportServer({
   outDir = defaultOutDir,
   port,
 }) {
-  if (!(await isFile(path.join(outDir, "index.html")))) {
+  if (!(await resolveStaticFile("/", outDir))) {
     throw new Error('Static export not found. Run "npm run build" first.');
   }
 

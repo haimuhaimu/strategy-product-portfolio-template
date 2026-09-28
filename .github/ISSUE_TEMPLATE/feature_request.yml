@@ -1,0 +1,87 @@
+name: 功能建议
+description: 提议新的 preset、个人模型能力、主题或模板体验改进
+title: "[Feature] "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        请从真实用户任务出发，而不是只描述一个实现。涉及新 preset、主题、数据结构或跨页面能力时，建议先讨论最小范围再开发。
+  - type: dropdown
+    id: category
+    attributes:
+      label: 建议类型
+      options:
+        - 角色 preset
+        - 个人模型组件
+        - 主题与视觉 token
+        - 内容编辑体验
+        - 可访问性 / 响应式
+        - 静态构建 / 部署 / SEO
+        - 隐私与公开安全
+        - 其他
+    validations:
+      required: true
+  - type: textarea
+    id: user_problem
+    attributes:
+      label: 用户问题
+      description: 谁在什么情况下遇到什么阻碍？请使用匿名场景，不要附内部材料。
+      placeholder: 刚开始整理作品集的产品运营希望……，现有 operations preset 无法……
+    validations:
+      required: true
+  - type: textarea
+    id: current_workaround
+    attributes:
+      label: 当前替代方案
+      description: 目前如何用 `data/projects.json`、现有组件或主题 token 完成？为什么仍不够？
+      placeholder: 当前需要手动……，但会导致……
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 最小可行方案
+      description: 说明输入、输出和验收条件；不要把完整平台重构作为第一版。
+      placeholder: 增加一个……；当……时应……；不包含……
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: 需求证据
+      description: 可提供已匿名化的使用次数、反馈摘要或公开作品链接。没有证据也可说明需要验证的假设。
+      placeholder: 两位试用者在……遇到相同问题；需要验证的假设是……
+  - type: textarea
+    id: compatibility
+    attributes:
+      label: 兼容性与工程影响
+      description: 是否影响 `PortfolioData`、初始化 CLI、静态导出、现有 preset/主题或 Node.js 20 环境？
+      placeholder: 预计需要改动……；现有作品集应继续……
+    validations:
+      required: true
+  - type: textarea
+    id: privacy
+    attributes:
+      label: 隐私与数据边界
+      description: 说明会处理什么数据、是否新增网络请求，以及如何避免内部数据或个人敏感信息进入公开仓库。
+      placeholder: 仅处理本地 JSON，不新增网络请求；示例数据将……
+    validations:
+      required: true
+  - type: textarea
+    id: out_of_scope
+    attributes:
+      label: 本建议明确不做什么
+      placeholder: 第一版不增加后端、账号系统或新的运行时依赖。
+    validations:
+      required: true
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: 提交前确认
+      options:
+        - label: 我已搜索现有 Issue 与 ROADMAP，没有相同提案。
+          required: true
+        - label: 我没有在正文或附件中提交内部数据、个人敏感信息、密钥或未授权素材。
+          required: true

@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { StaticPageLink } from "@/components/StaticPageLink";
 import type { Project } from "@/types/project";
 import { CreatorHealthOnePage } from "@/components/CreatorHealthOnePage";
 import { FollowingRelationshipOnePage } from "@/components/FollowingRelationshipOnePage";
@@ -7,6 +7,7 @@ import { ImageTextStrategyOnePage } from "@/components/ImageTextStrategyOnePage"
 import { MarketingTrafficOnePage } from "@/components/MarketingTrafficOnePage";
 import { MembershipBusinessOnePage } from "@/components/MembershipBusinessOnePage";
 import { SearchQualityOnePage } from "@/components/SearchQualityOnePage";
+import { GenericProjectDetail } from "@/components/GenericProjectDetail";
 
 type ProjectDetailProps = {
   project: Project;
@@ -60,10 +61,10 @@ const projectNarratives: Record<string, ProjectNarrative> = {
   "marketing-commerce-traffic-system": {
     openingTitle: "这个项目要解决的，不是给商业内容更多流量。",
     openingParagraphs: [
-      "当时真正的矛盾是：优质作者商单少、流量少、收入低，但平台也不能简单把商业内容往外推，因为用户体验会受影响。",
-      "我当时要回答的是，什么样的作者值得拿到更多商单流量，以及这个判断能不能被实验验证。",
-      "所以我把问题拆成作者价值体系、商单场景实验、交易内容场景实验和用户侧护栏，先证明方向成立，再推动机制化落地。",
-      "商单收入 +X%、交易内容 VV +Y%、GMV +Z%，证明的是优质作者样本在实验里成立，不代表全量作者收入都发生了同样变化。",
+      "当时真正的矛盾是：高质量作者获得的品牌合作机会和流量有限，但平台也不能简单把商业内容往外推，因为用户体验会受影响。",
+      "我当时要回答的是，什么样的作者值得拿到更多品牌合作内容流量，以及这个判断能不能被实验验证。",
+      "所以我把问题拆成作者价值体系、品牌合作内容场景实验、交易内容场景实验和用户侧护栏，先证明方向成立，再推动机制化落地。",
+      "两类业务场景都完成了分组验证，结论已进入评级、分层流量与反馈调优机制；未经确认的提升比例和收入不在作品集中展示。",
     ],
     openingHighlight:
       "这个项目最后留下来的，不是一次流量倾斜，而是一套从作者价值识别、实验验证到商业内容分发机制的判断链路。",
@@ -73,15 +74,15 @@ const projectNarratives: Record<string, ProjectNarrative> = {
     aiSteps: [
       {
         title: "AI 找候选作者",
-        body: "结合作者内容质量、商单承接、历史表现和用户反馈，先筛出可能适合流量倾斜的优质作者池。",
+        body: "结合作者内容质量、品牌合作内容承接、历史表现和用户反馈，先筛出可能适合流量倾斜的优质作者池。",
       },
       {
         title: "人定实验边界",
         body: "商业化收益不能单独决定策略，仍然要由人明确样本、分组、护栏指标和停止条件。",
       },
       {
-        title: "沉淀投流工作流",
-        body: "把作者筛选、实验分组、指标观察和复盘结论做成可复用流程，支撑后续商单和交易内容策略迭代。",
+        title: "沉淀流量分配工作流",
+        body: "把作者筛选、实验分组、指标观察和复盘结论做成可复用流程，支撑后续品牌合作内容和交易内容策略迭代。",
       },
     ],
     aiClosing: "AI 在这里不是证明商业内容都该放大，而是让“哪些商业内容值得放大”更快被验证。",
@@ -89,31 +90,31 @@ const projectNarratives: Record<string, ProjectNarrative> = {
   "paid-content-evaluation-typing": {
     openingTitle: "这个项目要解决的，不是普通会员运营。",
     openingParagraphs: [
-      "精选会员本质上是一类内容付费模式，用户需要花钱解锁内容，这和普通流量增长不是一回事。",
-      "我主要做的是作者挖掘和流量策略：哪些作者有持续供给付费内容的潜力，哪些内容值得先被小流量验证。",
-      "这个方向还没有拿到特别硬的规模结果，所以不能包装成已经打穿业务。",
-      "更准确地说，它的价值在于把作者筛选、付费潜力判断、投流观察和复盘动作从运营经验里拆出来，开始工具化。",
+      "内容付费的关键是识别能持续供给付费价值的作者，并匹配合适的流量策略。",
+      "过去这类工作通常需要 1 名数据分析师或 1 名算法同学写 SQL、制定策略；现在产品和运营已能借助 AI 内容理解与自动化策略自行完成。",
+      "这不是未来设想：能力已服务大范围作者群并实现大规模覆盖，相关策略已经实际应用；具体数据已脱敏。",
+      "具体转化、收入和留存没有公开确认，因此这里只把已发生的工作方式变化和采用事实作为结果。",
     ],
     openingHighlight:
-      "这个项目现在最重要的不是证明规模成功，而是为作者变现业务沉淀一套内容付费作者挖掘和流量验证方法。",
-    aiTitle: "如果今天重做，我会把它做成付费作者挖掘与投流自动化工具。",
+      "已发生的核心变化，是把逐次依赖专业支持的作者挖掘，转成产品和运营可直接使用、服务大范围作者群的策略能力。",
+    aiTitle: "如果今天继续重做，我会把它升级为可治理的 AI 策略平台。",
     aiLead:
-      "内容付费不能只靠运营感觉挑人。AI 可以先扩大候选作者发现，但是否值得付费、能否长期供给，仍然需要人定义标准。",
+      "内容理解与自动化策略已经投入实践；下一步设想是补齐策略版本、人工复核、异常回滚和效果归因。以下内容是迁移方案，不冒充已完成成果。",
     aiSteps: [
       {
-        title: "AI 扩大作者发现",
-        body: "根据内容垂类、粉丝关系、用户需求强度和历史供给稳定性，识别可能适合精选会员的作者。",
+        title: "保留已落地能力",
+        body: "继续使用 AI 理解作者内容、生成候选，并让产品和运营自助应用策略。",
       },
       {
-        title: "人判断付费成立",
-        body: "付费不是把免费内容上锁，要判断用户为什么愿意付钱：确定性、稀缺性、陪伴关系还是专业价值。",
+        title: "增加人工治理",
+        body: "为边界作者、付费价值判断和高风险策略建立复核队列与责任边界。",
       },
       {
-        title: "沉淀投流自动化",
-        body: "把小流量验证、投放观察、转化表现和复盘建议串起来，减少运营反复手工筛选和试错。",
+        title: "补齐版本与归因",
+        body: "记录策略版本、覆盖范围、回滚条件和效果口径，避免把采用规模误写成业务增长。",
       },
     ],
-    aiClosing: "AI 在这里不是把探索说成成功，而是让探索过程更快暴露信号和边界。",
+    aiClosing: "已发生的是 AI 内容理解、自动化策略和大规模应用（具体数据已脱敏）；策略治理平台属于今天重做的下一步。",
   },
   "image-text-recommendation-strategy": {
     openingTitle: "这个项目要解决的，不是给图文补一点流量。",
@@ -121,7 +122,7 @@ const projectNarratives: Record<string, ProjectNarrative> = {
       "作为图文业务早期成员，我当时面对的真实问题是：图文在内容平台里很容易被当成视频的补充体裁。",
       "但单列、双列和 UGC 社区里的图文不是同一个问题：单列看它能不能进入主推荐，双列看它适不适合浏览和比较，社区看它能不能长出稳定供给和关系消费。",
       "所以我没有直接问“图文能不能涨 DAU”，而是拆消费场景、内容供给和推荐目标，先证明图文是不是值得被独立评估和分发。",
-      "图文 DAU 百万级增量、频道 DAU 千万级规模、社区 DAU 百万级规模，说明图文不是视频的低配形态，但也不代表所有图文都应该被放大。",
+      "图文 DAU 显著增长，频道与社区均达到大规模覆盖，具体数据已脱敏；这些结果说明图文不是视频的低配形态，但也不代表所有图文都应该被放大。",
     ],
     openingHighlight:
       "这个项目留下来的，是一套判断新内容形态能不能成立的方法：先拆场景，再看供给，再验证推荐目标。",
@@ -177,9 +178,9 @@ const projectNarratives: Record<string, ProjectNarrative> = {
     openingTitle: "这个项目要解决的，不是游戏内容能不能热。",
     openingParagraphs: [
       "游戏内容天然容易有播放，但游戏业务真正要的是激活、留存和可归因流水。",
-      "当时更主要的增长链路是内容带发行，而不是纯广告投流；所以关键不是让内容热，而是让一次观看有机会变成一次游戏行动。",
+      "当时更主要的增长链路是内容带发行，而不是纯广告流量分配；所以关键不是让内容热，而是让一次观看有机会变成一次游戏行动。",
       "我的工作是把游戏发行目标翻译成作者任务、内容供给和推荐策略，再用可归因下载和充值去验证链路。",
-      "小游戏 DAU 百万级规模、重度游戏日激活 万级规模、平台内可归因渠道年流水 数亿级，指向的是内容带发行链路的有效性，不是泛泛的曝光增长。",
+      "小游戏形成大规模日活，重度游戏日激活与平台内可归因年流水达到可观规模，具体数据已脱敏；这些结果指向内容带发行链路的有效性，不是泛泛的曝光增长。",
     ],
     openingHighlight:
       "这个项目留下来的，是一套把游戏发行目标翻译成内容平台动作的增长漏斗。",
@@ -208,7 +209,7 @@ const projectNarratives: Record<string, ProjectNarrative> = {
       "这个项目不是今天意义上的大模型搜索项目。当时没有现在的大模型叙事，也做过 BERT 等模型探索，但收益并不总是靠模型名解决。",
       "真正要回答的问题很朴素：用户搜完以后，到底有没有少走弯路，问题有没有被解决。",
       "所以我把搜索满足拆成 Query 意图、内容供给、排序结果、Top1 命中和问答式结果，让搜索质量从“有结果”变成“有满足”。",
-      "问答式结果 Top1 精准命中覆盖双位数比例的搜索需求，这个量级说明有一部分需求适合直接答案，但不代表所有搜索都应该问答化。",
+      "问答式结果的首位精准命中覆盖可观比例的搜索需求，具体数据已脱敏；这说明有一部分需求适合直接答案，但不代表所有搜索都应该问答化。",
     ],
     openingHighlight:
       "这个项目留下来的，不是一个 AI 概念，而是一套搜索满足度评估、bad case 归因和答案命中判断口径。",
@@ -356,12 +357,12 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
 
   return (
     <main className="case-file-page mx-auto max-w-[1680px] px-4 py-6 sm:px-8 lg:py-8">
-      <Link
+      <StaticPageLink
         href="/#projects"
         className="inline-flex rounded-[6px] border border-[#14110e]/45 bg-[#fff8eb] px-4 py-2 font-mono text-sm font-semibold uppercase text-[#c92a20] shadow-[0_10px_24px_rgba(20,17,14,0.08)] transition hover:-translate-y-0.5 hover:border-[#8b3a28]"
       >
         ← 返回项目目录
-      </Link>
+      </StaticPageLink>
 
       <section className="mt-5 rounded-[8px] border border-[#14110e] bg-[#fff8eb] p-4 shadow-[0_20px_58px_rgba(20,17,14,0.12)] sm:p-5">
         <div className="grid gap-5 lg:grid-cols-[1fr_0.82fr]">
@@ -447,7 +448,7 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
 
       {narrative ? <ProjectOpening narrative={narrative} /> : null}
 
-      <ProjectOnePage project={project} />
+      {narrative ? <ProjectOnePage project={project} /> : <GenericProjectDetail project={project} />}
 
       {narrative ? <ProjectAiRedo narrative={narrative} /> : null}
     </main>

@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 import { getProjects } from "@/lib/projects";
 import { getAbsoluteUrl } from "@/lib/seo";
+import { loadShowcaseEntries } from "@/lib/showcase.mjs";
+import { TEMPLATE_IDS } from "@/lib/templates.mjs";
 
 export const dynamic = "force-static";
 
@@ -10,6 +12,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: getAbsoluteUrl("/"),
       changeFrequency: "monthly",
       priority: 1,
+    },
+    {
+      url: getAbsoluteUrl("/start/"),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: getAbsoluteUrl("/showcase/"),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: getAbsoluteUrl("/templates/"),
+      changeFrequency: "monthly",
+      priority: 0.8,
     },
     {
       url: getAbsoluteUrl("/profile/"),
@@ -23,11 +40,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
+  const templatePages: MetadataRoute.Sitemap = TEMPLATE_IDS.map((id) => ({
+    url: getAbsoluteUrl(`/templates/${id}/`),
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
+  const showcasePages: MetadataRoute.Sitemap = loadShowcaseEntries().map((entry) => ({
+    url: getAbsoluteUrl(`/showcase/${entry.slug}/`),
+    changeFrequency: "weekly",
+    priority: 0.7,
+  }));
+
   const projectPages: MetadataRoute.Sitemap = getProjects().map((project) => ({
     url: getAbsoluteUrl(`/projects/${project.slug}/`),
     changeFrequency: "monthly",
     priority: 0.8,
   }));
 
-  return [...staticPages, ...projectPages];
+  return [...staticPages, ...showcasePages, ...templatePages, ...projectPages];
 }

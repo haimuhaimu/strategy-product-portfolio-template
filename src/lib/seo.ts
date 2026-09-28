@@ -1,36 +1,56 @@
 import type { Metadata } from "next";
 import type { Project } from "@/types/project";
 import portfolioData from "../../data/projects.json";
+import { getSiteUrl } from "./github-pages.mjs";
 
-const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
-
-export const SITE_URL = (
-  configuredSiteUrl || "https://portfolio.example.com"
-).replace(/\/+$/, "");
-export const PERSON_NAME = portfolioData.profile.name;
-export const PERSON_ALTERNATE_NAME = "Your Name";
-export const SITE_NAME = `${PERSON_NAME}的作品集`;
-
+export const SITE_URL = getSiteUrl(process.env);
+export const SITE_NAME = "Agent 驱动的产品经理与运营作品集";
+export const DEFAULT_TITLE = "产品经理、AI 产品经理与运营作品集开源模板";
 export const DEFAULT_DESCRIPTION =
-  "中文 AI 产品经理与策略产品经理作品集模板，展示 AI 工作流、推荐搜索、内容生态、作者变现和增长项目的案例表达方式。";
+  "Agent 驱动的产品经理与运营作品集生成系统：精选三个案例，完成证据审计、隐私检查与模板匹配，并发布为 Next.js 静态网站。";
+export const SHARE_IMAGE_PATH = "/images/og-share.png";
+export const SHARE_IMAGE_WIDTH = 2048;
+export const SHARE_IMAGE_HEIGHT = 1152;
 
 export const DEFAULT_KEYWORDS = [
-  PERSON_NAME,
-  "个人作品集",
-  "产品经理作品集模板",
-  "AI 产品经理",
+  "产品经理作品集",
   "AI 产品经理作品集",
-  "AI 策略产品经理",
-  "Agent 产品经理",
-  "AI 工作流",
-  "策略产品经理",
-  "推荐搜索",
-  "内容生态",
+  "运营作品集",
+  "产品案例集",
+  "产品经理作品集模板",
+  "product manager portfolio template",
+  "operations portfolio",
+  "AI product manager portfolio",
+  "证据驱动作品集",
+  "Agent 作品集生成器",
+  "Next.js portfolio template",
 ];
 
-export function getAbsoluteUrl(pathname = "/") {
-  return new URL(pathname, SITE_URL).toString();
+const anonymousProfileNames = new Set([
+  "",
+  "your name",
+  "姓名",
+  "你的名字",
+  "ai 产品经理候选人",
+]);
+
+export function hasPublicIdentity(name = portfolioData.profile.name) {
+  return !anonymousProfileNames.has(name.trim().toLowerCase());
 }
+
+export function getAbsoluteUrl(pathname = "/") {
+  const normalizedPathname = `/${pathname.replace(/^\/+/, "")}`;
+  return `${SITE_URL}${normalizedPathname}`;
+}
+
+export const SHARE_IMAGE_URL = getAbsoluteUrl(SHARE_IMAGE_PATH);
+
+const shareImage = {
+  url: SHARE_IMAGE_URL,
+  width: SHARE_IMAGE_WIDTH,
+  height: SHARE_IMAGE_HEIGHT,
+  alt: "Agent 驱动的产品经理与运营作品集：首页、三个案例、证据快览与思考星图",
+};
 
 type PageMetadataOptions = {
   title: string;
@@ -38,6 +58,7 @@ type PageMetadataOptions = {
   pathname: string;
   keywords?: string[];
   type?: "website" | "article";
+  index?: boolean;
 };
 
 export function createPageMetadata({
@@ -46,13 +67,20 @@ export function createPageMetadata({
   pathname,
   keywords = [],
   type = "website",
+  index = true,
 }: PageMetadataOptions): Metadata {
+  const absoluteUrl = getAbsoluteUrl(pathname);
+
   return {
-    title: { absolute: title },
+    title,
     description,
-    keywords: [...DEFAULT_KEYWORDS, ...keywords],
+    keywords,
     alternates: {
-      canonical: pathname,
+      canonical: absoluteUrl,
+    },
+    robots: {
+      index,
+      follow: index,
     },
     openGraph: {
       type,
@@ -60,73 +88,101 @@ export function createPageMetadata({
       siteName: SITE_NAME,
       title,
       description,
-      url: pathname,
+      url: absoluteUrl,
+      images: [shareImage],
     },
     twitter: {
-      card: "summary",
+      card: "summary_large_image",
       title,
       description,
+      images: [SHARE_IMAGE_URL],
     },
   };
 }
 
 export function getProjectSeoKeywords(project: Project) {
-  const keywords = [
-    ...project.keywords,
-    PERSON_NAME,
-    SITE_NAME,
-    "策略产品经理",
-  ];
   const projectText = JSON.stringify(project);
+  const keywords = ["证据驱动作品集"];
 
-  if (/AI|Agent|自动化|模型/i.test(projectText)) {
-    keywords.push("AI 产品经理", "AI 工作流", "Agent 产品");
+  if (/AI|Agent|自动化|模型|问答|RAG|LLM/i.test(projectText)) {
+    keywords.push("AI 产品经理");
   }
-
-  if (/问答|答案|语义模型|搜索满足/i.test(projectText)) {
-    keywords.push("AI 搜索产品", "推荐搜索 AI");
+  if (/策略|评估|流量|搜索|分发/i.test(projectText)) {
+    keywords.push("策略产品经理");
+  }
+  if (/运营|作者|内容|品牌合作|内容付费/i.test(projectText)) {
+    keywords.push("运营作品集");
+  } else {
+    keywords.push("产品经理作品集");
   }
 
   return [...new Set(keywords)];
 }
 
 export function createSiteJsonLd() {
+  const websiteId = getAbsoluteUrl("/#website");
+
   return {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "Person",
-        "@id": `${SITE_URL}/#person`,
-        name: PERSON_NAME,
-        alternateName: PERSON_ALTERNATE_NAME,
-        url: `${SITE_URL}/`,
-        jobTitle: ["AI 产品经理", "策略产品经理"],
+        "@type": "WebSite",
+        "@id": websiteId,
+        name: SITE_NAME,
+        url: getAbsoluteUrl("/"),
         description: DEFAULT_DESCRIPTION,
-        knowsAbout: [
-          "AI 工作流",
-          "Agent 产品",
-          "推荐与搜索",
-          "内容生态",
-          "作者变现",
-          "游戏内容增长",
-        ],
+        inLanguage: "zh-CN",
       },
       {
-        "@type": "WebSite",
-        "@id": `${SITE_URL}/#website`,
-        name: SITE_NAME,
-        alternateName: [
-          "Strategy Product Portfolio",
-          "AI Product Manager Portfolio",
-          "策略产品经理作品集模板",
-        ],
-        url: `${SITE_URL}/`,
+        "@type": "SoftwareApplication",
+        "@id": getAbsoluteUrl("/#software"),
+        name: "证据驱动作品集静态站点系统",
+        applicationCategory: "DeveloperApplication",
+        operatingSystem: "Web",
+        url: getAbsoluteUrl("/"),
+        description:
+          "用于生成产品经理或运营作品集的开源静态站点系统，支持项目叙事、证据审计、Agent Skill 与 GitHub Pages 发布。",
         inLanguage: "zh-CN",
-        publisher: {
-          "@id": `${SITE_URL}/#person`,
-        },
+        isPartOf: { "@id": websiteId },
       },
     ],
+  };
+}
+
+export function createProfileJsonLd() {
+  const url = getAbsoluteUrl("/profile/");
+
+  if (!hasPublicIdentity()) {
+    return {
+      "@context": "https://schema.org",
+      "@type": "ProfilePage",
+      name: "作品集能力与经历说明",
+      description:
+        "以脱敏方式展示产品与运营能力、工作经历、判断方法和协作边界。",
+      url,
+      inLanguage: "zh-CN",
+      isPartOf: {
+        "@type": "WebSite",
+        "@id": getAbsoluteUrl("/#website"),
+      },
+    };
+  }
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    name: `${portfolioData.profile.name}的作品集介绍`,
+    url,
+    inLanguage: "zh-CN",
+    mainEntity: {
+      "@type": "Person",
+      name: portfolioData.profile.name,
+      description: portfolioData.profile.summary,
+    },
+    isPartOf: {
+      "@type": "WebSite",
+      "@id": getAbsoluteUrl("/#website"),
+    },
   };
 }
 
@@ -135,18 +191,17 @@ export function createProjectJsonLd(project: Project) {
 
   return {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": "CreativeWork",
     headline: project.title,
     description: project.summary,
     url,
     mainEntityOfPage: url,
     inLanguage: "zh-CN",
-    author: {
-      "@type": "Person",
-      "@id": `${SITE_URL}/#person`,
-      name: PERSON_NAME,
-      alternateName: PERSON_ALTERNATE_NAME,
-      url: `${SITE_URL}/`,
+    isPartOf: {
+      "@type": "WebSite",
+      "@id": getAbsoluteUrl("/#website"),
+      url: getAbsoluteUrl("/"),
+      name: SITE_NAME,
     },
     keywords: getProjectSeoKeywords(project),
     about: [project.domain, ...project.keywords],
