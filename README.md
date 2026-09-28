@@ -114,10 +114,20 @@ npm ci
 python3 skills/portfolio-story-builder/scripts/audit_portfolio.py data/projects.json --strict --output audit-report.json
 npm run test:portfolio-v2
 npm run test:public
+npm run test:server
 npm run lint
 npm run build
 npm run check:seo
+npm start
 ```
+
+`npm start` 会在 `127.0.0.1:3000` 预览 `out/` 中的静态导出；请先运行
+`npm run build`。可用 `npm start -- --port 4173` 更换端口，也支持 `HOST` / `PORT`
+环境变量（命令行参数优先）。这是本地验收工具，不是生产服务器；默认仅监听本机。
+预览期间不要修改导出目录或其符号链接；若显式绑定其他地址，请仅在可信网络中使用。
+它按站点根路径提供文件，不挂载 GitHub Pages 子路径。若上一次为 Pages 构建，
+请先清除本地子路径设置，并用 `NEXT_PUBLIC_BASE_PATH=false npm run build` 重新构建再预览
+（PowerShell 中先设置 `$env:NEXT_PUBLIC_BASE_PATH="false"`，再运行构建）。
 
 构建结果位于 `out/`，可发布到 GitHub Pages、Vercel 或其他静态托管服务。
 

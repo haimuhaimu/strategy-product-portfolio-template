@@ -44,6 +44,9 @@ jobs:
       - name: Test portable command contract
         run: npm run test:portable-scripts
 
+      - name: Test static export server
+        run: npm run test:server
+
       - name: Test Skill audit
         run: npm run test:skill
 

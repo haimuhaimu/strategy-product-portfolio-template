@@ -37,10 +37,11 @@
     "test:pages": "node --test tests/github-pages.test.mjs",
     "test:portfolio-v2": "node --test tests/portfolio-v2.test.mjs",
     "test:public": "node --test tests/public-template.test.mjs",
+    "test:server": "node --test tests/static-export-server.test.mjs",
     "test:calibration": "node --test tests/cognitive-calibration.test.mjs",
     "test:personal-model": "node --test tests/personal-model.test.mjs",
     "test:skill": "node scripts/run-python.mjs skills/portfolio-story-builder/scripts/audit_portfolio.py skills/portfolio-story-builder/assets/portfolio-v2-minimal.json",
-    "start": "next start",
+    "start": "node scripts/serve-static-export.mjs",
     "lint": "eslint"
   },
   "dependencies": {
